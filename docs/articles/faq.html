@@ -79,8 +79,13 @@ transported island groups. You can also use <code>okinawa = FALSE</code>
 or <code>ogasawara = FALSE</code>, mirroring the style of
 <code>UchidaMizuki/jpmap</code>. <code><a href="../reference/plot_jpmap.html">plot_jpmap()</a></code> draws inset
 boxes by default; set <code>inset_boxes = FALSE</code> to remove them.
-The boxes are visual guide frames for the transported inset clusters,
-not legal extents for every remote island in every source layer.</p>
+The boxes are visual guide frames for the transported inset clusters and
+are sized to cover the Okinawa and Ogasawara source extents that
+<code>jpmap</code> transports. They are display frames, not legal
+extents. When boxes are shown, the longitude/latitude lines inside them
+are local graticules for the transported island group, so they show true
+island coordinates rather than the destination coordinates of the
+box.</p>
 </div>
 <div class="section level2">
 <h2 id="does-jpmap-include-boundary-data">Does jpmap include boundary data?<a class="anchor" aria-label="anchor" href="#does-jpmap-include-boundary-data"></a>

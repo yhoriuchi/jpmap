@@ -291,13 +291,13 @@ inset_transform_spec <- function(region) {
     region,
     okinawa = list(
       source_lonlat = c(127.75, 26.30),
-      target_lonlat = c(132.80, 42.25),
-      scale = 1.45
+      target_lonlat = c(132.00, 42.25),
+      scale = 1.25
     ),
     ogasawara = list(
       source_lonlat = c(142.20, 27.10),
-      target_lonlat = c(144.40, 33.55),
-      scale = 7.00
+      target_lonlat = c(141.00, 33.55),
+      scale = 0.70
     ),
     stop("Unknown inset region: ", region, call. = FALSE)
   )

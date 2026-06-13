@@ -57,7 +57,10 @@ plot_jpmap(
 ## Remove The Boxes
 
 Set `inset_boxes = FALSE` to keep the transported islands but remove the
-visual frames.
+visual frames. When boxes are shown, `jpmap` masks the ordinary
+main-panel graticules inside each box and draws local longitude/latitude
+lines for the transported island group. Those labels are the islands’
+original coordinates, not the destination coordinates of the inset box.
 
 ``` r
 
@@ -95,13 +98,14 @@ plot_jpmap(
 ## What The Boxes Mean
 
 The inset boxes are visual guide frames for the transported island
-groups. They are not legal boundary extents, and they should not be read
-as a promise that every island in every source layer is inside a box.
+groups. They are sized to cover the Okinawa and Ogasawara source extents
+that `jpmap` transports into the default map frame. The
+longitude/latitude labels drawn inside a box describe the island group’s
+true coordinates before transport. The boxes themselves are still
+display frames, not legal boundary extents.
 
 For Okinawa municipal maps, the bundled 2024 MLIT N03 Okinawa layer is
-transported as Okinawa. For Ogasawara, the default box is meant to frame
-the main Ogasawara inset cluster. Some Tokyo islands in source data,
-especially the Izu Islands and very remote islands such as
-Minamitorishima or Okinotorishima when present, may appear outside that
-box or outside the default plotting frame. Use `inset = FALSE` when
-complete geographic placement matters more than a compact display.
+transported as Okinawa. For Ogasawara, the default box also covers the
+remote Ogasawara pieces present in the bundled prefecture layer, such as
+Minamitorishima. Use `inset = FALSE` when literal geographic placement
+matters more than a compact display.

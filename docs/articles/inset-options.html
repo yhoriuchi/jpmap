@@ -110,7 +110,11 @@ moved.</p>
 <h2 id="remove-the-boxes">Remove The Boxes<a class="anchor" aria-label="anchor" href="#remove-the-boxes"></a>
 </h2>
 <p>Set <code>inset_boxes = FALSE</code> to keep the transported islands
-but remove the visual frames.</p>
+but remove the visual frames. When boxes are shown, <code>jpmap</code>
+masks the ordinary main-panel graticules inside each box and draws local
+longitude/latitude lines for the transported island group. Those labels
+are the islands’ original coordinates, not the destination coordinates
+of the inset box.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span></span>
 <span>  <span class="st">"prefecture"</span>,</span>
@@ -142,17 +146,16 @@ projected geographic location.</p>
 <h2 id="what-the-boxes-mean">What The Boxes Mean<a class="anchor" aria-label="anchor" href="#what-the-boxes-mean"></a>
 </h2>
 <p>The inset boxes are visual guide frames for the transported island
-groups. They are not legal boundary extents, and they should not be read
-as a promise that every island in every source layer is inside a
-box.</p>
+groups. They are sized to cover the Okinawa and Ogasawara source extents
+that <code>jpmap</code> transports into the default map frame. The
+longitude/latitude labels drawn inside a box describe the island group’s
+true coordinates before transport. The boxes themselves are still
+display frames, not legal boundary extents.</p>
 <p>For Okinawa municipal maps, the bundled 2024 MLIT N03 Okinawa layer
-is transported as Okinawa. For Ogasawara, the default box is meant to
-frame the main Ogasawara inset cluster. Some Tokyo islands in source
-data, especially the Izu Islands and very remote islands such as
-Minamitorishima or Okinotorishima when present, may appear outside that
-box or outside the default plotting frame. Use
-<code>inset = FALSE</code> when complete geographic placement matters
-more than a compact display.</p>
+is transported as Okinawa. For Ogasawara, the default box also covers
+the remote Ogasawara pieces present in the bundled prefecture layer,
+such as Minamitorishima. Use <code>inset = FALSE</code> when literal
+geographic placement matters more than a compact display.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -52,8 +52,8 @@ places <- data.frame(
 jpmap_transform(places, output_names = c("x", "y"))
 #>       place     lon    lat         x         y
 #> 1     Tokyo 139.767 35.681  205212.3 -199413.7
-#> 2      Naha 127.681 26.212 -399148.9  524063.7
-#> 3 Ogasawara 142.191 27.094  634278.7 -420236.5
+#> 2      Naha 127.681 26.212 -463547.6  529529.7
+#> 3 Ogasawara 142.191 27.094  324501.9 -432790.6
 ```
 
 By default, the transform moves Okinawa and Ogasawara into visible inset

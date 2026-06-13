@@ -22,8 +22,11 @@ want to exclude one or both transported island groups. You can also use
 `okinawa = FALSE` or `ogasawara = FALSE`, mirroring the style of
 `UchidaMizuki/jpmap`. `plot_jpmap()` draws inset boxes by default; set
 `inset_boxes = FALSE` to remove them. The boxes are visual guide frames for
-the transported inset clusters, not legal extents for every remote island in
-every source layer.
+the transported inset clusters and are sized to cover the Okinawa and
+Ogasawara source extents that `jpmap` transports. They are display frames, not
+legal extents. When boxes are shown, the longitude/latitude lines inside them
+are local graticules for the transported island group, so they show true island
+coordinates rather than the destination coordinates of the box.
 
 ## Does jpmap include boundary data?
 

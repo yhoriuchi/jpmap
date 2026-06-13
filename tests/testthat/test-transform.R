@@ -102,6 +102,7 @@ test_that("official N03 source URLs can target national or prefecture data", {
 
 test_that("inset boxes are available for plot maps", {
   boxes <- jpmap_inset_boxes(c("okinawa", "ogasawara"))
+  graticules <- jpmap_inset_graticules(c("okinawa", "ogasawara"))
   plot <- plot_jpmap("prefectures", data_year = 2021, inset_boxes = FALSE)
 
   expect_s3_class(boxes, "sf")
@@ -112,6 +113,12 @@ test_that("inset boxes are available for plot maps", {
     expect_equal(length(unique(ring[, 1])), 2)
     expect_equal(length(unique(ring[, 2])), 2)
   }
+  expect_s3_class(graticules$lines, "sf")
+  expect_true(nrow(graticules$lines) > nrow(boxes))
+  expect_true(all(graticules$lines$region %in% c("okinawa", "ogasawara")))
+  expect_true(all(c("x", "y", "label") %in% names(graticules$labels)))
+  expect_true(any(grepl("E$", graticules$labels$label)))
+  expect_true(any(grepl("N$", graticules$labels$label)))
   expect_s3_class(plot, "ggplot")
   expect_error(
     plot_jpmap("prefectures", data_year = 2021, inset_boxes = NA),
