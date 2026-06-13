@@ -82,3 +82,33 @@ test_that("bundled Okinawa municipalities are available by default", {
   expect_true(all(map$prefecture == "Okinawa"))
   expect_false(any(is.na(map$municipality)))
 })
+
+test_that("official N03 source URLs can target national or prefecture data", {
+  expect_equal(
+    n03_source_url(2024),
+    "https://nlftp.mlit.go.jp/ksj/gml/data/N03/N03-2024/N03-20240101_GML.zip"
+  )
+  expect_equal(
+    n03_source_url(2024, "38"),
+    "https://nlftp.mlit.go.jp/ksj/gml/data/N03/N03-2024/N03-20240101_38_GML.zip"
+  )
+  expect_equal(prefecture_code_from_input("Ehime"), "38")
+  expect_equal(prefecture_code_from_input("愛媛県"), "38")
+  expect_equal(prefecture_code_from_input(47), "47")
+  expect_error(prefecture_code_from_input("Atlantis"), "Unknown prefecture")
+})
+
+test_that("inset boxes are available for plot maps", {
+  boxes <- jpmap_inset_boxes(c("okinawa", "ogasawara"))
+  plot <- plot_jpmap("prefectures", data_year = 2021, inset_boxes = FALSE)
+
+  expect_s3_class(boxes, "sf")
+  expect_equal(nrow(boxes), 2)
+  expect_true(all(boxes$region %in% c("okinawa", "ogasawara")))
+  expect_s3_class(plot, "ggplot")
+  expect_error(
+    plot_jpmap("prefectures", data_year = 2021, inset_boxes = NA),
+    "`inset_boxes` must be TRUE or FALSE",
+    fixed = TRUE
+  )
+})

@@ -41,8 +41,8 @@ places <- data.frame(
 jpmap_transform(places, output_names = c("x", "y"))
 #>       place     lon    lat         x         y
 #> 1     Tokyo 139.767 35.681  205212.3 -199413.7
-#> 2      Naha 127.681 26.212 -394918.6  529024.8
-#> 3 Ogasawara 142.191 27.094  637228.4 -417843.4
+#> 2      Naha 127.681 26.212 -399148.9  524063.7
+#> 3 Ogasawara 142.191 27.094  634278.7 -420236.5
 ```
 
 By default, the transform moves Okinawa and Ogasawara into visible inset
@@ -50,3 +50,5 @@ locations. Use `inset = FALSE` for a literal projected map, or pass a
 character vector such as `inset = "okinawa"` to transport only selected
 island groups. You can also use `okinawa = FALSE` or
 `ogasawara = FALSE`.
+[`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
+draws inset boxes by default; set `inset_boxes = FALSE` to remove them.

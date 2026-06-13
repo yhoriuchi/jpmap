@@ -9,10 +9,15 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
                        inset = TRUE,
                        okinawa = TRUE,
                        ogasawara = TRUE,
+                       inset_boxes = TRUE,
+                       inset_box_color = "grey45",
+                       inset_box_linewidth = 0.25,
                        data_dir = NULL,
                        color = "white",
                        linewidth = 0.2,
                        ...) {
+  check_inset_switch(inset_boxes, "inset_boxes")
+
   layer <- canonical_region(regions)
   map <- jp_map(
     regions = layer,
@@ -42,6 +47,18 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
   }
 
   inset_regions <- normalize_inset(inset, okinawa = okinawa, ogasawara = ogasawara)
+  if (length(inset_regions) > 0 && isTRUE(inset_boxes)) {
+    boxes <- jpmap_inset_boxes(inset_regions)
+    plot <- plot +
+      ggplot2::geom_sf(
+        data = boxes,
+        fill = NA,
+        color = inset_box_color,
+        linewidth = inset_box_linewidth,
+        inherit.aes = FALSE
+      )
+  }
+
   if (length(inset_regions) > 0) {
     limits <- jpmap_default_plot_limits()
     plot <- plot +
@@ -104,4 +121,35 @@ jpmap_default_plot_limits <- function() {
   )
   frame <- jpmap_transform(frame, output_names = c("x", "y"), inset = FALSE)
   list(xlim = range(frame$x), ylim = range(frame$y))
+}
+
+jpmap_inset_boxes <- function(inset_regions) {
+  boxes <- lapply(inset_regions, function(region) {
+    bbox <- inset_target_bbox(region)
+    ring <- matrix(
+      c(
+        bbox$xlim[1], bbox$ylim[1],
+        bbox$xlim[2], bbox$ylim[1],
+        bbox$xlim[2], bbox$ylim[2],
+        bbox$xlim[1], bbox$ylim[2],
+        bbox$xlim[1], bbox$ylim[1]
+      ),
+      ncol = 2,
+      byrow = TRUE
+    )
+    geometry <- sf::st_sfc(sf::st_polygon(list(ring)), crs = 4326)
+    geometry <- sf::st_transform(geometry, jpmap_crs())
+    sf::st_sf(region = region, geometry = geometry)
+  })
+
+  do.call(rbind, boxes)
+}
+
+inset_target_bbox <- function(region) {
+  switch(
+    region,
+    okinawa = list(xlim = c(128.0, 137.8), ylim = c(39.4, 45.5)),
+    ogasawara = list(xlim = c(142.2, 147.3), ylim = c(30.0, 37.1)),
+    stop("Unknown inset region: ", region, call. = FALSE)
+  )
 }

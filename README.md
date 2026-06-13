@@ -17,7 +17,8 @@ Ogasawara can be seen together in one plotting frame.
 Inset behavior is selectable: use `inset = TRUE` for both Okinawa and
 Ogasawara, `inset = FALSE` for a literal projected map, or values such as
 `inset = "okinawa"` to transport only selected island groups. You can also use
-`okinawa = FALSE` or `ogasawara = FALSE`.
+`okinawa = FALSE` or `ogasawara = FALSE`. `plot_jpmap()` draws inset boxes by
+default; set `inset_boxes = FALSE` to remove them.
 
 ## Core Workflow
 
@@ -53,10 +54,12 @@ Numerical Information N03 administrative area data:
 
 ```r
 jpmap_build_data(year = 2024)
+jpmap_build_data(year = 2024, prefecture = "Ehime")
 ```
 
 The 2024 N03 source archive is large, about 583 MB, so this is an explicit
-user-run step rather than something the package does during installation.
+user-run step rather than something the package does during installation. The
+`prefecture` argument downloads a smaller official prefecture-specific N03 file.
 
 The generated file is written to `jpmap_data_dir()` by default and contains two
 layers:
@@ -70,6 +73,10 @@ returns ordinary `ggplot2` maps.
 The package also includes a small Natural Earth prefecture layer and an
 Okinawa municipal layer from Geoshape for examples and website figures.
 Nationwide detailed municipal boundaries still require `jpmap_build_data()`.
+This keeps the installed package small while still supporting full municipal
+maps when users explicitly build or supply the larger boundary data. Users who
+already work with [`jpndistrict`](https://github.com/uribo/jpndistrict) can
+also pass its `sf` output through `jpmap_transform()`.
 
 ## Example Data
 

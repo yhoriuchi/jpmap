@@ -50,6 +50,9 @@
 <span>  inset <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  okinawa <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ogasawara <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  inset_boxes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  inset_box_color <span class="op">=</span> <span class="st">"grey45"</span>,</span>
+<span>  inset_box_linewidth <span class="op">=</span> <span class="fl">0.25</span>,</span>
 <span>  data_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  color <span class="op">=</span> <span class="st">"white"</span>,</span>
 <span>  linewidth <span class="op">=</span> <span class="fl">0.2</span>,</span>
@@ -96,6 +99,16 @@ Ogasawara, <code>FALSE</code> for no movement, or a character vector containing
 <dt id="arg-ogasawara">ogasawara<a class="anchor" aria-label="anchor" href="#arg-ogasawara"></a></dt>
 <dd><p>Whether Ogasawara should be moved when <code>inset</code> includes it.</p></dd>
 
+<dt id="arg-inset-boxes">inset_boxes<a class="anchor" aria-label="anchor" href="#arg-inset-boxes"></a></dt>
+<dd><p>Whether to draw boxes around transported Okinawa and
+Ogasawara insets.</p></dd>
+
+<dt id="arg-inset-box-color">inset_box_color<a class="anchor" aria-label="anchor" href="#arg-inset-box-color"></a></dt>
+<dd><p>Outline color for inset boxes.</p></dd>
+
+<dt id="arg-inset-box-linewidth">inset_box_linewidth<a class="anchor" aria-label="anchor" href="#arg-inset-box-linewidth"></a></dt>
+<dd><p>Line width for inset boxes.</p></dd>
+
 <dt id="arg-data-dir">data_dir<a class="anchor" aria-label="anchor" href="#arg-data-dir"></a></dt>
 <dd><p>Optional directory containing <code>jpmap_boundaries_YYYY.gpkg</code>.</p></dd>
 
@@ -106,7 +119,7 @@ Ogasawara, <code>FALSE</code> for no movement, or a character vector containing
 <dd><p>Boundary line width.</p></dd>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional arguments passed to <code><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">ggplot2::geom_sf()</a></code>.</p></dd>
+<dd><p>Additional arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">ggplot2::geom_sf()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -119,6 +132,7 @@ Ogasawara, <code>FALSE</code> for no movement, or a character vector containing
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefectures"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefectures"</span>, ogasawara <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefectures"</span>, inset_boxes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

@@ -37,6 +37,7 @@ articles:
   desc: Practical map workflows for plotting, joining data, and transforming locations.
   contents:
   - plot-maps
+  - municipal-choropleths
   - us-military-bases
   - transform-data
   - faq

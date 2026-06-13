@@ -13,18 +13,40 @@ available_jpmap_data <- function(data_dir = NULL) {
       if (!dir.exists(path)) {
         character()
       } else {
-        list.files(path, pattern = "^jpmap_boundaries_[0-9]{4}[.]gpkg$", full.names = TRUE)
+        list.files(
+          path,
+          pattern = "^jpmap_boundaries_[0-9]{4}(_[0-9]{2})?[.]gpkg$",
+          full.names = TRUE
+        )
       }
     }),
     use.names = FALSE
   )
 
   if (length(files) == 0) {
-    return(data.frame(year = integer(), path = character()))
+    return(data.frame(
+      year = integer(),
+      pref_code = character(),
+      prefecture = character(),
+      path = character()
+    ))
   }
 
-  years <- as.integer(sub("^.*jpmap_boundaries_([0-9]{4})[.]gpkg$", "\\1", files))
-  data.frame(year = years, path = normalizePath(files, mustWork = FALSE))
+  file_names <- basename(files)
+  years <- as.integer(sub("^jpmap_boundaries_([0-9]{4})(_[0-9]{2})?[.]gpkg$", "\\1", file_names))
+  pref_code <- rep(NA_character_, length(file_names))
+  has_pref_code <- grepl("^jpmap_boundaries_[0-9]{4}_[0-9]{2}[.]gpkg$", file_names)
+  pref_code[has_pref_code] <- sub(
+    "^jpmap_boundaries_[0-9]{4}_([0-9]{2})[.]gpkg$",
+    "\\1",
+    file_names[has_pref_code]
+  )
+  data.frame(
+    year = years,
+    pref_code = pref_code,
+    prefecture = prefecture_name_from_code(pref_code),
+    path = normalizePath(files, mustWork = FALSE)
+  )
 }
 
 jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "municipality"),
@@ -79,6 +101,7 @@ jp_map_with_data <- function(map, data, values = NULL, by = NULL) {
 }
 
 jpmap_build_data <- function(year = 2024,
+                             prefecture = NULL,
                              destdir = jpmap_data_dir(),
                              url = NULL,
                              overwrite = FALSE,
@@ -93,13 +116,11 @@ jpmap_build_data <- function(year = 2024,
     stop("`year` must be a four-digit year.", call. = FALSE)
   }
 
-  url <- url %||% sprintf(
-    "https://nlftp.mlit.go.jp/ksj/gml/data/N03/N03-%s/N03-%s0101_GML.zip",
-    year,
-    year
-  )
+  pref_code <- prefecture_code_from_input(prefecture)
+  url <- url %||% n03_source_url(year, pref_code)
   dir.create(destdir, recursive = TRUE, showWarnings = FALSE)
-  dest <- file.path(destdir, sprintf("jpmap_boundaries_%s.gpkg", year))
+  file_suffix <- if (is.null(pref_code)) "" else paste0("_", pref_code)
+  dest <- file.path(destdir, sprintf("jpmap_boundaries_%s%s.gpkg", year, file_suffix))
 
   if (file.exists(dest) && !isTRUE(overwrite)) {
     stop(
@@ -178,7 +199,7 @@ choose_jpmap_data <- function(data_year = NULL, data_dir = NULL) {
     stop_missing_jpmap_data(data_dir)
   }
 
-  available <- available[order(available$year, decreasing = TRUE), , drop = FALSE]
+  available <- available[order(available$year, is.na(available$pref_code), decreasing = TRUE), , drop = FALSE]
   if (is.null(data_year)) {
     return(available$path[[1]])
   }
@@ -202,10 +223,54 @@ stop_missing_jpmap_data <- function(data_dir = NULL) {
   stop(
     "No jpmap boundary data was found. Build it with ",
     "`jpmap_build_data()` or place a `jpmap_boundaries_YYYY.gpkg` ",
-    "file in one of these directories: ",
+    "or `jpmap_boundaries_YYYY_PP.gpkg` file in one of these directories: ",
     paste(dirs[nzchar(dirs)], collapse = ", "),
     call. = FALSE
   )
+}
+
+n03_source_url <- function(year, pref_code = NULL) {
+  base <- sprintf(
+    "https://nlftp.mlit.go.jp/ksj/gml/data/N03/N03-%s",
+    year
+  )
+  if (is.null(pref_code)) {
+    file_name <- sprintf("N03-%s0101_GML.zip", year)
+  } else {
+    file_name <- sprintf("N03-%s0101_%s_GML.zip", year, pref_code)
+  }
+  paste(base, file_name, sep = "/")
+}
+
+prefecture_code_from_input <- function(prefecture = NULL) {
+  if (is.null(prefecture)) {
+    return(NULL)
+  }
+  if (length(prefecture) != 1) {
+    stop("`prefecture` must be NULL or a single prefecture code/name.", call. = FALSE)
+  }
+
+  x <- as.character(prefecture)
+  if (is.na(x) || !nzchar(x)) {
+    stop("`prefecture` must be NULL or a single prefecture code/name.", call. = FALSE)
+  }
+  if (grepl("^[0-9]{1,2}$", x)) {
+    code <- sprintf("%02d", as.integer(x))
+    if (code %in% jp_prefectures$pref_code) {
+      return(code)
+    }
+  }
+
+  key <- normalize_key(x)
+  idx <- match(key, normalize_key(jp_prefectures$prefecture))
+  if (is.na(idx)) {
+    idx <- match(key, normalize_key(jp_prefectures$prefecture_ja))
+  }
+  if (is.na(idx)) {
+    stop("Unknown prefecture: ", x, call. = FALSE)
+  }
+
+  jp_prefectures$pref_code[[idx]]
 }
 
 filter_jpmap <- function(map, regions, include, exclude) {

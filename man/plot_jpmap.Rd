@@ -14,6 +14,9 @@ plot_jpmap(
   inset = TRUE,
   okinawa = TRUE,
   ogasawara = TRUE,
+  inset_boxes = TRUE,
+  inset_box_color = "grey45",
+  inset_box_linewidth = 0.25,
   data_dir = NULL,
   color = "white",
   linewidth = 0.2,
@@ -34,6 +37,10 @@ Ogasawara, \code{FALSE} for no movement, or a character vector containing
 \code{"okinawa"} and/or \code{"ogasawara"} to move selected island groups.}
 \item{okinawa}{Whether Okinawa should be moved when \code{inset} includes it.}
 \item{ogasawara}{Whether Ogasawara should be moved when \code{inset} includes it.}
+\item{inset_boxes}{Whether to draw boxes around transported Okinawa and
+Ogasawara insets.}
+\item{inset_box_color}{Outline color for inset boxes.}
+\item{inset_box_linewidth}{Line width for inset boxes.}
 \item{data_dir}{Optional directory containing \code{jpmap_boundaries_YYYY.gpkg}.}
 \item{color}{Boundary line color.}
 \item{linewidth}{Boundary line width.}
@@ -49,5 +56,6 @@ A \code{ggplot2} plot.
 \dontrun{
 plot_jpmap("prefectures")
 plot_jpmap("prefectures", ogasawara = FALSE)
+plot_jpmap("prefectures", inset_boxes = FALSE)
 }
 }

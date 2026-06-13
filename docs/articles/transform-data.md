@@ -19,8 +19,8 @@ places <- data.frame(
 jpmap_transform(places, output_names = c("x", "y"))
 #>       place     lon    lat         x         y
 #> 1     Tokyo 139.767 35.681  205212.3 -199413.7
-#> 2      Naha 127.681 26.212 -394918.6  529024.8
-#> 3 Ogasawara 142.191 27.094  637228.4 -417843.4
+#> 2      Naha 127.681 26.212 -399148.9  524063.7
+#> 3 Ogasawara 142.191 27.094  634278.7 -420236.5
 ```
 
 ## Simple Features
@@ -42,12 +42,12 @@ jpmap_transform(pts)
 #> Simple feature collection with 3 features and 3 fields
 #> Geometry type: POINT
 #> Dimension:     XY
-#> Bounding box:  xmin: -394918.6 ymin: -417843.4 xmax: 637228.4 ymax: 529024.8
+#> Bounding box:  xmin: -399148.9 ymin: -420236.5 xmax: 634278.7 ymax: 524063.7
 #> Projected CRS: +proj=laea +lat_0=37.5 +lon_0=137.5 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
 #>       place     lon    lat                   geometry
 #> 1     Tokyo 139.767 35.681 POINT (205212.3 -199413.7)
-#> 2      Naha 127.681 26.212 POINT (-394918.6 529024.8)
-#> 3 Ogasawara 142.191 27.094 POINT (637228.4 -417843.4)
+#> 2      Naha 127.681 26.212 POINT (-399148.9 524063.7)
+#> 3 Ogasawara 142.191 27.094 POINT (634278.7 -420236.5)
 ```
 
 Use `inset = FALSE` when you want only the projected Japan CRS and not
@@ -69,13 +69,13 @@ You can also move only one island group.
 jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
 #>       place     lon    lat         x          y
 #> 1     Tokyo 139.767 35.681  205212.3  -199413.7
-#> 2      Naha 127.681 26.212 -394918.6   529024.8
+#> 2      Naha 127.681 26.212 -399148.9   524063.7
 #> 3 Ogasawara 142.191 27.094  466806.8 -1141584.2
 jpmap_transform(places, output_names = c("x", "y"), inset = "ogasawara")
 #>       place     lon    lat         x          y
 #> 1     Tokyo 139.767 35.681  205212.3  -199413.7
 #> 2      Naha 127.681 26.212 -983633.2 -1201884.3
-#> 3 Ogasawara 142.191 27.094  637228.4  -417843.4
+#> 3 Ogasawara 142.191 27.094  634278.7  -420236.5
 ```
 
 The same switches can be written as boolean arguments when you want the
@@ -87,10 +87,10 @@ jpmap_transform(places, output_names = c("x", "y"), okinawa = FALSE)
 #>       place     lon    lat         x          y
 #> 1     Tokyo 139.767 35.681  205212.3  -199413.7
 #> 2      Naha 127.681 26.212 -983633.2 -1201884.3
-#> 3 Ogasawara 142.191 27.094  637228.4  -417843.4
+#> 3 Ogasawara 142.191 27.094  634278.7  -420236.5
 jpmap_transform(places, output_names = c("x", "y"), ogasawara = FALSE)
 #>       place     lon    lat         x          y
 #> 1     Tokyo 139.767 35.681  205212.3  -199413.7
-#> 2      Naha 127.681 26.212 -394918.6   529024.8
+#> 2      Naha 127.681 26.212 -399148.9   524063.7
 #> 3 Ogasawara 142.191 27.094  466806.8 -1141584.2
 ```

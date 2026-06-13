@@ -8,7 +8,8 @@ BugReports: https://github.com/yhoriuchi/jpmap/issues
 Description: Provides tools for drawing maps of Japan with prefecture and
     municipal boundaries. The plotting workflow mirrors the usmap package and
     includes a transform that moves Okinawa and Ogasawara into visible inset
-    locations.
+    locations. Boundary helpers build local GeoPackage files from Japan's
+    official MLIT N03 administrative area data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:

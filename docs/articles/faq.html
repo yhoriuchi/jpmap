@@ -74,7 +74,9 @@ so important regions remain visible in ordinary plots. Use
 <code>inset = "ogasawara"</code> when you want to exclude one or both
 transported island groups. You can also use <code>okinawa = FALSE</code>
 or <code>ogasawara = FALSE</code>, mirroring the style of
-<code>UchidaMizuki/jpmap</code>.</p>
+<code>UchidaMizuki/jpmap</code>. <code><a href="../reference/plot_jpmap.html">plot_jpmap()</a></code> draws inset
+boxes by default; set <code>inset_boxes = FALSE</code> to remove
+them.</p>
 </div>
 <div class="section level2">
 <h2 id="does-jpmap-include-boundary-data">Does jpmap include boundary data?<a class="anchor" aria-label="anchor" href="#does-jpmap-include-boundary-data"></a>
@@ -83,7 +85,9 @@ or <code>ogasawara = FALSE</code>, mirroring the style of
 large nationwide boundary files are kept outside the package. The
 installed package ships all-prefecture example boundaries and Okinawa
 municipal boundaries. Use <code><a href="../reference/jpmap_data.html">jpmap_build_data()</a></code> to build a
-local GeoPackage from MLIT N03 administrative area data.</p>
+local GeoPackage from MLIT N03 administrative area data. Use
+<code>jpmap_build_data(prefecture = "Ehime")</code> when you only need
+one prefecture.</p>
 </div>
 <div class="section level2">
 <h2 id="which-boundary-levels-are-supported">Which boundary levels are supported?<a class="anchor" aria-label="anchor" href="#which-boundary-levels-are-supported"></a>

@@ -17,6 +17,9 @@ plot_jpmap(
   inset = TRUE,
   okinawa = TRUE,
   ogasawara = TRUE,
+  inset_boxes = TRUE,
+  inset_box_color = "grey45",
+  inset_box_linewidth = 0.25,
   data_dir = NULL,
   color = "white",
   linewidth = 0.2,
@@ -72,6 +75,18 @@ plot_jpmap(
 
   Whether Ogasawara should be moved when `inset` includes it.
 
+- inset_boxes:
+
+  Whether to draw boxes around transported Okinawa and Ogasawara insets.
+
+- inset_box_color:
+
+  Outline color for inset boxes.
+
+- inset_box_linewidth:
+
+  Line width for inset boxes.
+
 - data_dir:
 
   Optional directory containing `jpmap_boundaries_YYYY.gpkg`.
@@ -87,7 +102,7 @@ plot_jpmap(
 - ...:
 
   Additional arguments passed to
-  [`ggplot2::geom_sf()`](https://rdrr.io/pkg/ggplot2/man/ggsf.html).
+  [`ggplot2::geom_sf()`](https://ggplot2.tidyverse.org/reference/ggsf.html).
 
 ## Value
 
@@ -99,5 +114,6 @@ A `ggplot2` plot.
 if (FALSE) { # \dontrun{
 plot_jpmap("prefectures")
 plot_jpmap("prefectures", ogasawara = FALSE)
+plot_jpmap("prefectures", inset_boxes = FALSE)
 } # }
 ```

@@ -9,6 +9,8 @@ ordinary plots. Use `inset = FALSE`, `inset = "okinawa"`, or
 `inset = "ogasawara"` when you want to exclude one or both transported
 island groups. You can also use `okinawa = FALSE` or
 `ogasawara = FALSE`, mirroring the style of `UchidaMizuki/jpmap`.
+[`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
+draws inset boxes by default; set `inset_boxes = FALSE` to remove them.
 
 ## Does jpmap include boundary data?
 
@@ -17,7 +19,9 @@ large nationwide boundary files are kept outside the package. The
 installed package ships all-prefecture example boundaries and Okinawa
 municipal boundaries. Use
 [`jpmap_build_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
-to build a local GeoPackage from MLIT N03 administrative area data.
+to build a local GeoPackage from MLIT N03 administrative area data. Use
+`jpmap_build_data(prefecture = "Ehime")` when you only need one
+prefecture.
 
 ## Which boundary levels are supported?
 

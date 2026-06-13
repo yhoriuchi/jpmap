@@ -8,17 +8,112 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5,
+  dpi = 120,
+  fig.bg = "white",
+  dev.args = list(bg = "white")
+)
 ```
 
 `plot_jpmap()` returns a normal `ggplot2` object. You can add scales, labels,
 and additional layers just as you would with any other `ggplot2` map.
 
-```{r, eval = FALSE}
+```{r setup}
 library(jpmap)
 library(ggplot2)
+```
 
-plot_jpmap("prefectures")
+```{r}
+plot_jpmap(
+  "prefectures",
+  fill = "#F7F1E4",
+  color = "white",
+  linewidth = 0.25
+) +
+  labs(title = "Default map with Okinawa and Ogasawara boxes") +
+  theme(
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "white", color = NA),
+    plot.title = element_text(face = "bold", color = "#782F40")
+  )
+```
+
+## Inset Options
+
+Remove inset boxes when you want the transported islands without frames.
+
+```{r}
+plot_jpmap(
+  "prefectures",
+  inset_boxes = FALSE,
+  fill = "#F7F1E4",
+  color = "white",
+  linewidth = 0.25
+) +
+  labs(title = "Transported islands without boxes") +
+  theme(
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "white", color = NA),
+    plot.title = element_text(face = "bold", color = "#782F40")
+  )
+```
+
+Exclude Ogasawara when it is not relevant to the map.
+
+```{r}
+plot_jpmap(
+  "prefectures",
+  ogasawara = FALSE,
+  fill = "#F7F1E4",
+  color = "white",
+  linewidth = 0.25
+) +
+  labs(title = "Okinawa only") +
+  theme(
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "white", color = NA),
+    plot.title = element_text(face = "bold", color = "#782F40")
+  )
+```
+
+Exclude Okinawa when you want to focus on the main islands and Ogasawara.
+
+```{r}
+plot_jpmap(
+  "prefectures",
+  okinawa = FALSE,
+  fill = "#F7F1E4",
+  color = "white",
+  linewidth = 0.25
+) +
+  labs(title = "Ogasawara only") +
+  theme(
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "white", color = NA),
+    plot.title = element_text(face = "bold", color = "#782F40")
+  )
+```
+
+Use `inset = FALSE` for a geographically literal projected map.
+
+```{r}
+plot_jpmap(
+  "prefectures",
+  inset = FALSE,
+  fill = "#F7F1E4",
+  color = "white",
+  linewidth = 0.25
+) +
+  labs(title = "Literal projected map") +
+  theme(
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "white", color = NA),
+    plot.title = element_text(face = "bold", color = "#782F40")
+  )
 ```
 
 ## Municipal Boundaries

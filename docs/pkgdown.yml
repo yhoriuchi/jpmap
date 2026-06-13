@@ -5,10 +5,11 @@ articles:
   boundary-data: boundary-data.html
   faq: faq.html
   getting-started: getting-started.html
+  municipal-choropleths: municipal-choropleths.html
   plot-maps: plot-maps.html
   transform-data: transform-data.html
   us-military-bases: us-military-bases.html
-last_built: 2026-06-13T13:51Z
+last_built: 2026-06-13T14:25Z
 urls:
   reference: https://yhoriuchi.github.io/jpmap/reference
   article: https://yhoriuchi.github.io/jpmap/articles
