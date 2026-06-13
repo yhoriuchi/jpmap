@@ -11,17 +11,10 @@ library(jpmap)
 
 ``` r
 
-plot_jpmap(
-  "prefecture",
-  fill = "#F7F1E4",
-  color = "white",
-  linewidth = 0.2
-) +
+plot_jpmap("prefecture") +
   labs(title = "Default map with Okinawa and Ogasawara insets") +
   theme(
-    plot.background = element_rect(fill = "white", color = NA),
-    panel.background = element_rect(fill = "white", color = NA),
-    plot.title = element_text(face = "bold", color = "#782F40")
+    plot.title = element_text(face = "bold", color = "#2C2A29")
   )
 ```
 
@@ -35,16 +28,11 @@ Use `ogasawara = FALSE` when you only want Okinawa moved.
 
 plot_jpmap(
   "prefecture",
-  ogasawara = FALSE,
-  fill = "#F7F1E4",
-  color = "white",
-  linewidth = 0.2
+  ogasawara = FALSE
 ) +
   labs(title = "Okinawa inset only") +
   theme(
-    plot.background = element_rect(fill = "white", color = NA),
-    panel.background = element_rect(fill = "white", color = NA),
-    plot.title = element_text(face = "bold", color = "#782F40")
+    plot.title = element_text(face = "bold", color = "#2C2A29")
   )
 ```
 
@@ -56,16 +44,11 @@ Use `okinawa = FALSE` when you only want Ogasawara moved.
 
 plot_jpmap(
   "prefecture",
-  okinawa = FALSE,
-  fill = "#F7F1E4",
-  color = "white",
-  linewidth = 0.2
+  okinawa = FALSE
 ) +
   labs(title = "Ogasawara inset only") +
   theme(
-    plot.background = element_rect(fill = "white", color = NA),
-    panel.background = element_rect(fill = "white", color = NA),
-    plot.title = element_text(face = "bold", color = "#782F40")
+    plot.title = element_text(face = "bold", color = "#2C2A29")
   )
 ```
 
@@ -80,16 +63,11 @@ visual frames.
 
 plot_jpmap(
   "prefecture",
-  inset_boxes = FALSE,
-  fill = "#F7F1E4",
-  color = "white",
-  linewidth = 0.2
+  inset_boxes = FALSE
 ) +
   labs(title = "Insets without boxes") +
   theme(
-    plot.background = element_rect(fill = "white", color = NA),
-    panel.background = element_rect(fill = "white", color = NA),
-    plot.title = element_text(face = "bold", color = "#782F40")
+    plot.title = element_text(face = "bold", color = "#2C2A29")
   )
 ```
 
@@ -104,16 +82,11 @@ location.
 
 plot_jpmap(
   "prefecture",
-  inset = FALSE,
-  fill = "#F7F1E4",
-  color = "white",
-  linewidth = 0.2
+  inset = FALSE
 ) +
   labs(title = "Projected map without transported insets") +
   theme(
-    plot.background = element_rect(fill = "white", color = NA),
-    panel.background = element_rect(fill = "white", color = NA),
-    plot.title = element_text(face = "bold", color = "#782F40")
+    plot.title = element_text(face = "bold", color = "#2C2A29")
   )
 ```
 

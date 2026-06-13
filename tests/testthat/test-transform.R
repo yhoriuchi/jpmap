@@ -107,6 +107,11 @@ test_that("inset boxes are available for plot maps", {
   expect_s3_class(boxes, "sf")
   expect_equal(nrow(boxes), 2)
   expect_true(all(boxes$region %in% c("okinawa", "ogasawara")))
+  for (box in sf::st_geometry(boxes)) {
+    ring <- box[[1]]
+    expect_equal(length(unique(ring[, 1])), 2)
+    expect_equal(length(unique(ring[, 2])), 2)
+  }
   expect_s3_class(plot, "ggplot")
   expect_error(
     plot_jpmap("prefectures", data_year = 2021, inset_boxes = NA),

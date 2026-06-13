@@ -15,11 +15,12 @@ plot_jpmap(
   okinawa = TRUE,
   ogasawara = TRUE,
   inset_boxes = TRUE,
-  inset_box_color = "grey45",
-  inset_box_linewidth = 0.25,
+  inset_box_color = "grey50",
+  inset_box_linewidth = 0.35,
   data_dir = NULL,
-  color = "white",
-  linewidth = 0.2,
+  fill = "grey92",
+  color = "grey35",
+  linewidth = 0.25,
   ...
 )
 }
@@ -42,6 +43,7 @@ Ogasawara insets.}
 \item{inset_box_color}{Outline color for inset boxes.}
 \item{inset_box_linewidth}{Line width for inset boxes.}
 \item{data_dir}{Optional directory containing \code{jpmap_boundaries_YYYY.gpkg}.}
+\item{fill}{Boundary fill color when \code{values} is not supplied.}
 \item{color}{Boundary line color.}
 \item{linewidth}{Boundary line width.}
 \item{...}{Additional arguments passed to \code{ggplot2::geom_sf()}.}

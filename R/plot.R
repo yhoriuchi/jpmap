@@ -10,11 +10,12 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
                        okinawa = TRUE,
                        ogasawara = TRUE,
                        inset_boxes = TRUE,
-                       inset_box_color = "grey45",
-                       inset_box_linewidth = 0.25,
+                       inset_box_color = "grey50",
+                       inset_box_linewidth = 0.35,
                        data_dir = NULL,
-                       color = "white",
-                       linewidth = 0.2,
+                       fill = "grey92",
+                       color = "grey35",
+                       linewidth = 0.25,
                        ...) {
   check_inset_switch(inset_boxes, "inset_boxes")
 
@@ -43,7 +44,7 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
       ggplot2::geom_sf(fill_mapping, color = color, linewidth = linewidth, ...)
   } else {
     plot <- ggplot2::ggplot(map) +
-      ggplot2::geom_sf(color = color, linewidth = linewidth, ...)
+      ggplot2::geom_sf(fill = fill, color = color, linewidth = linewidth, ...)
   }
 
   inset_regions <- normalize_inset(inset, okinawa = okinawa, ogasawara = ogasawara)
@@ -66,14 +67,19 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
         crs = jpmap_crs(),
         xlim = limits$xlim,
         ylim = limits$ylim,
-        datum = NA
+        datum = sf::st_crs(4326)
       )
   } else {
     plot <- plot +
-      ggplot2::coord_sf(crs = jpmap_crs(), datum = NA)
+      ggplot2::coord_sf(crs = jpmap_crs(), datum = sf::st_crs(4326))
   }
 
-  plot <- plot + ggplot2::theme_void()
+  plot <- plot +
+    ggplot2::theme_gray() +
+    ggplot2::theme(
+      axis.title = ggplot2::element_blank(),
+      panel.grid.minor = ggplot2::element_blank()
+    )
 
   if (isTRUE(labels)) {
     label_col <- label_column(layer, map)
@@ -126,23 +132,40 @@ jpmap_default_plot_limits <- function() {
 jpmap_inset_boxes <- function(inset_regions) {
   boxes <- lapply(inset_regions, function(region) {
     bbox <- inset_target_bbox(region)
-    ring <- matrix(
-      c(
-        bbox$xlim[1], bbox$ylim[1],
-        bbox$xlim[2], bbox$ylim[1],
-        bbox$xlim[2], bbox$ylim[2],
-        bbox$xlim[1], bbox$ylim[2],
-        bbox$xlim[1], bbox$ylim[1]
-      ),
-      ncol = 2,
-      byrow = TRUE
-    )
-    geometry <- sf::st_sfc(sf::st_polygon(list(ring)), crs = 4326)
-    geometry <- sf::st_transform(geometry, jpmap_crs())
-    sf::st_sf(region = region, geometry = geometry)
+    sf::st_sf(region = region, geometry = projected_inset_box(bbox))
   })
 
   do.call(rbind, boxes)
+}
+
+projected_inset_box <- function(bbox) {
+  corners <- matrix(
+    c(
+      bbox$xlim[1], bbox$ylim[1],
+      bbox$xlim[2], bbox$ylim[1],
+      bbox$xlim[2], bbox$ylim[2],
+      bbox$xlim[1], bbox$ylim[2]
+    ),
+    ncol = 2,
+    byrow = TRUE
+  )
+  corners <- sf::st_sfc(sf::st_multipoint(corners), crs = 4326)
+  corners <- sf::st_coordinates(sf::st_transform(corners, jpmap_crs()))
+  xlim <- range(corners[, "X"])
+  ylim <- range(corners[, "Y"])
+
+  ring <- matrix(
+    c(
+      xlim[1], ylim[1],
+      xlim[2], ylim[1],
+      xlim[2], ylim[2],
+      xlim[1], ylim[2],
+      xlim[1], ylim[1]
+    ),
+    ncol = 2,
+    byrow = TRUE
+  )
+  sf::st_sfc(sf::st_polygon(list(ring)), crs = jpmap_crs())
 }
 
 inset_target_bbox <- function(region) {

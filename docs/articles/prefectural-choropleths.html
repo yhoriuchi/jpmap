@@ -79,11 +79,11 @@ capita in Japanese yen.</p>
 <span>  <span class="st">"prefecture"</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">jp_prefecture_gdp</span>,</span>
 <span>  values <span class="op">=</span> <span class="st">"gdp_per_capita_jpy"</span>,</span>
-<span>  color <span class="op">=</span> <span class="st">"white"</span>,</span>
-<span>  linewidth <span class="op">=</span> <span class="fl">0.2</span></span>
+<span>  color <span class="op">=</span> <span class="st">"grey35"</span>,</span>
+<span>  linewidth <span class="op">=</span> <span class="fl">0.25</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span></span>
-<span>    low <span class="op">=</span> <span class="st">"#F7F1E4"</span>,</span>
+<span>    low <span class="op">=</span> <span class="st">"#DDEBF7"</span>,</span>
 <span>    high <span class="op">=</span> <span class="st">"#782F40"</span>,</span>
 <span>    name <span class="op">=</span> <span class="st">"GDP per capita\n(JPY)"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
@@ -92,10 +92,8 @@ capita in Japanese yen.</p>
 <span>    caption <span class="op">=</span> <span class="st">"GDP data: OECD 2021 values tabulated on Wikipedia."</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>    panel.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
 <span>    legend.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#782F40"</span><span class="op">)</span>,</span>
+<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span>,</span>
 <span>    plot.caption <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#2C2A29"</span>, hjust <span class="op">=</span> <span class="fl">0</span>, size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="prefectural-choropleths_files/figure-html/prefectural-gdp-1.png" class="r-plt" alt="" width="840"></p>
