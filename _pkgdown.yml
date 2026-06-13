@@ -28,23 +28,34 @@ navbar:
 
 articles:
 - title: Getting Started
-  desc: Core ideas before using jpmap.
+  desc: Install jpmap, get boundary data, import maps, and transform coordinates.
   contents:
   - getting-started
-  - boundary-data
+  - download-boundary-data
+  - import-boundary-data
+  - transform-data
 
 - title: Tutorials
-  desc: Practical map workflows for plotting, joining data, and transforming locations.
+  desc: Simple plotting workflows using the bundled GDP and U.S. base datasets.
   contents:
-  - plot-maps
+  - prefectural-choropleths
+  - prefectural-point-maps
   - municipal-choropleths
-  - us-military-bases
-  - transform-data
+  - municipal-point-maps
+
+- title: Map Options
+  desc: Control island insets and answer common map questions.
+  contents:
+  - inset-options
   - faq
 
 reference:
 - title: Example Data
-  desc: Sample datasets used in jpmap examples and website articles.
+  desc: >
+    Sample datasets used in jpmap examples. `jp_prefecture_gdp` is based on
+    [OECD 2021 regional GDP per-capita values tabulated on Wikipedia](https://en.wikipedia.org/wiki/List_of_Japanese_prefectures_by_GDP_per_capita).
+    `jp_us_military_bases` stores row-level public source links in its
+    `source_url` column, including linked installation and command pages.
   contents:
   - jp_prefecture_gdp
   - jp_us_military_bases

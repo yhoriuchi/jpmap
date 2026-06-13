@@ -1,5 +1,6 @@
 ---
 title: "Transform Data"
+description: "Move longitude/latitude data into the same projection and inset layout used by jpmap maps."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Transform Data}

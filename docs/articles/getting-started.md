@@ -1,7 +1,16 @@
-# Getting Started
+# Introduction
 
-`jpmap` follows the same basic workflow as `usmap`: get a map, plot a
-map, and transform user data into the same coordinate system.
+`jpmap` follows the same basic workflow as `usmap`: plot a map, get the
+map data, and transform your own coordinates into the same coordinate
+system.
+
+Install the development version from GitHub:
+
+``` r
+
+install.packages("remotes")
+remotes::install_github("yhoriuchi/jpmap")
+```
 
 ``` r
 
@@ -10,11 +19,13 @@ library(jpmap)
 
 The main plotting function is
 [`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md).
+These two calls draw empty maps without adding data, labels, colors, or
+other options.
 
 ``` r
 
-plot_jpmap("prefectures")
-plot_jpmap("municipalities", include = "Okinawa")
+plot_jpmap("prefecture")
+plot_jpmap("municipality", include = "Okinawa")
 ```
 
 The data function is
@@ -23,8 +34,8 @@ which returns an `sf` object.
 
 ``` r
 
-prefectures <- jp_map("prefectures")
-okinawa_municipalities <- jp_map("municipalities", include = "Okinawa")
+prefectures <- jp_map("prefecture")
+okinawa_municipalities <- jp_map("municipality", include = "Okinawa")
 ```
 
 The transform function is

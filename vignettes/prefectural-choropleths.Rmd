@@ -1,0 +1,61 @@
+---
+title: "Plot Prefectural Choropleth Maps"
+description: "Join prefecture-level GDP data to a Japan map and map one fill variable."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plot Prefectural Choropleth Maps}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5,
+  dpi = 120,
+  fig.bg = "white",
+  dev.args = list(bg = "white")
+)
+```
+
+This example uses `jp_prefecture_gdp`, a bundled prefecture-level GDP dataset.
+The map uses one fill variable: GDP per capita in Japanese yen.
+
+```{r}
+library(ggplot2)
+library(jpmap)
+
+data("jp_prefecture_gdp")
+```
+
+```{r prefectural-gdp}
+plot_jpmap(
+  "prefecture",
+  data = jp_prefecture_gdp,
+  values = "gdp_per_capita_jpy",
+  color = "white",
+  linewidth = 0.2
+) +
+  scale_fill_gradient(
+    low = "#F7F1E4",
+    high = "#782F40",
+    name = "GDP per capita\n(JPY)"
+  ) +
+  labs(
+    title = "Prefecture GDP per capita",
+    caption = "GDP data: OECD 2021 values tabulated on Wikipedia."
+  ) +
+  theme(
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "white", color = NA),
+    legend.background = element_rect(fill = "white", color = NA),
+    plot.title = element_text(face = "bold", color = "#782F40"),
+    plot.caption = element_text(color = "#2C2A29", hjust = 0, size = 8)
+  )
+```
+
+`plot_jpmap()` joins by a shared column. Here both the map and
+`jp_prefecture_gdp` have `pref_code` and `prefecture`, so no extra join
+argument is needed.

@@ -63,3 +63,11 @@ These values are intended for examples and are not an official personnel
 accounting. Some rows describe broader installation, regional, command,
 or community populations; see `personnel_scope` and
 `personnel_geography`.
+
+## Source
+
+Public installation, command, and regional pages listed in the
+`source_url` column, including
+<https://en.wikipedia.org/wiki/Misawa_Air_Base>,
+<https://en.wikipedia.org/wiki/Yokota_Air_Base>, and
+<https://en.wikipedia.org/wiki/Okinawa_Island>.

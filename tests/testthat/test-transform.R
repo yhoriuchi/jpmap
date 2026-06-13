@@ -68,19 +68,21 @@ test_that("missing map data gives a helpful error", {
 test_that("bundled prefecture data are available by default", {
   available <- available_jpmap_data()
   expect_true(any(available$year == 2021))
+  expect_true(any(available$year == 2024 & available$pref_code == "47"))
 
-  map <- jp_map("prefectures", data_year = 2021)
+  map <- jp_map("prefecture")
   expect_s3_class(map, "sf")
   expect_equal(nrow(map), 47)
 })
 
 test_that("bundled Okinawa municipalities are available by default", {
-  map <- jp_map("municipalities", include = "Okinawa", data_year = 2021, inset = FALSE)
+  map <- jp_map("municipality", include = "Okinawa", inset = FALSE)
 
   expect_s3_class(map, "sf")
-  expect_equal(nrow(map), 41)
+  expect_true(nrow(map) > 41)
   expect_true(all(map$prefecture == "Okinawa"))
-  expect_false(any(is.na(map$municipality)))
+  expect_true(all(map$pref_code == "47"))
+  expect_true(all(map$municipality_code != ""))
 })
 
 test_that("official N03 source URLs can target national or prefecture data", {

@@ -1,0 +1,98 @@
+---
+title: "Import Boundary Data"
+description: "Load bundled or locally built boundary GeoPackages with jp_map(), plot_jpmap(), and sf."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Import Boundary Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+Use `available_jpmap_data()` to see which boundary files `jpmap` can find.
+
+```{r}
+library(jpmap)
+available <- available_jpmap_data()
+available[c("year", "pref_code", "prefecture")]
+```
+
+The package checks two locations:
+
+- bundled example files installed with `jpmap`;
+- files saved in `jpmap_data_dir()`, unless you pass a custom `data_dir`.
+
+## Load Prefecture Data
+
+`jp_map()` returns an `sf` object. Without extra options, prefecture maps use
+the bundled all-Japan prefecture file.
+
+```{r}
+prefectures <- jp_map("prefecture")
+prefectures
+```
+
+## Load Bundled Okinawa Municipal Data
+
+The package includes official MLIT N03 municipal boundaries for Okinawa
+Prefecture as of January 1, 2024.
+
+```{r}
+okinawa_municipalities <- jp_map("municipality", include = "Okinawa")
+okinawa_municipalities
+```
+
+This works without `data_year` or `data_dir` because `jpmap` can see the
+bundled Okinawa file.
+
+## Load Locally Built Municipal Data
+
+After building a local file, use the same `include` value to select the
+prefecture.
+
+```{r, eval = FALSE}
+jpmap_build_data(year = 2024, prefecture = "Ehime")
+ehime_municipalities <- jp_map("municipality", include = "Ehime", data_year = 2024)
+```
+
+If you saved the file somewhere else, pass that folder as `data_dir`.
+
+```{r, eval = FALSE}
+ehime_municipalities <- jp_map(
+  "municipality",
+  include = "Ehime",
+  data_year = 2024,
+  data_dir = "jpmap-data"
+)
+```
+
+## Inspect A GeoPackage
+
+The GeoPackage layers are ordinary spatial data layers, so you can inspect them
+with `sf`.
+
+```{r}
+okinawa_file <- available$path[available$year == 2024 & available$pref_code == "47"]
+
+sf::st_layers(okinawa_file)
+```
+
+Read a layer directly only when you need lower-level control. Most map
+workflows can use `jp_map()` instead.
+
+```{r, eval = FALSE}
+municipalities <- sf::st_read(okinawa_file, layer = "municipalities")
+```
+
+## File Names
+
+`jpmap` recognizes these file names:
+
+- `jpmap_boundaries_YYYY.gpkg` for national data;
+- `jpmap_boundaries_YYYY_PP.gpkg` for one-prefecture data.
+
+The `PP` suffix is the two-digit prefecture code, such as `38` for Ehime and
+`47` for Okinawa.

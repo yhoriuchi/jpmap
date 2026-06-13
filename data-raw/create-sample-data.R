@@ -36,6 +36,7 @@ dir.create(natural_earth_dir, showWarnings = FALSE)
 utils::unzip(natural_earth_zip, exdir = natural_earth_dir)
 
 source("R/prefectures.R", local = TRUE)
+source("R/data.R", local = TRUE)
 
 admin1 <- sf::st_read(
   file.path(natural_earth_dir, "ne_10m_admin_1_states_provinces.shp"),
@@ -137,6 +138,15 @@ okinawa_municipalities <- sf::st_sf(
 okinawa_municipalities <- okinawa_municipalities[order(okinawa_municipalities$municipality_code), ]
 okinawa_municipalities <- sf::st_make_valid(okinawa_municipalities)
 sf::st_write(okinawa_municipalities, gpkg, layer = "municipalities", append = TRUE, quiet = TRUE)
+
+# Bundle an official one-prefecture municipal file for the simple
+# `plot_jpmap("municipality", include = "Okinawa")` workflow.
+jpmap_build_data(
+  year = 2024,
+  prefecture = "Okinawa",
+  destdir = "inst/extdata",
+  overwrite = TRUE
+)
 
 jp_prefecture_gdp <- data.frame(
   pref_code = c(

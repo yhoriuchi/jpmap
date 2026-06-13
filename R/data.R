@@ -58,7 +58,12 @@ jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "m
                    ogasawara = TRUE,
                    data_dir = NULL) {
   layer <- canonical_region(regions)
-  path <- choose_jpmap_data(data_year, data_dir)
+  path <- choose_jpmap_data(
+    data_year,
+    data_dir,
+    regions = layer,
+    include = include
+  )
 
   map <- sf::st_read(path, layer = layer, quiet = TRUE)
   map <- filter_jpmap(map, layer, include, exclude)
@@ -193,29 +198,70 @@ jpmap_data_dirs <- function(data_dir = NULL) {
   unique(c(package_dir, jpmap_data_dir(create = FALSE)))
 }
 
-choose_jpmap_data <- function(data_year = NULL, data_dir = NULL) {
+choose_jpmap_data <- function(data_year = NULL,
+                              data_dir = NULL,
+                              regions = NULL,
+                              include = c()) {
   available <- available_jpmap_data(data_dir)
   if (nrow(available) == 0) {
     stop_missing_jpmap_data(data_dir)
   }
 
   available <- available[order(available$year, is.na(available$pref_code), decreasing = TRUE), , drop = FALSE]
+  requested_pref_code <- requested_prefecture_code(regions, include)
+
   if (is.null(data_year)) {
-    return(available$path[[1]])
+    preferred <- preferred_data_path(available, requested_pref_code)
+    return(preferred %||% available$path[[1]])
   }
 
   data_year <- as.integer(data_year[[1]])
   exact <- available[available$year == data_year, , drop = FALSE]
   if (nrow(exact) > 0) {
-    return(exact$path[[1]])
+    preferred <- preferred_data_path(exact, requested_pref_code)
+    return(preferred %||% exact$path[[1]])
   }
 
   older <- available[available$year <= data_year, , drop = FALSE]
   if (nrow(older) > 0) {
-    return(older$path[[1]])
+    preferred <- preferred_data_path(older, requested_pref_code)
+    return(preferred %||% older$path[[1]])
   }
 
-  available$path[[1]]
+  preferred <- preferred_data_path(available, requested_pref_code)
+  preferred %||% available$path[[1]]
+}
+
+preferred_data_path <- function(available, requested_pref_code = NULL) {
+  if (!is.null(requested_pref_code)) {
+    prefecture_file <- available[available$pref_code == requested_pref_code, , drop = FALSE]
+    if (nrow(prefecture_file) > 0) {
+      return(prefecture_file$path[[1]])
+    }
+  }
+
+  national_file <- available[is.na(available$pref_code), , drop = FALSE]
+  if (nrow(national_file) > 0) {
+    return(national_file$path[[1]])
+  }
+
+  NULL
+}
+
+requested_prefecture_code <- function(regions = NULL, include = c()) {
+  if (length(include) != 1) {
+    return(NULL)
+  }
+
+  code <- tryCatch(
+    prefecture_code_from_input(include),
+    error = function(e) NULL
+  )
+  if (is.null(code)) {
+    return(NULL)
+  }
+
+  code
 }
 
 stop_missing_jpmap_data <- function(data_dir = NULL) {

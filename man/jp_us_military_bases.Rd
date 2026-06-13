@@ -32,4 +32,10 @@ accounting. Some rows describe broader installation, regional, command, or
 community populations; see \code{personnel_scope} and
 \code{personnel_geography}.
 }
+\source{
+Public installation, command, and regional pages listed in the \code{source_url}
+column, including \url{https://en.wikipedia.org/wiki/Misawa_Air_Base},
+\url{https://en.wikipedia.org/wiki/Yokota_Air_Base}, and
+\url{https://en.wikipedia.org/wiki/Okinawa_Island}.
+}
 \keyword{datasets}

@@ -2,7 +2,11 @@
 
 ## Example Data
 
-Sample datasets used in jpmap examples and website articles.
+Sample datasets used in jpmap examples. `jp_prefecture_gdp` is based on
+[OECD 2021 regional GDP per-capita values tabulated on
+Wikipedia](https://en.wikipedia.org/wiki/List_of_Japanese_prefectures_by_GDP_per_capita).
+`jp_us_military_bases` stores row-level public source links in its
+`source_url` column, including linked installation and command pages.
 
 - [`jp_prefecture_gdp`](https://yhoriuchi.github.io/jpmap/reference/jp_prefecture_gdp.md)
   : GDP per capita by Japanese prefecture

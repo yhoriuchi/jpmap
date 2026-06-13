@@ -11,13 +11,14 @@ island groups. You can also use `okinawa = FALSE` or
 `ogasawara = FALSE`, mirroring the style of `UchidaMizuki/jpmap`.
 [`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
 draws inset boxes by default; set `inset_boxes = FALSE` to remove them.
+The boxes are visual guide frames for the transported inset clusters,
+not legal extents for every remote island in every source layer.
 
 ## Does jpmap include boundary data?
 
-The package includes code for building and reading boundary data, but
-large nationwide boundary files are kept outside the package. The
-installed package ships all-prefecture example boundaries and Okinawa
-municipal boundaries. Use
+The package includes all-prefecture example boundaries and official MLIT
+N03 municipal boundaries for Okinawa Prefecture as of January 1, 2024.
+Large nationwide municipal files are kept outside the package. Use
 [`jpmap_build_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
 to build a local GeoPackage from MLIT N03 administrative area data. Use
 `jpmap_build_data(prefecture = "Ehime")` when you only need one

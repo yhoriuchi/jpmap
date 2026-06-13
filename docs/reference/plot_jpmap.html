@@ -119,7 +119,7 @@ Ogasawara insets.</p></dd>
 <dd><p>Boundary line width.</p></dd>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">ggplot2::geom_sf()</a></code>.</p></dd>
+<dd><p>Additional arguments passed to <code><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">ggplot2::geom_sf()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -130,9 +130,10 @@ Ogasawara insets.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefectures"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefectures"</span>, ogasawara <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefectures"</span>, inset_boxes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefecture"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefecture"</span>, ogasawara <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefecture"</span>, inset_boxes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"municipality"</span>, include <span class="op">=</span> <span class="st">"Okinawa"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

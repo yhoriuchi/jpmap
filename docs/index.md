@@ -17,15 +17,50 @@ also use `okinawa = FALSE` or `ogasawara = FALSE`.
 [`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
 draws inset boxes by default; set `inset_boxes = FALSE` to remove them.
 
+## Installation
+
+Install the development version from GitHub:
+
+``` r
+
+install.packages("remotes")
+remotes::install_github("yhoriuchi/jpmap")
+```
+
 ## Core Workflow
 
 ``` r
 
 library(jpmap)
 
-plot_jpmap("prefectures")
-plot_jpmap("municipalities", include = "Okinawa")
+plot_jpmap("prefecture")
+plot_jpmap("municipality", include = "Okinawa")
 ```
+
+## Articles
+
+Start with these pages:
+
+- [Introduction](https://yhoriuchi.github.io/jpmap/articles/getting-started.md)
+- [Download Boundary
+  Data](https://yhoriuchi.github.io/jpmap/articles/download-boundary-data.md)
+- [Import Boundary
+  Data](https://yhoriuchi.github.io/jpmap/articles/import-boundary-data.md)
+- [Transform
+  Data](https://yhoriuchi.github.io/jpmap/articles/transform-data.md)
+- [Okinawa and Ogasawara
+  Insets](https://yhoriuchi.github.io/jpmap/articles/inset-options.md)
+
+Then use the plotting tutorials:
+
+- [Plot Prefectural Choropleth
+  Maps](https://yhoriuchi.github.io/jpmap/articles/prefectural-choropleths.md)
+- [Plot Prefectural Point
+  Maps](https://yhoriuchi.github.io/jpmap/articles/prefectural-point-maps.md)
+- [Plot Municipal Choropleth
+  Maps](https://yhoriuchi.github.io/jpmap/articles/municipal-choropleths.md)
+- [Plot Municipal Point
+  Maps](https://yhoriuchi.github.io/jpmap/articles/municipal-point-maps.md)
 
 ## Transform Point Data
 
@@ -50,20 +85,29 @@ jpmap_transform(points)
 
 ## Boundary Data
 
-The package expects administrative boundary data in GeoPackage files
-named `jpmap_boundaries_YYYY.gpkg`. You can build one from Japan’s MLIT
-National Land Numerical Information N03 administrative area data:
+The installed package includes:
+
+- all-prefecture example boundaries for Japan, based on Natural Earth
+  Admin-1 data;
+- official MLIT N03 municipal boundaries for Okinawa Prefecture as of
+  January 1, 2024.
+
+Use the bundled Okinawa municipal data immediately:
+
+``` r
+
+plot_jpmap("municipality", include = "Okinawa")
+```
+
+Nationwide municipal polygons are much larger and should be built
+locally from Japan’s official MLIT National Land Numerical Information
+N03 administrative area data:
 
 ``` r
 
 jpmap_build_data(year = 2024)
 jpmap_build_data(year = 2024, prefecture = "Ehime")
 ```
-
-The 2024 N03 source archive is large, about 583 MB, so this is an
-explicit user-run step rather than something the package does during
-installation. The `prefecture` argument downloads a smaller official
-prefecture-specific N03 file.
 
 The generated file is written to
 [`jpmap_data_dir()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
@@ -76,15 +120,7 @@ After data is available,
 [`jp_map()`](https://yhoriuchi.github.io/jpmap/reference/jp_map.md)
 returns `sf` objects and
 [`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
-returns ordinary `ggplot2` maps.
-
-The package also includes a small Natural Earth prefecture layer and an
-Okinawa municipal layer from Geoshape for examples and website figures.
-Nationwide detailed municipal boundaries still require
-[`jpmap_build_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md).
-This keeps the installed package small while still supporting full
-municipal maps when users explicitly build or supply the larger boundary
-data. Users who already work with
+returns ordinary `ggplot2` maps. Users who already work with
 [`jpndistrict`](https://github.com/uribo/jpndistrict) can also pass its
 `sf` output through
 [`jpmap_transform()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_transform.md).
@@ -95,16 +131,5 @@ Two public-source sample datasets are included:
 
 - `jp_prefecture_gdp`: 2021 prefecture GDP per capita values.
 - `jp_us_military_bases`: selected U.S. military installations in Japan
-  with coordinates and public approximate personnel figures where
-  available. See the “U.S. Military Bases and Prefecture GDP” article
-  for an example that keeps installation locations separate from
-  regional or command-level personnel figures.
-
-## Website
-
-Build the pkgdown site locally with:
-
-``` r
-
-pkgdown::build_site()
-```
+  with coordinates, public approximate personnel figures where
+  available, and row-level `source_url` links.

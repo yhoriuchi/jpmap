@@ -6,6 +6,7 @@
 ^data-raw$
 ^docs$
 ^pkgdown$
+^project_history$
 ^README[.]Rmd$
 ^.*\.Rproj$
 ^\.Rproj\.user$

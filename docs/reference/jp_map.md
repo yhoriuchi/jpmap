@@ -33,7 +33,10 @@ jp_map(
 
 - data_year:
 
-  Boundary data year. The newest available year is used by default.
+  Boundary data year. The newest appropriate available file is used by
+  default. For example, national prefecture maps prefer a national file,
+  while one-prefecture municipal requests can use a matching prefecture
+  file.
 
 - inset:
 
@@ -64,5 +67,7 @@ if (FALSE) { # \dontrun{
 jp_map("prefectures")
 jp_map("prefectures", okinawa = FALSE)
 jp_map("municipalities", include = "Okinawa")
+jp_map("prefecture")
+jp_map("municipality", include = "Okinawa")
 } # }
 ```

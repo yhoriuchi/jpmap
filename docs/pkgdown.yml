@@ -2,14 +2,17 @@ pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
-  boundary-data: boundary-data.html
+  download-boundary-data: download-boundary-data.html
   faq: faq.html
   getting-started: getting-started.html
+  import-boundary-data: import-boundary-data.html
+  inset-options: inset-options.html
   municipal-choropleths: municipal-choropleths.html
-  plot-maps: plot-maps.html
+  municipal-point-maps: municipal-point-maps.html
+  prefectural-choropleths: prefectural-choropleths.html
+  prefectural-point-maps: prefectural-point-maps.html
   transform-data: transform-data.html
-  us-military-bases: us-military-bases.html
-last_built: 2026-06-13T14:25Z
+last_built: 2026-06-13T21:32Z
 urls:
   reference: https://yhoriuchi.github.io/jpmap/reference
   article: https://yhoriuchi.github.io/jpmap/articles

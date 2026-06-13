@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Municipal Choropleths • jpmap</title>
+<title>Plot Municipal Choropleth Maps • jpmap</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,10 @@
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="Municipal Choropleths">
+<meta property="og:title" content="Plot Municipal Choropleth Maps">
+<meta name="description" content="Use bundled Okinawa municipal boundaries and count U.S. base points by municipality.">
+<meta property="og:description" content="Use bundled Okinawa municipal boundaries and count U.S. base points by municipality.">
+<meta property="og:image" content="https://yhoriuchi.github.io/jpmap/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -54,7 +57,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Municipal Choropleths</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Plot Municipal Choropleth Maps</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/yhoriuchi/jpmap/blob/HEAD/vignettes/municipal-choropleths.Rmd" class="external-link"><code>vignettes/municipal-choropleths.Rmd</code></a></small>
@@ -63,248 +66,79 @@
 
     
     
-<p>This article shows the basic workflow for observation-style data:
-draw municipal boundaries, count records by municipality, make a
-choropleth, and add longitude/latitude points. The example records below
-are synthetic.</p>
+<p>The package includes official MLIT N03 municipal boundaries for
+Okinawa Prefecture as of January 1, 2024. This example counts selected
+U.S. base point locations by municipality and maps one fill variable:
+<code>base_count</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yhoriuchi.github.io/jpmap/">jpmap</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">example_data_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"jpmap"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"jp_us_military_bases"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">okinawa_municipalities</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jp_map.html">jp_map</a></span><span class="op">(</span></span>
-<span>  <span class="st">"municipalities"</span>,</span>
-<span>  include <span class="op">=</span> <span class="st">"Okinawa"</span>,</span>
-<span>  data_year <span class="op">=</span> <span class="fl">2021</span>,</span>
-<span>  data_dir <span class="op">=</span> <span class="va">example_data_dir</span>,</span>
-<span>  inset <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="va">okinawa_bases</span> <span class="op">&lt;-</span> <span class="va">jp_us_military_bases</span><span class="op">[</span></span>
+<span>  <span class="va">jp_us_military_bases</span><span class="op">$</span><span class="va">prefecture</span> <span class="op">==</span> <span class="st">"Okinawa"</span> <span class="op">&amp;</span></span>
+<span>    <span class="va">jp_us_military_bases</span><span class="op">$</span><span class="va">base</span> <span class="op">!=</span> <span class="st">"Okinawa U.S. military facilities"</span>,</span>
+<span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">okinawa_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jpmap_data.html">available_jpmap_data</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">okinawa_file</span> <span class="op">&lt;-</span> <span class="va">okinawa_file</span><span class="op">$</span><span class="va">path</span><span class="op">[</span></span>
+<span>  <span class="va">okinawa_file</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2024</span> <span class="op">&amp;</span> <span class="va">okinawa_file</span><span class="op">$</span><span class="va">pref_code</span> <span class="op">==</span> <span class="st">"47"</span></span>
+<span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">okinawa_wgs84</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">okinawa_file</span>, layer <span class="op">=</span> <span class="st">"municipalities"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">base_points</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span></span>
+<span>  <span class="va">okinawa_bases</span>,</span>
+<span>  coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span>,</span>
+<span>  crs <span class="op">=</span> <span class="fl">4326</span>,</span>
+<span>  remove <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">observations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Example species A"</span>, <span class="fl">12</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Example species B"</span>, <span class="fl">10</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Example species C"</span>, <span class="fl">8</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  municipality <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="st">"Naha"</span>, <span class="st">"Naha"</span>, <span class="st">"Naha"</span>, <span class="st">"Urasoe"</span>, <span class="st">"Ginowan"</span>, <span class="st">"Tomigusuku"</span>,</span>
-<span>    <span class="st">"Itoman"</span>, <span class="st">"Nanjo"</span>, <span class="st">"Okinawa"</span>, <span class="st">"Uruma"</span>, <span class="st">"Nago"</span>, <span class="st">"Kunigami"</span>,</span>
-<span>    <span class="st">"Naha"</span>, <span class="st">"Urasoe"</span>, <span class="st">"Ginowan"</span>, <span class="st">"Ginowan"</span>, <span class="st">"Chatan"</span>, <span class="st">"Kadena"</span>,</span>
-<span>    <span class="st">"Yomitan"</span>, <span class="st">"Okinawa"</span>, <span class="st">"Uruma"</span>, <span class="st">"Nago"</span>,</span>
-<span>    <span class="st">"Itoman"</span>, <span class="st">"Nanjo"</span>, <span class="st">"Yaese"</span>, <span class="st">"Haebaru"</span>, <span class="st">"Nishihara"</span>, <span class="st">"Onna"</span>,</span>
-<span>    <span class="st">"Motobu"</span>, <span class="st">"Nakijin"</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="fl">127.681</span>, <span class="fl">127.690</span>, <span class="fl">127.700</span>, <span class="fl">127.715</span>, <span class="fl">127.760</span>, <span class="fl">127.670</span>,</span>
-<span>    <span class="fl">127.670</span>, <span class="fl">127.770</span>, <span class="fl">127.805</span>, <span class="fl">127.855</span>, <span class="fl">127.985</span>, <span class="fl">128.220</span>,</span>
-<span>    <span class="fl">127.675</span>, <span class="fl">127.720</span>, <span class="fl">127.755</span>, <span class="fl">127.765</span>, <span class="fl">127.765</span>, <span class="fl">127.750</span>,</span>
-<span>    <span class="fl">127.745</span>, <span class="fl">127.800</span>, <span class="fl">127.875</span>, <span class="fl">128.010</span>,</span>
-<span>    <span class="fl">127.675</span>, <span class="fl">127.755</span>, <span class="fl">127.720</span>, <span class="fl">127.730</span>, <span class="fl">127.755</span>, <span class="fl">127.850</span>,</span>
-<span>    <span class="fl">127.900</span>, <span class="fl">127.930</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="fl">26.212</span>, <span class="fl">26.220</span>, <span class="fl">26.230</span>, <span class="fl">26.245</span>, <span class="fl">26.275</span>, <span class="fl">26.170</span>,</span>
-<span>    <span class="fl">26.120</span>, <span class="fl">26.160</span>, <span class="fl">26.335</span>, <span class="fl">26.365</span>, <span class="fl">26.590</span>, <span class="fl">26.745</span>,</span>
-<span>    <span class="fl">26.215</span>, <span class="fl">26.250</span>, <span class="fl">26.275</span>, <span class="fl">26.285</span>, <span class="fl">26.315</span>, <span class="fl">26.360</span>,</span>
-<span>    <span class="fl">26.395</span>, <span class="fl">26.335</span>, <span class="fl">26.380</span>, <span class="fl">26.600</span>,</span>
-<span>    <span class="fl">26.125</span>, <span class="fl">26.165</span>, <span class="fl">26.150</span>, <span class="fl">26.195</span>, <span class="fl">26.225</span>, <span class="fl">26.500</span>,</span>
-<span>    <span class="fl">26.655</span>, <span class="fl">26.685</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="va">base_municipalities</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_join.html" class="external-link">st_join</a></span><span class="op">(</span></span>
+<span>  <span class="va">base_points</span>,</span>
+<span>  <span class="va">okinawa_wgs84</span><span class="op">[</span><span class="st">"municipality_code"</span><span class="op">]</span>,</span>
+<span>  left <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
+<span><span class="va">base_municipalities</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">base_municipalities</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">observations_xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jpmap_transform.html">jpmap_transform</a></span><span class="op">(</span></span>
-<span>  <span class="va">observations</span>,</span>
-<span>  output_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>,</span>
-<span>  inset <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">okinawa_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jpmap_transform.html">jpmap_transform</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>    lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">127.55</span>, <span class="fl">128.35</span>, <span class="fl">127.55</span>, <span class="fl">128.35</span><span class="op">)</span>,</span>
-<span>    lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">26.05</span>, <span class="fl">26.05</span>, <span class="fl">26.85</span>, <span class="fl">26.85</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  output_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>,</span>
-<span>  inset <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="municipal-boundaries">Municipal Boundaries<a class="anchor" aria-label="anchor" href="#municipal-boundaries"></a>
-</h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">okinawa_municipalities</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#F7F1E4"</span>, color <span class="op">=</span> <span class="st">"white"</span>, linewidth <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="cn">NA</span>, color <span class="op">=</span> <span class="st">"#782F40"</span>, linewidth <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span></span>
-<span>    crs <span class="op">=</span> <span class="fu"><a href="../reference/jpmap_crs.html">jpmap_crs</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">okinawa_view</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>,</span>
-<span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">okinawa_view</span><span class="op">$</span><span class="va">y</span><span class="op">)</span>,</span>
-<span>    expand <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    datum <span class="op">=</span> <span class="cn">NA</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Okinawa municipal boundaries"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"Bundled example layer from Geoshape"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>    panel.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#782F40"</span><span class="op">)</span>,</span>
-<span>    plot.subtitle <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="municipal-choropleths_files/figure-html/municipal-boundaries-1.png" class="r-plt" alt="" width="960"></p>
-</div>
-<div class="section level2">
-<h2 id="point-map">Point Map<a class="anchor" aria-label="anchor" href="#point-map"></a>
-</h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">okinawa_municipalities</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#F7F1E4"</span>, color <span class="op">=</span> <span class="st">"white"</span>, linewidth <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="cn">NA</span>, color <span class="op">=</span> <span class="st">"#782F40"</span>, linewidth <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="va">observations_xy</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, color <span class="op">=</span> <span class="va">species</span><span class="op">)</span>,</span>
-<span>    size <span class="op">=</span> <span class="fl">2.2</span>,</span>
-<span>    alpha <span class="op">=</span> <span class="fl">0.8</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span></span>
-<span>    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>      <span class="st">"Example species A"</span> <span class="op">=</span> <span class="st">"#782F40"</span>,</span>
-<span>      <span class="st">"Example species B"</span> <span class="op">=</span> <span class="st">"#CEB888"</span>,</span>
-<span>      <span class="st">"Example species C"</span> <span class="op">=</span> <span class="st">"#2C2A29"</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    name <span class="op">=</span> <span class="cn">NULL</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span></span>
-<span>    crs <span class="op">=</span> <span class="fu"><a href="../reference/jpmap_crs.html">jpmap_crs</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">okinawa_view</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>,</span>
-<span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">okinawa_view</span><span class="op">$</span><span class="va">y</span><span class="op">)</span>,</span>
-<span>    expand <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    datum <span class="op">=</span> <span class="cn">NA</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Observation points"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"Longitude and latitude are transformed with jpmap_transform()"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>    panel.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>    legend.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#782F40"</span><span class="op">)</span>,</span>
-<span>    plot.subtitle <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span>,</span>
-<span>    legend.position <span class="op">=</span> <span class="st">"right"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="municipal-choropleths_files/figure-html/observation-points-1.png" class="r-plt" alt="" width="960"></p>
-</div>
-<div class="section level2">
-<h2 id="municipal-counts">Municipal Counts<a class="anchor" aria-label="anchor" href="#municipal-counts"></a>
-</h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">municipality_counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>records <span class="op">=</span> <span class="va">observations</span><span class="op">$</span><span class="va">species</span><span class="op">)</span>,</span>
-<span>  <span class="va">observations</span><span class="op">[</span><span class="st">"municipality"</span><span class="op">]</span>,</span>
+<span><span class="va">base_counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>base_count <span class="op">=</span> <span class="va">base_municipalities</span><span class="op">$</span><span class="va">base</span><span class="op">)</span>,</span>
+<span>  <span class="va">base_municipalities</span><span class="op">[</span><span class="st">"municipality_code"</span><span class="op">]</span>,</span>
 <span>  <span class="va">length</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">counts_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jp_map.html">jp_map</a></span><span class="op">(</span></span>
-<span>  <span class="st">"municipalities"</span>,</span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span></span>
+<span>  <span class="st">"municipality"</span>,</span>
 <span>  include <span class="op">=</span> <span class="st">"Okinawa"</span>,</span>
-<span>  data_year <span class="op">=</span> <span class="fl">2021</span>,</span>
-<span>  data_dir <span class="op">=</span> <span class="va">example_data_dir</span>,</span>
-<span>  inset <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">counts_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jp_map_with_data.html">jp_map_with_data</a></span><span class="op">(</span><span class="va">counts_map</span>, <span class="va">municipality_counts</span>, values <span class="op">=</span> <span class="st">"records"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">counts_map</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">records</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"white"</span>, linewidth <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span></span>
-<span>    crs <span class="op">=</span> <span class="fu"><a href="../reference/jpmap_crs.html">jpmap_crs</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">okinawa_view</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>,</span>
-<span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">okinawa_view</span><span class="op">$</span><span class="va">y</span><span class="op">)</span>,</span>
-<span>    expand <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    datum <span class="op">=</span> <span class="cn">NA</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  data <span class="op">=</span> <span class="va">base_counts</span>,</span>
+<span>  values <span class="op">=</span> <span class="st">"base_count"</span>,</span>
+<span>  inset <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  color <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>  linewidth <span class="op">=</span> <span class="fl">0.05</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span></span>
 <span>    low <span class="op">=</span> <span class="st">"#F7F1E4"</span>,</span>
 <span>    high <span class="op">=</span> <span class="st">"#782F40"</span>,</span>
 <span>    na.value <span class="op">=</span> <span class="st">"#F7F1E4"</span>,</span>
-<span>    name <span class="op">=</span> <span class="st">"Records"</span></span>
+<span>    name <span class="op">=</span> <span class="st">"Base count"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Municipal choropleth"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"Observation records counted by municipality"</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Okinawa municipalities with selected U.S. base points"</span>,</span>
+<span>    caption <span class="op">=</span> <span class="st">"Boundary: MLIT N03 administrative area data, January 1, 2024."</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
 <span>    plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
 <span>    panel.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
 <span>    legend.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
 <span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#782F40"</span><span class="op">)</span>,</span>
-<span>    plot.subtitle <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
+<span>    plot.caption <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#2C2A29"</span>, hjust <span class="op">=</span> <span class="fl">0</span>, size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="municipal-choropleths_files/figure-html/municipal-counts-1.png" class="r-plt" alt="" width="960"></p>
-</div>
-<div class="section level2">
-<h2 id="faceted-counts">Faceted Counts<a class="anchor" aria-label="anchor" href="#faceted-counts"></a>
-</h2>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">species_counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>records <span class="op">=</span> <span class="va">observations</span><span class="op">$</span><span class="va">species</span><span class="op">)</span>,</span>
-<span>  <span class="va">observations</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species"</span>, <span class="st">"municipality"</span><span class="op">)</span><span class="op">]</span>,</span>
-<span>  <span class="va">length</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">species_maps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">observations</span><span class="op">$</span><span class="va">species</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">counts</span> <span class="op">&lt;-</span> <span class="va">species_counts</span><span class="op">[</span><span class="va">species_counts</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="va">species</span>, <span class="op">]</span></span>
-<span>  <span class="va">map</span> <span class="op">&lt;-</span> <span class="va">okinawa_municipalities</span></span>
-<span>  <span class="va">map</span><span class="op">$</span><span class="va">species</span> <span class="op">&lt;-</span> <span class="va">species</span></span>
-<span>  <span class="va">map</span><span class="op">$</span><span class="va">records</span> <span class="op">&lt;-</span> <span class="va">counts</span><span class="op">$</span><span class="va">records</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">map</span><span class="op">$</span><span class="va">municipality</span>, <span class="va">counts</span><span class="op">$</span><span class="va">municipality</span><span class="op">)</span><span class="op">]</span></span>
-<span>  <span class="va">map</span><span class="op">$</span><span class="va">records</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">map</span><span class="op">$</span><span class="va">records</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0L</span></span>
-<span>  <span class="va">map</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span><span class="va">species_maps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">species_maps</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">species_maps</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">records</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"white"</span>, linewidth <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span></span>
-<span>    crs <span class="op">=</span> <span class="fu"><a href="../reference/jpmap_crs.html">jpmap_crs</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">okinawa_view</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>,</span>
-<span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">okinawa_view</span><span class="op">$</span><span class="va">y</span><span class="op">)</span>,</span>
-<span>    expand <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    datum <span class="op">=</span> <span class="cn">NA</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">species</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span></span>
-<span>    low <span class="op">=</span> <span class="st">"#F7F1E4"</span>,</span>
-<span>    high <span class="op">=</span> <span class="st">"#782F40"</span>,</span>
-<span>    name <span class="op">=</span> <span class="st">"Records"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Municipal choropleths by category"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"The same pattern works for species, years, survey waves, or any grouping variable"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>    panel.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>    strip.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span>,</span>
-<span>    legend.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#782F40"</span><span class="op">)</span>,</span>
-<span>    plot.subtitle <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="municipal-choropleths_files/figure-html/faceted-counts-1.png" class="r-plt" alt="" width="960"></p>
-<p>For full nationwide municipal data, build from the official MLIT N03
-source:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/jpmap_data.html">jpmap_build_data</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2024</span><span class="op">)</span></span></code></pre></div>
-<p>For a single-prefecture workflow like many local observation
-projects, build only that prefecture:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/jpmap_data.html">jpmap_build_data</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2024</span>, prefecture <span class="op">=</span> <span class="st">"Ehime"</span><span class="op">)</span></span></code></pre></div>
-</div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside>
+<p><img src="municipal-choropleths_files/figure-html/municipal-base-counts-1.png" class="r-plt" alt="" width="840"></p>
+<p>For other prefectures, first build the prefecture’s municipal
+boundaries with
+<code>jpmap_build_data(year = 2024, prefecture = "...")</code>, then use
+the same join pattern.</p>
+  </main>
 </div>
 
 

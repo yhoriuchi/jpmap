@@ -1,0 +1,104 @@
+---
+title: "Download Boundary Data"
+description: "Understand the bundled Okinawa municipal data and build larger MLIT N03 boundary files locally."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Download Boundary Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+`jpmap` uses GeoPackage files with two layers:
+
+- `prefectures`
+- `municipalities`
+
+The installed package includes an all-Japan prefecture example layer and an
+official Okinawa municipal layer from MLIT N03 administrative area data. The
+Okinawa municipal boundaries bundled with the package are the 2024 MLIT N03
+Okinawa file, whose administrative boundaries are current as of January 1,
+2024.
+
+## Where Files Are Saved
+
+By default, `jpmap_build_data()` saves converted GeoPackage files in the
+package data directory returned by `jpmap_data_dir()`.
+
+```{r}
+library(jpmap)
+jpmap_data_dir(create = FALSE)
+```
+
+You do not need to create this directory by hand. `jpmap_build_data()` creates
+it when needed.
+
+## Build One Prefecture
+
+For most municipal examples, start with one prefecture. This downloads a
+smaller official MLIT N03 archive, converts it to a GeoPackage, and saves it in
+`jpmap_data_dir()`.
+
+```{r, eval = FALSE}
+jpmap_build_data(year = 2024, prefecture = "Ehime")
+```
+
+The generated file is named with the prefecture code:
+
+```r
+jpmap_boundaries_2024_38.gpkg
+```
+
+For Okinawa, the package already includes the 2024 file:
+
+```r
+jpmap_boundaries_2024_47.gpkg
+```
+
+## Build All Municipalities
+
+Build nationwide municipal data only when you need all municipalities. The
+official 2024 national source archive is about 583 MB, and the converted
+GeoPackage is also large.
+
+```{r, eval = FALSE}
+jpmap_build_data(year = 2024)
+```
+
+The generated national file is named:
+
+```r
+jpmap_boundaries_2024.gpkg
+```
+
+## Source URLs
+
+The source is MLIT National Land Numerical Information N03 administrative area
+data:
+
+- 2024 data page: <https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2024.html>
+- national 2024 archive: <https://nlftp.mlit.go.jp/ksj/gml/data/N03/N03-2024/N03-20240101_GML.zip>
+- Okinawa 2024 archive: <https://nlftp.mlit.go.jp/ksj/gml/data/N03/N03-2024/N03-20240101_47_GML.zip>
+
+The filename pattern is `N03-YYYY0101_GML.zip` for national data and
+`N03-YYYY0101_PP_GML.zip` for one-prefecture data, where `PP` is a two-digit
+prefecture code.
+
+## Custom Location
+
+If you want to keep boundary data in a project folder instead of the default
+user data directory, pass `destdir`.
+
+```{r, eval = FALSE}
+dir.create("jpmap-data", showWarnings = FALSE)
+jpmap_build_data(year = 2024, prefecture = "Ehime", destdir = "jpmap-data")
+```
+
+Use the same folder later with `data_dir`.
+
+```{r, eval = FALSE}
+jp_map("municipality", include = "Ehime", data_dir = "jpmap-data")
+```

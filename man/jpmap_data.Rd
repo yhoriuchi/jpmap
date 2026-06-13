@@ -33,10 +33,11 @@ built.}
 }
 \description{
 Helpers for locating and building the GeoPackage boundary data used by jpmap.
-The installed package includes example prefecture boundaries and Okinawa
-municipal boundaries. Use \code{jpmap_build_data()} to build nationwide detailed
-municipal boundaries, or \code{jpmap_build_data(prefecture = "Ehime")} to build
-one prefecture from the official MLIT N03 administrative area data.
+The installed package includes example prefecture boundaries and official MLIT
+N03 municipal boundaries for Okinawa Prefecture as of January 1, 2024. Use
+\code{jpmap_build_data()} to build nationwide detailed municipal boundaries, or
+\code{jpmap_build_data(prefecture = "Ehime")} to build one prefecture from the
+official MLIT N03 administrative area data.
 }
 \value{
 \code{jpmap_data_dir()} returns a path, \code{available_jpmap_data()} returns a
@@ -49,4 +50,8 @@ jpmap_build_data(year = 2024)
 jpmap_build_data(year = 2024, prefecture = "Ehime")
 available_jpmap_data()
 }
+}
+\source{
+MLIT National Land Numerical Information N03 administrative area data:
+\url{https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2024.html}.
 }

@@ -11,6 +11,8 @@
 #'   \item{gdp_per_capita_usd_ppp}{GDP per capita in U.S. dollars at PPP.}
 #'   \item{source}{Source note.}
 #' }
+#' @source OECD 2021 regional GDP per-capita values as tabulated at
+#'   <https://en.wikipedia.org/wiki/List_of_Japanese_prefectures_by_GDP_per_capita>.
 "jp_prefecture_gdp"
 
 #' Selected U.S. military installations in Japan
@@ -40,4 +42,9 @@
 #'   \item{source_url}{Source URL.}
 #'   \item{note}{Caveat for use in examples.}
 #' }
+#' @source Public installation, command, and regional pages listed in the
+#'   `source_url` column, including pages such as
+#'   <https://en.wikipedia.org/wiki/Misawa_Air_Base>,
+#'   <https://en.wikipedia.org/wiki/Yokota_Air_Base>, and
+#'   <https://en.wikipedia.org/wiki/Okinawa_Island>.
 "jp_us_military_bases"

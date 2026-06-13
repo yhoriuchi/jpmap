@@ -17,7 +17,9 @@ jp_map(
 \item{regions}{Boundary level: prefectures or municipalities.}
 \item{include}{Regions to include by code, English name, or Japanese name.}
 \item{exclude}{Regions to exclude by code, English name, or Japanese name.}
-\item{data_year}{Boundary data year. The newest available year is used by default.}
+\item{data_year}{Boundary data year. The newest appropriate available file is
+used by default. For example, national prefecture maps prefer a national file,
+while one-prefecture municipal requests can use a matching prefecture file.}
 \item{inset}{Inset behavior. Use \code{TRUE} to move both Okinawa and
 Ogasawara, \code{FALSE} for no movement, or a character vector containing
 \code{"okinawa"} and/or \code{"ogasawara"} to move selected island groups.}
@@ -36,5 +38,7 @@ An \code{sf} data frame.
 jp_map("prefectures")
 jp_map("prefectures", okinawa = FALSE)
 jp_map("municipalities", include = "Okinawa")
+jp_map("prefecture")
+jp_map("municipality", include = "Okinawa")
 }
 }

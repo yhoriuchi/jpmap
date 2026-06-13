@@ -54,6 +54,15 @@ a:hover,
   font-weight: 700;
 }
 
+.template-home main > div[align="center"]:first-child {
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+}
+
+.template-home main > div[align="center"]:first-child img {
+  margin-top: 0.5rem;
+}
+
 div.sourceCode,
 pre.sourceCode,
 pre.downlit {

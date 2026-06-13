@@ -64,7 +64,9 @@
 <dd><p>Regions to exclude by code, English name, or Japanese name.</p></dd>
 
 <dt id="arg-data-year">data_year<a class="anchor" aria-label="anchor" href="#arg-data-year"></a></dt>
-<dd><p>Boundary data year. The newest available year is used by default.</p></dd>
+<dd><p>Boundary data year. The newest appropriate available file is
+used by default. For example, national prefecture maps prefer a national file,
+while one-prefecture municipal requests can use a matching prefecture file.</p></dd>
 
 <dt id="arg-inset">inset<a class="anchor" aria-label="anchor" href="#arg-inset"></a></dt>
 <dd><p>Inset behavior. Use <code>TRUE</code> to move both Okinawa and
@@ -92,6 +94,8 @@ Ogasawara, <code>FALSE</code> for no movement, or a character vector containing
 <span class="r-in"><span><span class="fu">jp_map</span><span class="op">(</span><span class="st">"prefectures"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">jp_map</span><span class="op">(</span><span class="st">"prefectures"</span>, okinawa <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">jp_map</span><span class="op">(</span><span class="st">"municipalities"</span>, include <span class="op">=</span> <span class="st">"Okinawa"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">jp_map</span><span class="op">(</span><span class="st">"prefecture"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">jp_map</span><span class="op">(</span><span class="st">"municipality"</span>, include <span class="op">=</span> <span class="st">"Okinawa"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

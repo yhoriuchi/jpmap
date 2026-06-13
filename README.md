@@ -20,14 +20,40 @@ Ogasawara, `inset = FALSE` for a literal projected map, or values such as
 `okinawa = FALSE` or `ogasawara = FALSE`. `plot_jpmap()` draws inset boxes by
 default; set `inset_boxes = FALSE` to remove them.
 
+## Installation
+
+Install the development version from GitHub:
+
+```r
+install.packages("remotes")
+remotes::install_github("yhoriuchi/jpmap")
+```
+
 ## Core Workflow
 
 ```r
 library(jpmap)
 
-plot_jpmap("prefectures")
-plot_jpmap("municipalities", include = "Okinawa")
+plot_jpmap("prefecture")
+plot_jpmap("municipality", include = "Okinawa")
 ```
+
+## Articles
+
+Start with these pages:
+
+- [Introduction](articles/getting-started.html)
+- [Download Boundary Data](articles/download-boundary-data.html)
+- [Import Boundary Data](articles/import-boundary-data.html)
+- [Transform Data](articles/transform-data.html)
+- [Okinawa and Ogasawara Insets](articles/inset-options.html)
+
+Then use the plotting tutorials:
+
+- [Plot Prefectural Choropleth Maps](articles/prefectural-choropleths.html)
+- [Plot Prefectural Point Maps](articles/prefectural-point-maps.html)
+- [Plot Municipal Choropleth Maps](articles/municipal-choropleths.html)
+- [Plot Municipal Point Maps](articles/municipal-point-maps.html)
 
 ## Transform Point Data
 
@@ -48,18 +74,27 @@ jpmap_transform(points)
 
 ## Boundary Data
 
-The package expects administrative boundary data in GeoPackage files named
-`jpmap_boundaries_YYYY.gpkg`. You can build one from Japan's MLIT National Land
-Numerical Information N03 administrative area data:
+The installed package includes:
+
+- all-prefecture example boundaries for Japan, based on Natural Earth Admin-1
+  data;
+- official MLIT N03 municipal boundaries for Okinawa Prefecture as of
+  January 1, 2024.
+
+Use the bundled Okinawa municipal data immediately:
+
+```r
+plot_jpmap("municipality", include = "Okinawa")
+```
+
+Nationwide municipal polygons are much larger and should be built locally from
+Japan's official MLIT National Land Numerical Information N03 administrative
+area data:
 
 ```r
 jpmap_build_data(year = 2024)
 jpmap_build_data(year = 2024, prefecture = "Ehime")
 ```
-
-The 2024 N03 source archive is large, about 583 MB, so this is an explicit
-user-run step rather than something the package does during installation. The
-`prefecture` argument downloads a smaller official prefecture-specific N03 file.
 
 The generated file is written to `jpmap_data_dir()` by default and contains two
 layers:
@@ -68,15 +103,9 @@ layers:
 - `municipalities`
 
 After data is available, `jp_map()` returns `sf` objects and `plot_jpmap()`
-returns ordinary `ggplot2` maps.
-
-The package also includes a small Natural Earth prefecture layer and an
-Okinawa municipal layer from Geoshape for examples and website figures.
-Nationwide detailed municipal boundaries still require `jpmap_build_data()`.
-This keeps the installed package small while still supporting full municipal
-maps when users explicitly build or supply the larger boundary data. Users who
-already work with [`jpndistrict`](https://github.com/uribo/jpndistrict) can
-also pass its `sf` output through `jpmap_transform()`.
+returns ordinary `ggplot2` maps. Users who already work with
+[`jpndistrict`](https://github.com/uribo/jpndistrict) can also pass its `sf`
+output through `jpmap_transform()`.
 
 ## Example Data
 
@@ -84,15 +113,5 @@ Two public-source sample datasets are included:
 
 - `jp_prefecture_gdp`: 2021 prefecture GDP per capita values.
 - `jp_us_military_bases`: selected U.S. military installations in Japan with
-  coordinates and public approximate personnel figures where available. See
-  the "U.S. Military Bases and Prefecture GDP" article for an example that
-  keeps installation locations separate from regional or command-level
-  personnel figures.
-
-## Website
-
-Build the pkgdown site locally with:
-
-```r
-pkgdown::build_site()
-```
+  coordinates, public approximate personnel figures where available, and
+  row-level `source_url` links.
