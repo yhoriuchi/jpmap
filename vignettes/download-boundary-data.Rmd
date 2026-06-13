@@ -28,13 +28,16 @@ Okinawa file, whose administrative boundaries are current as of January 1,
 By default, `jpmap_build_data()` saves converted GeoPackage files in the
 package data directory returned by `jpmap_data_dir()`.
 
-```{r}
+```{r, eval = FALSE}
 library(jpmap)
+
+# Run this locally to see your user-specific data directory.
 jpmap_data_dir(create = FALSE)
 ```
 
-You do not need to create this directory by hand. `jpmap_build_data()` creates
-it when needed.
+The exact value is different on each computer, so the website does not print a
+live path. You do not need to create this directory by hand.
+`jpmap_build_data()` creates it when needed.
 
 ## Build One Prefecture
 

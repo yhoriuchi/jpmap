@@ -112,10 +112,9 @@ A `ggplot2` plot.
 
 ``` r
 if (FALSE) { # \dontrun{
-plot_jpmap("prefectures")
-plot_jpmap("prefectures", ogasawara = FALSE)
-plot_jpmap("prefectures", inset_boxes = FALSE)
 plot_jpmap("prefecture")
+plot_jpmap("prefecture", ogasawara = FALSE)
+plot_jpmap("prefecture", inset_boxes = FALSE)
 plot_jpmap("municipality", include = "Okinawa")
 } # }
 ```

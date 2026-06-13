@@ -22,11 +22,13 @@ by
 ``` r
 
 library(jpmap)
+
+# Run this locally to see your user-specific data directory.
 jpmap_data_dir(create = FALSE)
-#> [1] "/Users/yh25m/Library/Application Support/org.R-project.R/R/jpmap"
 ```
 
-You do not need to create this directory by hand.
+The exact value is different on each computer, so the website does not
+print a live path. You do not need to create this directory by hand.
 [`jpmap_build_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
 creates it when needed.
 
