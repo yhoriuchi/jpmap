@@ -61,3 +61,19 @@ jpmap_transform(places, output_names = c("x", "y"), inset = FALSE)
 #> 2      Naha 127.681 26.212 -983633.2 -1201884.3
 #> 3 Ogasawara 142.191 27.094  466806.8 -1141584.2
 ```
+
+You can also move only one island group.
+
+``` r
+
+jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
+#>       place     lon    lat         x          y
+#> 1     Tokyo 139.767 35.681  205212.3  -199413.7
+#> 2      Naha 127.681 26.212 -669566.3  -709667.3
+#> 3 Ogasawara 142.191 27.094  466806.8 -1141584.2
+jpmap_transform(places, output_names = c("x", "y"), inset = "ogasawara")
+#>       place     lon    lat         x          y
+#> 1     Tokyo 139.767 35.681  205212.3  -199413.7
+#> 2      Naha 127.681 26.212 -983633.2 -1201884.3
+#> 3 Ogasawara 142.191 27.094 -301154.6  -827881.3
+```

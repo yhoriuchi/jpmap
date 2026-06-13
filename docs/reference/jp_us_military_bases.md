@@ -1,12 +1,12 @@
 # Selected U.S. military installations in Japan
 
 A sample data frame containing selected U.S. military installations in
-Japan with public approximate personnel figures and longitude/latitude
-coordinates.
+Japan with longitude/latitude coordinates and public approximate
+personnel figures where those figures have a clear source.
 
 ## Format
 
-A data frame with 8 rows and 10 variables:
+A data frame with 17 rows and 12 variables:
 
 - base:
 
@@ -34,11 +34,20 @@ A data frame with 8 rows and 10 variables:
 
 - personnel:
 
-  Approximate public personnel figure.
+  Approximate public personnel figure, when available.
 
 - personnel_scope:
 
   What the public figure counts.
+
+- personnel_geography:
+
+  Whether the figure describes an installation, regional total, command,
+  or broader installation community.
+
+- personnel_is_base_specific:
+
+  Whether `personnel` is interpreted as a base-specific figure.
 
 - source_url:
 
@@ -51,5 +60,6 @@ A data frame with 8 rows and 10 variables:
 ## Details
 
 These values are intended for examples and are not an official personnel
-accounting. Some rows describe broader installation or command
-populations; see `personnel_scope`.
+accounting. Some rows describe broader installation, regional, command,
+or community populations; see `personnel_scope` and
+`personnel_geography`.

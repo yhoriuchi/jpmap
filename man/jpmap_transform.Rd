@@ -8,11 +8,15 @@ jpmap_transform(data, input_names = c("lon", "lat"), output_names = input_names,
 \item{data}{An \code{sf} object, \code{sfc} geometry vector, or data frame.}
 \item{input_names}{Longitude and latitude column names for data frames.}
 \item{output_names}{Output coordinate column names for data frames.}
-\item{inset}{Whether to move Okinawa and Ogasawara into inset locations.}
+\item{inset}{Inset behavior. Use \code{TRUE} to move both Okinawa and
+Ogasawara, \code{FALSE} for no movement, or a character vector containing
+\code{"okinawa"} and/or \code{"ogasawara"} to move selected island groups.}
 }
 \description{
 Transforms geographic data to the jpmap projected coordinate system. When
-\code{inset = TRUE}, Okinawa and Ogasawara are moved to visible inset locations.
+\code{inset = TRUE}, Okinawa and Ogasawara are moved to visible inset
+locations. Use \code{inset = "okinawa"} or \code{inset = "ogasawara"} to
+transport only one island group.
 }
 \value{
 An object of the same general type as \code{data}.
@@ -23,4 +27,5 @@ places <- data.frame(
   lat = c(35.681, 26.212, 27.094)
 )
 jpmap_transform(places, output_names = c("x", "y"))
+jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
 }

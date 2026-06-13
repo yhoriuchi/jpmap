@@ -46,4 +46,6 @@ jpmap_transform(places, output_names = c("x", "y"))
 ```
 
 By default, the transform moves Okinawa and Ogasawara into visible inset
-locations.
+locations. Use `inset = FALSE` for a literal projected map, or pass a
+character vector such as `inset = "okinawa"` to transport only selected
+island groups.

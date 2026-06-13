@@ -113,48 +113,107 @@ jp_us_military_bases <- data.frame(
     "United States Fleet Activities Yokosuka",
     "Naval Air Facility Atsugi",
     "Marine Corps Air Station Iwakuni",
+    "Okinawa U.S. military facilities",
     "Kadena Air Base",
+    "Camp Courtney / III Marine Expeditionary Force",
     "Camp Hansen",
-    "Camp Schwab"
+    "Camp Schwab",
+    "Camp Foster",
+    "Marine Corps Air Station Futenma",
+    "Camp Kinser",
+    "Torii Station",
+    "Camp Gonsalves",
+    "White Beach Naval Facility",
+    "Naha Port Facility"
   ),
   branch = c(
     "Air Force", "Air Force", "Navy", "Navy",
-    "Marine Corps", "Air Force", "Marine Corps", "Marine Corps"
+    "Marine Corps", "Joint", "Air Force", "Marine Corps",
+    "Marine Corps", "Marine Corps", "Marine Corps", "Marine Corps",
+    "Marine Corps", "Army", "Marine Corps", "Navy", "Army"
   ),
   prefecture = c(
     "Aomori", "Tokyo", "Kanagawa", "Kanagawa",
-    "Yamaguchi", "Okinawa", "Okinawa", "Okinawa"
+    "Yamaguchi", "Okinawa", "Okinawa", "Okinawa",
+    "Okinawa", "Okinawa", "Okinawa", "Okinawa",
+    "Okinawa", "Okinawa", "Okinawa", "Okinawa", "Okinawa"
   ),
   municipality = c(
     "Misawa", "Fussa", "Yokosuka", "Ayase/Yamato",
-    "Iwakuni", "Kadena/Chatan/Okinawa", "Kin", "Nago/Ginoza"
+    "Iwakuni", "Okinawa Island", "Kadena/Chatan/Okinawa",
+    "Uruma", "Kin", "Nago/Ginoza", "Ginowan/Chatan/Kitanakagusuku/Okinawa",
+    "Ginowan", "Urasoe", "Yomitan", "Kunigami/Higashi",
+    "Uruma", "Naha"
   ),
-  lon = c(141.3684, 139.3489, 139.6722, 139.4505, 132.2357, 127.7676, 127.9200, 128.0440),
-  lat = c(40.7032, 35.7485, 35.2876, 35.4546, 34.1439, 26.3517, 26.4600, 26.5310),
-  personnel = c(5200L, 14000L, 27000L, 350L, 10000L, 20000L, 6000L, 242L),
+  lon = c(
+    141.3684, 139.3489, 139.6722, 139.4505,
+    132.2357, 127.8000, 127.7676, 127.8620,
+    127.9200, 128.0440, 127.7797, 127.7560,
+    127.7000, 127.7440, 128.2400, 127.9640, 127.6630
+  ),
+  lat = c(
+    40.7032, 35.7485, 35.2876, 35.4546,
+    34.1439, 26.3500, 26.3517, 26.3900,
+    26.4600, 26.5310, 26.3014, 26.2740,
+    26.2470, 26.3940, 26.7400, 26.3030, 26.2130
+  ),
+  personnel = as.integer(c(
+    5200, 14000, NA, 350, 10000, 26000, 20000, 27000,
+    6000, NA, NA, NA, NA, NA, NA, NA, NA
+  )),
   personnel_scope = c(
     "U.S. military personnel",
     "base personnel",
-    "Seventh Fleet sailors and Marines; command-level figure, not an installation headcount",
+    "no consistent public base-specific figure used",
     "military personnel remaining when the carrier is in port after fixed-wing relocation",
     "Marines, sailors, and family members",
+    "U.S. military personnel stationed on Okinawa Island",
     "American servicemembers, family members, and Japanese employees",
+    "III MEF command size; command-level figure, not a Camp Courtney headcount",
     "Marines",
-    "stationed Marine employees"
+    "no consistent public base-specific figure used",
+    "no consistent public base-specific figure used",
+    "no consistent public base-specific figure used",
+    "no consistent public base-specific figure used",
+    "no consistent public base-specific figure used",
+    "no consistent public base-specific figure used",
+    "no consistent public base-specific figure used",
+    "no consistent public base-specific figure used"
+  ),
+  personnel_geography = c(
+    "installation", "installation", "installation", "installation",
+    "installation", "regional", "installation-community", "command",
+    "installation", "installation", "installation", "installation",
+    "installation", "installation", "installation", "installation",
+    "installation"
+  ),
+  personnel_is_base_specific = c(
+    TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE,
+    TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE
   ),
   source_url = c(
     "https://en.wikipedia.org/wiki/Misawa_Air_Base",
     "https://en.wikipedia.org/wiki/Yokota_Air_Base",
-    "https://en.wikipedia.org/wiki/United_States_Seventh_Fleet",
+    "https://en.wikipedia.org/wiki/United_States_Fleet_Activities_Yokosuka",
     "https://en.wikipedia.org/wiki/Naval_Air_Facility_Atsugi",
     "https://en.wikipedia.org/wiki/Marine_Corps_Air_Station_Iwakuni",
+    "https://en.wikipedia.org/wiki/Okinawa_Island",
     "https://en.wikipedia.org/wiki/Kadena_Air_Base",
+    "https://en.wikipedia.org/wiki/III_Marine_Expeditionary_Force",
     "https://en.wikipedia.org/wiki/Camp_Hansen",
-    "https://en.wikipedia.org/wiki/Camp_Schwab"
+    "https://en.wikipedia.org/wiki/Camp_Schwab",
+    "https://en.wikipedia.org/wiki/Camp_Foster",
+    "https://en.wikipedia.org/wiki/Marine_Corps_Air_Station_Futenma",
+    "https://en.wikipedia.org/wiki/Camp_Kinser",
+    "https://en.wikipedia.org/wiki/Torii_Station",
+    "https://en.wikipedia.org/wiki/Camp_Gonsalves",
+    "https://en.wikipedia.org/wiki/Naval_Base_Okinawa",
+    "https://en.wikipedia.org/wiki/Okinawa_Prefecture"
   ),
   note = paste(
-    "Approximate public figures collected for package examples;",
-    "some rows describe broader installation or command populations."
+    "Approximate public figures collected for package examples.",
+    "Personnel scopes differ by source; use personnel_scope and",
+    "personnel_geography before interpreting bubble sizes."
   ),
   stringsAsFactors = FALSE
 )

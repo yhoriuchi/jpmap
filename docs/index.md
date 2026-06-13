@@ -10,6 +10,10 @@ after [`usmap`](https://usmap.dev/).
 The package is designed for maps where the main islands, Okinawa, and
 Ogasawara can be seen together in one plotting frame.
 
+Inset behavior is selectable: use `inset = TRUE` for both Okinawa and
+Ogasawara, `inset = FALSE` for a literal projected map, or values such
+as `inset = "okinawa"` to transport only selected island groups.
+
 ## Core Workflow
 
 ``` r
@@ -80,7 +84,10 @@ Two public-source sample datasets are included:
 
 - `jp_prefecture_gdp`: 2021 prefecture GDP per capita values.
 - `jp_us_military_bases`: selected U.S. military installations in Japan
-  with public approximate personnel figures and coordinates.
+  with coordinates and public approximate personnel figures where
+  available. See the “U.S. Military Bases and Prefecture GDP” article
+  for an example that keeps installation locations separate from
+  regional or command-level personnel figures.
 
 ## Website
 

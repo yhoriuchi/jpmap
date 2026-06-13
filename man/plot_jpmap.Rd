@@ -27,7 +27,9 @@ plot_jpmap(
 \item{labels}{Whether to draw region labels.}
 \item{label_color}{Label text color.}
 \item{data_year}{Boundary data year.}
-\item{inset}{Whether to move Okinawa and Ogasawara into inset locations.}
+\item{inset}{Inset behavior. Use \code{TRUE} to move both Okinawa and
+Ogasawara, \code{FALSE} for no movement, or a character vector containing
+\code{"okinawa"} and/or \code{"ogasawara"} to move selected island groups.}
 \item{data_dir}{Optional directory containing \code{jpmap_boundaries_YYYY.gpkg}.}
 \item{color}{Boundary line color.}
 \item{linewidth}{Boundary line width.}

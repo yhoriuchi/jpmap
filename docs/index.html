@@ -62,6 +62,7 @@
 <hr>
 <p><code>jpmap</code> is an R package for drawing maps of Japan with an API modeled after <a href="https://usmap.dev/" class="external-link"><code>usmap</code></a>.</p>
 <p>The package is designed for maps where the main islands, Okinawa, and Ogasawara can be seen together in one plotting frame.</p>
+<p>Inset behavior is selectable: use <code>inset = TRUE</code> for both Okinawa and Ogasawara, <code>inset = FALSE</code> for a literal projected map, or values such as <code>inset = "okinawa"</code> to transport only selected island groups.</p>
 <div class="section level2">
 <h2 id="core-workflow">Core Workflow<a class="anchor" aria-label="anchor" href="#core-workflow"></a>
 </h2>
@@ -109,7 +110,7 @@
 <li>
 <code>jp_prefecture_gdp</code>: 2021 prefecture GDP per capita values.</li>
 <li>
-<code>jp_us_military_bases</code>: selected U.S. military installations in Japan with public approximate personnel figures and coordinates.</li>
+<code>jp_us_military_bases</code>: selected U.S. military installations in Japan with coordinates and public approximate personnel figures where available. See the “U.S. Military Bases and Prefecture GDP” article for an example that keeps installation locations separate from regional or command-level personnel figures.</li>
 </ul>
 </div>
 <div class="section level2">

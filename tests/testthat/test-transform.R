@@ -17,6 +17,25 @@ test_that("data frames can be transformed", {
   expect_equal(out$name, places$name)
 })
 
+test_that("inset can select island groups", {
+  places <- data.frame(
+    name = c("Naha", "Ogasawara"),
+    lon = c(127.681, 142.191),
+    lat = c(26.212, 27.094)
+  )
+
+  both <- jpmap_transform(places, output_names = c("x", "y"))
+  okinawa_only <- jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
+  ogasawara_only <- jpmap_transform(places, output_names = c("x", "y"), inset = "ogasawara")
+  literal <- jpmap_transform(places, output_names = c("x", "y"), inset = FALSE)
+
+  expect_equal(okinawa_only$x[places$name == "Naha"], both$x[places$name == "Naha"])
+  expect_equal(okinawa_only$x[places$name == "Ogasawara"], literal$x[places$name == "Ogasawara"])
+  expect_equal(ogasawara_only$x[places$name == "Naha"], literal$x[places$name == "Naha"])
+  expect_equal(ogasawara_only$x[places$name == "Ogasawara"], both$x[places$name == "Ogasawara"])
+  expect_error(jpmap_transform(places, inset = "hokkaido"), "one or more of")
+})
+
 test_that("sf geometries can be transformed", {
   pts <- sf::st_as_sf(
     data.frame(lon = c(139.767, 127.681), lat = c(35.681, 26.212)),

@@ -16,7 +16,9 @@ jp_map(
 \item{include}{Regions to include by code, English name, or Japanese name.}
 \item{exclude}{Regions to exclude by code, English name, or Japanese name.}
 \item{data_year}{Boundary data year. The newest available year is used by default.}
-\item{inset}{Whether to move Okinawa and Ogasawara into inset locations.}
+\item{inset}{Inset behavior. Use \code{TRUE} to move both Okinawa and
+Ogasawara, \code{FALSE} for no movement, or a character vector containing
+\code{"okinawa"} and/or \code{"ogasawara"} to move selected island groups.}
 \item{data_dir}{Optional directory containing \code{jpmap_boundaries_YYYY.gpkg}.}
 }
 \description{

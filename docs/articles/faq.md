@@ -5,7 +5,9 @@
 Japan spans a long north-south and east-west range. A geographically
 literal map can make smaller islands difficult to see. `jpmap` follows
 the `usmap` idea of using insets so important regions remain visible in
-ordinary plots.
+ordinary plots. Use `inset = FALSE`, `inset = "okinawa"`, or
+`inset = "ogasawara"` when you want to exclude one or both transported
+island groups.
 
 ## Does jpmap include boundary data?
 

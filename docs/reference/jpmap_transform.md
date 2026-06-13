@@ -2,7 +2,8 @@
 
 Transforms geographic data to the jpmap projected coordinate system.
 When `inset = TRUE`, Okinawa and Ogasawara are moved to visible inset
-locations.
+locations. Use `inset = "okinawa"` or `inset = "ogasawara"` to transport
+only one island group.
 
 ## Usage
 
@@ -26,7 +27,9 @@ jpmap_transform(data, input_names = c("lon", "lat"), output_names = input_names,
 
 - inset:
 
-  Whether to move Okinawa and Ogasawara into inset locations.
+  Inset behavior. Use `TRUE` to move both Okinawa and Ogasawara, `FALSE`
+  for no movement, or a character vector containing `"okinawa"` and/or
+  `"ogasawara"` to move selected island groups.
 
 ## Value
 
@@ -44,4 +47,9 @@ jpmap_transform(places, output_names = c("x", "y"))
 #> 1 139.767 35.681  205212.3 -199413.7
 #> 2 127.681 26.212 -669566.3 -709667.3
 #> 3 142.191 27.094 -301154.6 -827881.3
+jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
+#>       lon    lat         x          y
+#> 1 139.767 35.681  205212.3  -199413.7
+#> 2 127.681 26.212 -669566.3  -709667.3
+#> 3 142.191 27.094  466806.8 -1141584.2
 ```

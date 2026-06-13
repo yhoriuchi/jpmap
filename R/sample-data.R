@@ -16,13 +16,14 @@
 #' Selected U.S. military installations in Japan
 #'
 #' A sample data frame containing selected U.S. military installations in Japan
-#' with public approximate personnel figures and longitude/latitude coordinates.
+#' with longitude/latitude coordinates and public approximate personnel figures
+#' where those figures have a clear source.
 #'
 #' These values are intended for examples and are not an official personnel
 #' accounting. Some rows describe broader installation or command populations;
-#' see `personnel_scope`.
+#' see `personnel_scope` and `personnel_geography`.
 #'
-#' @format A data frame with 8 rows and 10 variables:
+#' @format A data frame with 17 rows and 12 variables:
 #' \describe{
 #'   \item{base}{Installation or command name.}
 #'   \item{branch}{Primary U.S. military branch.}
@@ -30,8 +31,12 @@
 #'   \item{municipality}{Municipality or municipalities.}
 #'   \item{lon}{Longitude in WGS84.}
 #'   \item{lat}{Latitude in WGS84.}
-#'   \item{personnel}{Approximate public personnel figure.}
+#'   \item{personnel}{Approximate public personnel figure, when available.}
 #'   \item{personnel_scope}{What the public figure counts.}
+#'   \item{personnel_geography}{Whether the figure describes an installation,
+#'     regional total, command, or broader installation community.}
+#'   \item{personnel_is_base_specific}{Whether `personnel` is interpreted as a
+#'     base-specific figure.}
 #'   \item{source_url}{Source URL.}
 #'   \item{note}{Caveat for use in examples.}
 #' }

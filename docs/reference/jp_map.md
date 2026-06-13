@@ -35,7 +35,9 @@ jp_map(
 
 - inset:
 
-  Whether to move Okinawa and Ogasawara into inset locations.
+  Inset behavior. Use `TRUE` to move both Okinawa and Ogasawara, `FALSE`
+  for no movement, or a character vector containing `"okinawa"` and/or
+  `"ogasawara"` to move selected island groups.
 
 - data_dir:
 

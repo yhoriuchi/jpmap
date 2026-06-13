@@ -49,3 +49,10 @@ Okinawa/Ogasawara inset movement.
 ```{r}
 jpmap_transform(places, output_names = c("x", "y"), inset = FALSE)
 ```
+
+You can also move only one island group.
+
+```{r}
+jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
+jpmap_transform(places, output_names = c("x", "y"), inset = "ogasawara")
+```

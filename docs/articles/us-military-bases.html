@@ -70,9 +70,14 @@
 capita.</li>
 <li>
 <code>jp_us_military_bases</code>, used to draw selected U.S.
-military installations with point size proportional to the public
-personnel figure.</li>
+military installations and public personnel figures where those figures
+have a clear source.</li>
 </ul>
+<p>Installation-level personnel counts are not published consistently.
+The map therefore uses small dark points for installation locations and
+larger gold bubbles only for public personnel figures. The Okinawa
+bubble is a regional personnel estimate, not a count for a single
+base.</p>
 <p>The bundled prefecture boundaries come from Natural Earth. They are
 useful for examples and website figures; use
 <code><a href="../reference/jpmap_data.html">jpmap_build_data()</a></code> when you need detailed MLIT municipal
@@ -89,6 +94,21 @@ boundaries.</p>
 <span><span class="va">bases_xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jpmap_transform.html">jpmap_transform</a></span><span class="op">(</span></span>
 <span>  <span class="va">jp_us_military_bases</span>,</span>
 <span>  output_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">personnel_xy</span> <span class="op">&lt;-</span> <span class="va">bases_xy</span><span class="op">[</span></span>
+<span>  <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">bases_xy</span><span class="op">$</span><span class="va">personnel</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>    <span class="va">bases_xy</span><span class="op">$</span><span class="va">personnel_geography</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"regional"</span>, <span class="st">"installation"</span><span class="op">)</span>,</span>
+<span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">context_xy</span> <span class="op">&lt;-</span> <span class="va">bases_xy</span><span class="op">[</span></span>
+<span>  <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">bases_xy</span><span class="op">$</span><span class="va">personnel</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>    <span class="va">bases_xy</span><span class="op">$</span><span class="va">personnel_geography</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"command"</span>, <span class="st">"installation-community"</span><span class="op">)</span>,</span>
+<span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">okinawa_label</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jpmap_transform.html">jpmap_transform</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lon <span class="op">=</span> <span class="fl">127.80</span>, lat <span class="op">=</span> <span class="fl">26.35</span><span class="op">)</span>,</span>
+<span>  output_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span></span>
@@ -102,12 +122,41 @@ boundaries.</p>
 <span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">bases_xy</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span>,</span>
+<span>    shape <span class="op">=</span> <span class="fl">21</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">2.3</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"#2C2A29"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.75</span>,</span>
+<span>    stroke <span class="op">=</span> <span class="fl">0.35</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">personnel_xy</span>,</span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, size <span class="op">=</span> <span class="va">personnel</span><span class="op">)</span>,</span>
 <span>    shape <span class="op">=</span> <span class="fl">21</span>,</span>
 <span>    fill <span class="op">=</span> <span class="st">"#CEB888"</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"#782F40"</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">0.85</span>,</span>
 <span>    stroke <span class="op">=</span> <span class="fl">0.7</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">context_xy</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, size <span class="op">=</span> <span class="va">personnel</span><span class="op">)</span>,</span>
+<span>    shape <span class="op">=</span> <span class="fl">21</span>,</span>
+<span>    fill <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"#782F40"</span>,</span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.55</span>,</span>
+<span>    stroke <span class="op">=</span> <span class="fl">0.9</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotate.html" class="external-link">annotate</a></span><span class="op">(</span></span>
+<span>    <span class="st">"label"</span>,</span>
+<span>    x <span class="op">=</span> <span class="va">okinawa_label</span><span class="op">$</span><span class="va">x</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">okinawa_label</span><span class="op">$</span><span class="va">y</span> <span class="op">+</span> <span class="fl">240000</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"Okinawa inset"</span>,</span>
+<span>    label.r <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.08</span>, <span class="st">"lines"</span><span class="op">)</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"#782F40"</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">3</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span></span>
 <span>    low <span class="op">=</span> <span class="st">"#F7F1E4"</span>,</span>
@@ -116,14 +165,15 @@ boundaries.</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html" class="external-link">scale_size_area</a></span><span class="op">(</span></span>
 <span>    max_size <span class="op">=</span> <span class="fl">12</span>,</span>
-<span>    name <span class="op">=</span> <span class="st">"Personnel\n(public estimate)"</span></span>
+<span>    name <span class="op">=</span> <span class="st">"Personnel\n(public figure)"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Selected U.S. military installations in Japan"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"Prefecture fill shows 2021 GDP per capita; points show public personnel estimates"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"U.S. military presence in Japan"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Okinawa is transported into the plotting frame and shown with a regional personnel estimate"</span>,</span>
 <span>    caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span>
 <span>      <span class="st">"Boundary: Natural Earth Admin-1. GDP: OECD 2021 values tabulated on Wikipedia."</span>,</span>
-<span>      <span class="st">"Personnel figures are public approximate examples, not official headcounts."</span>,</span>
+<span>      <span class="st">"Small dark dots are installation locations; gold bubbles are public personnel figures."</span>,</span>
+<span>      <span class="st">"Hollow bubbles are broader command/community figures and are not additive."</span>,</span>
 <span>      sep <span class="op">=</span> <span class="st">"\n"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
@@ -141,11 +191,10 @@ boundaries.</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="us-military-bases_files/figure-html/military-bases-map-1.png" class="r-plt" alt="" width="960"></p>
 <p>The personnel figures are intentionally stored with
-<code>personnel_scope</code> because public numbers differ in what they
-count: some refer to active-duty military personnel, while others
-include family members, civilian employees, or command personnel. Treat
-the dataset as a reproducible package example rather than an official
-accounting of U.S. forces in Japan.</p>
+<code>personnel_scope</code> and <code>personnel_geography</code>
+because public numbers differ in what they count. Treat the dataset as a
+reproducible package example rather than an official accounting of U.S.
+forces in Japan.</p>
   </main>
 </div>
 

@@ -45,6 +45,7 @@ transform_data_frame <- function(data, input_names, output_names, inset) {
 }
 
 transform_sf <- function(data, inset) {
+  inset_regions <- normalize_inset(inset)
   original <- data
   geom <- sf::st_geometry(original)
 
@@ -57,16 +58,55 @@ transform_sf <- function(data, inset) {
   regions <- classify_inset_regions(wgs84)
   projected <- sf::st_transform(original, jpmap_crs())
 
-  if (isTRUE(inset)) {
+  if (length(inset_regions) > 0) {
     projected_geom <- apply_inset_transform(
       sf::st_geometry(projected),
       regions,
-      sf::st_geometry(wgs84)
+      sf::st_geometry(wgs84),
+      inset_regions = inset_regions
     )
     sf::st_geometry(projected) <- projected_geom
   }
 
   projected
+}
+
+normalize_inset <- function(inset) {
+  if (is.null(inset)) {
+    return(character())
+  }
+
+  if (is.logical(inset)) {
+    if (length(inset) != 1 || is.na(inset)) {
+      stop("`inset` must be TRUE, FALSE, or a character vector.", call. = FALSE)
+    }
+    if (isTRUE(inset)) {
+      return(c("okinawa", "ogasawara"))
+    }
+    return(character())
+  }
+
+  if (is.character(inset)) {
+    if (length(inset) == 0) {
+      return(character())
+    }
+    inset <- normalize_key(inset)
+    if (any(inset %in% c("none", "false", "no"))) {
+      return(character())
+    }
+    valid <- c("okinawa", "ogasawara")
+    invalid <- setdiff(inset, valid)
+    if (length(invalid) > 0) {
+      stop(
+        "`inset` must be TRUE, FALSE, or one or more of: ",
+        paste(valid, collapse = ", "),
+        call. = FALSE
+      )
+    }
+    return(unique(inset))
+  }
+
+  stop("`inset` must be TRUE, FALSE, or a character vector.", call. = FALSE)
 }
 
 check_coordinate_names <- function(data, input_names, output_names) {
@@ -141,10 +181,13 @@ classify_inset_regions <- function(data_wgs84) {
   out
 }
 
-apply_inset_transform <- function(geometry, regions, wgs84_geometry = NULL) {
+apply_inset_transform <- function(geometry,
+                                  regions,
+                                  wgs84_geometry = NULL,
+                                  inset_regions = c("okinawa", "ogasawara")) {
   out <- geometry
 
-  okinawa <- regions == "okinawa"
+  okinawa <- regions == "okinawa" & "okinawa" %in% inset_regions
   if (any(okinawa)) {
     out[okinawa] <- affine_inset(
       out[okinawa],
@@ -154,7 +197,7 @@ apply_inset_transform <- function(geometry, regions, wgs84_geometry = NULL) {
     )
   }
 
-  ogasawara <- regions == "ogasawara"
+  ogasawara <- regions == "ogasawara" & "ogasawara" %in% inset_regions
   if (any(ogasawara)) {
     out[ogasawara] <- affine_inset(
       out[ogasawara],
@@ -164,7 +207,7 @@ apply_inset_transform <- function(geometry, regions, wgs84_geometry = NULL) {
     )
   }
 
-  main <- regions == "main"
+  main <- regions == "main" & "ogasawara" %in% inset_regions
   if (!is.null(wgs84_geometry) && any(main)) {
     for (i in which(main)) {
       out[i] <- inset_ogasawara_components(out[i], wgs84_geometry[i])
