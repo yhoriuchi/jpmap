@@ -1,0 +1,137 @@
+![jpmap logo](reference/figures/logo.png)
+
+### jpmap: Japan maps with visible island insets
+
+------------------------------------------------------------------------
+
+`jpmap` is an R package for drawing maps of Japan with an API modeled
+after [`usmap`](https://usmap.dev/).
+
+The package is designed for maps where the main islands, Okinawa, and
+Ogasawara can be seen together in one plotting frame.
+
+## Core Workflow
+
+``` r
+
+library(jpmap)
+
+plot_jpmap("prefectures")
+plot_jpmap("municipalities", include = "Tokyo")
+```
+
+## Transform Point Data
+
+Use
+[`jpmap_transform()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_transform.md)
+to put user-supplied longitude and latitude data into the same projected
+coordinate system used by
+[`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md).
+
+``` r
+
+library(jpmap)
+
+points <- data.frame(
+  place = c("Tokyo", "Naha", "Ogasawara"),
+  lon = c(139.767, 127.681, 142.191),
+  lat = c(35.681, 26.212, 27.094)
+)
+
+jpmap_transform(points)
+```
+
+## Boundary Data
+
+The package expects administrative boundary data in GeoPackage files
+named `jpmap_boundaries_YYYY.gpkg`. You can build one from Japan’s MLIT
+National Land Numerical Information N03 administrative area data:
+
+``` r
+
+jpmap_build_data(year = 2024)
+```
+
+The 2024 N03 source archive is large, about 583 MB, so this is an
+explicit user-run step rather than something the package does during
+installation.
+
+The generated file is written to
+[`jpmap_data_dir()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
+by default and contains two layers:
+
+- `prefectures`
+- `municipalities`
+
+After data is available,
+[`jp_map()`](https://yhoriuchi.github.io/jpmap/reference/jp_map.md)
+returns `sf` objects and
+[`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
+returns ordinary `ggplot2` maps.
+
+## Website
+
+Build the pkgdown site locally with:
+
+``` r
+
+pkgdown::build_site()
+```
+
+# Package index
+
+## Map Data
+
+Retrieve, build, and inspect Japan boundary data.
+
+- [`jp_map()`](https://yhoriuchi.github.io/jpmap/reference/jp_map.md) :
+  Retrieve Japan Map Data
+- [`jp_map_with_data()`](https://yhoriuchi.github.io/jpmap/reference/jp_map_with_data.md)
+  : Join Data to a jpmap Map
+- [`jpmap_data_dir()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
+  [`available_jpmap_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
+  [`jpmap_build_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
+  : Manage jpmap Boundary Data
+
+## Plotting
+
+Draw maps with prefecture or municipal boundaries.
+
+- [`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
+  : Plot a Japan Map
+
+## Coordinates
+
+Transform points and geometries to the jpmap inset projection.
+
+- [`jpmap_transform()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_transform.md)
+  : Transform Data to the jpmap Projection
+- [`jpmap_crs()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_crs.md)
+  : Coordinate Reference System for jpmap
+
+## Package
+
+- [`jpmap`](https://yhoriuchi.github.io/jpmap/reference/jpmap-package.md)
+  [`jpmap-package`](https://yhoriuchi.github.io/jpmap/reference/jpmap-package.md)
+  : jpmap: Japan Maps with Insets for Okinawa and Ogasawara
+
+# Articles
+
+### Getting Started
+
+Core ideas before using jpmap.
+
+- [Getting
+  Started](https://yhoriuchi.github.io/jpmap/articles/getting-started.md):
+- [Boundary
+  Data](https://yhoriuchi.github.io/jpmap/articles/boundary-data.md):
+
+### Tutorials
+
+Practical map workflows for plotting, joining data, and transforming
+locations.
+
+- [Plot Maps](https://yhoriuchi.github.io/jpmap/articles/plot-maps.md):
+- [Transform
+  Data](https://yhoriuchi.github.io/jpmap/articles/transform-data.md):
+- [FAQ](https://yhoriuchi.github.io/jpmap/articles/faq.md):

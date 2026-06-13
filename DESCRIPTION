@@ -1,0 +1,27 @@
+Package: jpmap
+Title: Japan Maps with Insets for Okinawa and Ogasawara
+Version: 0.0.0.9000
+Author: Yusaku Horiuchi
+Maintainer: Yusaku Horiuchi <yusaku.horiuchi@gmail.com>
+URL: https://yhoriuchi.github.io/jpmap/, https://github.com/yhoriuchi/jpmap
+BugReports: https://github.com/yhoriuchi/jpmap/issues
+Description: Provides tools for drawing maps of Japan with prefecture and
+    municipal boundaries. The plotting workflow mirrors the usmap package and
+    includes a transform that moves Okinawa and Ogasawara into visible inset
+    locations.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports:
+    ggplot2,
+    rlang,
+    sf
+Suggests:
+    knitr,
+    pkgdown,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Config/Needs/website: pkgdown, knitr, rmarkdown, ggplot2, sf
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2

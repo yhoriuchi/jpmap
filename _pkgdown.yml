@@ -1,0 +1,64 @@
+url: https://yhoriuchi.github.io/jpmap/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#782F40"
+    secondary: "#CEB888"
+    link-color: "#782F40"
+    navbar-dark-color: "#FFFFFF"
+    navbar-dark-hover-color: "#CEB888"
+
+development:
+  mode: unreleased
+
+home:
+  title: jpmap
+  description: Draw Japan maps with visible Okinawa and Ogasawara insets.
+
+navbar:
+  structure:
+    left: [home, articles, reference, news, faq_page]
+    right: [github]
+  components:
+    faq_page:
+      text: "FAQ"
+      href: articles/faq.html
+
+articles:
+- title: Getting Started
+  desc: Core ideas before using jpmap.
+  contents:
+  - getting-started
+  - boundary-data
+
+- title: Tutorials
+  desc: Practical map workflows for plotting, joining data, and transforming locations.
+  contents:
+  - plot-maps
+  - transform-data
+  - faq
+
+reference:
+- title: Map Data
+  desc: Retrieve, build, and inspect Japan boundary data.
+  contents:
+  - jp_map
+  - jp_map_with_data
+  - jpmap_data
+
+- title: Plotting
+  desc: Draw maps with prefecture or municipal boundaries.
+  contents:
+  - plot_jpmap
+
+- title: Coordinates
+  desc: Transform points and geometries to the jpmap inset projection.
+  contents:
+  - jpmap_transform
+  - jpmap_crs
+
+- title: Package
+  contents:
+  - jpmap-package

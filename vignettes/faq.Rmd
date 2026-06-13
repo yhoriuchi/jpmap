@@ -1,0 +1,34 @@
+---
+title: "FAQ"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{FAQ}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Why move Okinawa and Ogasawara?
+
+Japan spans a long north-south and east-west range. A geographically literal
+map can make smaller islands difficult to see. `jpmap` follows the `usmap`
+idea of using insets so important regions remain visible in ordinary plots.
+
+## Does jpmap include boundary data?
+
+The package includes code for building and reading boundary data, but large
+boundary files are kept outside the package. Use `jpmap_build_data()` to build
+a local GeoPackage from MLIT N03 administrative area data.
+
+## Which boundary levels are supported?
+
+The API supports `regions = "prefectures"` and
+`regions = "municipalities"`.
+
+## Can I add my own points or lines?
+
+Yes. Use `jpmap_transform()` on a data frame, `sf` object, or `sfc` geometry
+vector, then add it to a `plot_jpmap()` map with `ggplot2` layers.

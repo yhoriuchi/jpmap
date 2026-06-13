@@ -1,0 +1,48 @@
+---
+title: "Boundary Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Boundary Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+`jpmap` stores map boundaries outside the installed package. This keeps the
+package small while still allowing detailed prefecture and municipal maps.
+
+## Data Directory
+
+Use `jpmap_data_dir()` to find the default local data directory.
+
+```{r}
+library(jpmap)
+jpmap_data_dir(create = FALSE)
+```
+
+## Building Data
+
+Boundary files can be built from Japan's MLIT National Land Numerical
+Information N03 administrative area data.
+
+```{r, eval = FALSE}
+jpmap_build_data(year = 2024)
+```
+
+The 2024 source archive is about 583 MB, so this command is intentionally a
+user-run step.
+
+## Available Data
+
+After building or placing a GeoPackage in the data directory, inspect available
+years with:
+
+```{r}
+available_jpmap_data()
+```
+
+The expected file name pattern is `jpmap_boundaries_YYYY.gpkg`, with layers
+named `prefectures` and `municipalities`.

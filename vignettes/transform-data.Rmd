@@ -1,0 +1,51 @@
+---
+title: "Transform Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Transform Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+`jpmap_transform()` moves user data into the same projected coordinate system
+used by `plot_jpmap()`.
+
+## Data Frames
+
+```{r}
+library(jpmap)
+
+places <- data.frame(
+  place = c("Tokyo", "Naha", "Ogasawara"),
+  lon = c(139.767, 127.681, 142.191),
+  lat = c(35.681, 26.212, 27.094)
+)
+
+jpmap_transform(places, output_names = c("x", "y"))
+```
+
+## Simple Features
+
+If `data` is an `sf` object, `jpmap_transform()` returns an `sf` object.
+
+```{r}
+pts <- sf::st_as_sf(
+  places,
+  coords = c("lon", "lat"),
+  crs = 4326,
+  remove = FALSE
+)
+
+jpmap_transform(pts)
+```
+
+Use `inset = FALSE` when you want only the projected Japan CRS and not the
+Okinawa/Ogasawara inset movement.
+
+```{r}
+jpmap_transform(places, output_names = c("x", "y"), inset = FALSE)
+```

@@ -1,0 +1,48 @@
+---
+title: "Getting Started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+`jpmap` follows the same basic workflow as `usmap`: get a map, plot a map, and
+transform user data into the same coordinate system.
+
+```{r}
+library(jpmap)
+```
+
+The main plotting function is `plot_jpmap()`.
+
+```{r, eval = FALSE}
+plot_jpmap("prefectures")
+plot_jpmap("municipalities", include = "Tokyo")
+```
+
+The data function is `jp_map()`, which returns an `sf` object.
+
+```{r, eval = FALSE}
+prefectures <- jp_map("prefectures")
+municipalities <- jp_map("municipalities")
+```
+
+The transform function is `jpmap_transform()`.
+
+```{r}
+places <- data.frame(
+  place = c("Tokyo", "Naha", "Ogasawara"),
+  lon = c(139.767, 127.681, 142.191),
+  lat = c(35.681, 26.212, 27.094)
+)
+
+jpmap_transform(places, output_names = c("x", "y"))
+```
+
+By default, the transform moves Okinawa and Ogasawara into visible inset
+locations.

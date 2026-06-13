@@ -1,0 +1,47 @@
+---
+title: "Plot Maps"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plot Maps}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+`plot_jpmap()` returns a normal `ggplot2` object. You can add scales, labels,
+and additional layers just as you would with any other `ggplot2` map.
+
+```{r, eval = FALSE}
+library(jpmap)
+library(ggplot2)
+
+plot_jpmap("prefectures")
+```
+
+## Municipal Boundaries
+
+```{r, eval = FALSE}
+plot_jpmap("municipalities", include = "Tokyo", linewidth = 0.1)
+```
+
+## Choropleths
+
+Join data by a common administrative code or name column and set `values` to
+the column that should be mapped to fill color.
+
+```{r, eval = FALSE}
+population <- data.frame(
+  pref_code = c("13", "27", "47"),
+  population = c(14000000, 8800000, 1460000)
+)
+
+plot_jpmap(
+  "prefectures",
+  data = population,
+  values = "population"
+) +
+  scale_fill_continuous(low = "#F7F1E4", high = "#782F40")
+```

@@ -1,0 +1,49 @@
+# Getting Started
+
+`jpmap` follows the same basic workflow as `usmap`: get a map, plot a
+map, and transform user data into the same coordinate system.
+
+``` r
+
+library(jpmap)
+```
+
+The main plotting function is
+[`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md).
+
+``` r
+
+plot_jpmap("prefectures")
+plot_jpmap("municipalities", include = "Tokyo")
+```
+
+The data function is
+[`jp_map()`](https://yhoriuchi.github.io/jpmap/reference/jp_map.md),
+which returns an `sf` object.
+
+``` r
+
+prefectures <- jp_map("prefectures")
+municipalities <- jp_map("municipalities")
+```
+
+The transform function is
+[`jpmap_transform()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_transform.md).
+
+``` r
+
+places <- data.frame(
+  place = c("Tokyo", "Naha", "Ogasawara"),
+  lon = c(139.767, 127.681, 142.191),
+  lat = c(35.681, 26.212, 27.094)
+)
+
+jpmap_transform(places, output_names = c("x", "y"))
+#>       place     lon    lat         x         y
+#> 1     Tokyo 139.767 35.681  205212.3 -199413.7
+#> 2      Naha 127.681 26.212 -669566.3 -709667.3
+#> 3 Ogasawara 142.191 27.094 -301154.6 -827881.3
+```
+
+By default, the transform moves Okinawa and Ogasawara into visible inset
+locations.
