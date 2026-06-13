@@ -1,0 +1,90 @@
+# U.S. Military Bases and Prefecture GDP
+
+This example combines two sample datasets:
+
+- `jp_prefecture_gdp`, used to fill prefectures by GDP per capita.
+- `jp_us_military_bases`, used to draw selected U.S. military
+  installations with point size proportional to the public personnel
+  figure.
+
+The bundled prefecture boundaries come from Natural Earth. They are
+useful for examples and website figures; use
+[`jpmap_build_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
+when you need detailed MLIT municipal boundaries.
+
+``` r
+
+library(ggplot2)
+library(jpmap)
+
+data("jp_prefecture_gdp")
+data("jp_us_military_bases")
+
+example_data_dir <- system.file("extdata", package = "jpmap")
+
+bases_xy <- jpmap_transform(
+  jp_us_military_bases,
+  output_names = c("x", "y")
+)
+```
+
+``` r
+
+plot_jpmap(
+  "prefectures",
+  data = jp_prefecture_gdp,
+  values = "gdp_per_capita_jpy",
+  data_year = 2021,
+  data_dir = example_data_dir,
+  color = "white",
+  linewidth = 0.25
+) +
+  geom_point(
+    data = bases_xy,
+    aes(x = x, y = y, size = personnel),
+    shape = 21,
+    fill = "#CEB888",
+    color = "#782F40",
+    alpha = 0.85,
+    stroke = 0.7
+  ) +
+  scale_fill_gradient(
+    low = "#F7F1E4",
+    high = "#782F40",
+    name = "GDP per capita\n(JPY)"
+  ) +
+  scale_size_area(
+    max_size = 12,
+    name = "Personnel\n(public estimate)"
+  ) +
+  labs(
+    title = "Selected U.S. military installations in Japan",
+    subtitle = "Prefecture fill shows 2021 GDP per capita; points show public personnel estimates",
+    caption = paste(
+      "Boundary: Natural Earth Admin-1. GDP: OECD 2021 values tabulated on Wikipedia.",
+      "Personnel figures are public approximate examples, not official headcounts.",
+      sep = "\n"
+    )
+  ) +
+  theme(
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "white", color = NA),
+    legend.background = element_rect(fill = "white", color = NA),
+    plot.margin = margin(12, 12, 12, 12),
+    plot.title = element_text(face = "bold", color = "#782F40"),
+    plot.subtitle = element_text(color = "#2C2A29"),
+    plot.caption = element_text(color = "#2C2A29", hjust = 0, size = 8),
+    legend.title = element_text(color = "#2C2A29"),
+    legend.text = element_text(color = "#2C2A29"),
+    legend.position = "right"
+  )
+```
+
+![](us-military-bases_files/figure-html/military-bases-map-1.png)
+
+The personnel figures are intentionally stored with `personnel_scope`
+because public numbers differ in what they count: some refer to
+active-duty military personnel, while others include family members,
+civilian employees, or command personnel. Treat the dataset as a
+reproducible package example rather than an official accounting of U.S.
+forces in Japan.

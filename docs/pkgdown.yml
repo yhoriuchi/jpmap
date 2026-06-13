@@ -7,7 +7,8 @@ articles:
   getting-started: getting-started.html
   plot-maps: plot-maps.html
   transform-data: transform-data.html
-last_built: 2026-06-13T06:54Z
+  us-military-bases: us-military-bases.html
+last_built: 2026-06-13T08:06Z
 urls:
   reference: https://yhoriuchi.github.io/jpmap/reference
   article: https://yhoriuchi.github.io/jpmap/articles

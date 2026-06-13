@@ -38,8 +38,8 @@ available years with:
 ``` r
 
 available_jpmap_data()
-#> [1] year path
-#> <0 rows> (or 0-length row.names)
+#>   year                                                                    path
+#> 1 2021 /private/tmp/jpmap-pkgdown-lib/jpmap/extdata/jpmap_boundaries_2021.gpkg
 ```
 
 The expected file name pattern is `jpmap_boundaries_YYYY.gpkg`, with

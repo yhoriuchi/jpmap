@@ -60,7 +60,8 @@ transform_sf <- function(data, inset) {
   if (isTRUE(inset)) {
     projected_geom <- apply_inset_transform(
       sf::st_geometry(projected),
-      regions
+      regions,
+      sf::st_geometry(wgs84)
     )
     sf::st_geometry(projected) <- projected_geom
   }
@@ -140,7 +141,7 @@ classify_inset_regions <- function(data_wgs84) {
   out
 }
 
-apply_inset_transform <- function(geometry, regions) {
+apply_inset_transform <- function(geometry, regions, wgs84_geometry = NULL) {
   out <- geometry
 
   okinawa <- regions == "okinawa"
@@ -163,8 +164,60 @@ apply_inset_transform <- function(geometry, regions) {
     )
   }
 
+  main <- regions == "main"
+  if (!is.null(wgs84_geometry) && any(main)) {
+    for (i in which(main)) {
+      out[i] <- inset_ogasawara_components(out[i], wgs84_geometry[i])
+    }
+  }
+
   sf::st_crs(out) <- jpmap_crs()
   out
+}
+
+inset_ogasawara_components <- function(projected_geometry, wgs84_geometry) {
+  geometry_type <- as.character(sf::st_geometry_type(projected_geometry))
+  if (!geometry_type %in% c("POLYGON", "MULTIPOLYGON", "GEOMETRYCOLLECTION")) {
+    return(projected_geometry)
+  }
+
+  wgs84_parts <- polygon_parts(wgs84_geometry)
+  if (length(wgs84_parts) <= 1) {
+    return(projected_geometry)
+  }
+
+  points <- suppressWarnings(sf::st_point_on_surface(wgs84_parts))
+  xy <- sf::st_coordinates(points)
+  ogasawara <- xy[, "X"] >= 136 & xy[, "X"] <= 154 &
+    xy[, "Y"] >= 20 & xy[, "Y"] <= 29.75
+
+  if (!any(ogasawara)) {
+    return(projected_geometry)
+  }
+
+  projected_parts <- polygon_parts(projected_geometry)
+  if (length(projected_parts) != length(wgs84_parts)) {
+    return(projected_geometry)
+  }
+
+  projected_parts[ogasawara] <- affine_inset(
+    projected_parts[ogasawara],
+    source_lonlat = c(142.20, 27.10),
+    target_lonlat = c(134.40, 30.00),
+    scale = 1.75
+  )
+
+  combined <- suppressWarnings(sf::st_cast(sf::st_combine(projected_parts), "MULTIPOLYGON"))
+  sf::st_crs(combined) <- jpmap_crs()
+  combined
+}
+
+polygon_parts <- function(geometry) {
+  geometry <- sf::st_sfc(geometry[[1]], crs = sf::st_crs(geometry))
+  if (inherits(geometry[[1]], "GEOMETRYCOLLECTION")) {
+    geometry <- suppressWarnings(sf::st_collection_extract(geometry, "POLYGON"))
+  }
+  suppressWarnings(sf::st_cast(geometry, "POLYGON"))
 }
 
 affine_inset <- function(geometry, source_lonlat, target_lonlat, scale) {

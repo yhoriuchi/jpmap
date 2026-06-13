@@ -38,3 +38,12 @@ test_that("missing map data gives a helpful error", {
     "No jpmap boundary data was found"
   )
 })
+
+test_that("bundled prefecture data are available by default", {
+  available <- available_jpmap_data()
+  expect_true(any(available$year == 2021))
+
+  map <- jp_map("prefectures", data_year = 2021)
+  expect_s3_class(map, "sf")
+  expect_equal(nrow(map), 47)
+})

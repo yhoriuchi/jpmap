@@ -11,6 +11,9 @@ Description: Provides tools for drawing maps of Japan with prefecture and
     locations.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Depends:
+    R (>= 3.5.0)
+LazyData: true
 Imports:
     ggplot2,
     rlang,

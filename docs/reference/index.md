@@ -1,5 +1,14 @@
 # Package index
 
+## Example Data
+
+Sample datasets used in jpmap examples and website articles.
+
+- [`jp_prefecture_gdp`](https://yhoriuchi.github.io/jpmap/reference/jp_prefecture_gdp.md)
+  : GDP per capita by Japanese prefecture
+- [`jp_us_military_bases`](https://yhoriuchi.github.io/jpmap/reference/jp_us_military_bases.md)
+  : Selected U.S. military installations in Japan
+
 ## Map Data
 
 Retrieve, build, and inspect Japan boundary data.

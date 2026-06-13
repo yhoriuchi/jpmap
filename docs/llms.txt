@@ -69,6 +69,19 @@ returns `sf` objects and
 [`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
 returns ordinary `ggplot2` maps.
 
+The package also includes a small Natural Earth prefecture layer for
+examples and website figures. Detailed municipal boundaries still
+require
+[`jpmap_build_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md).
+
+## Example Data
+
+Two public-source sample datasets are included:
+
+- `jp_prefecture_gdp`: 2021 prefecture GDP per capita values.
+- `jp_us_military_bases`: selected U.S. military installations in Japan
+  with public approximate personnel figures and coordinates.
+
 ## Website
 
 Build the pkgdown site locally with:
@@ -79,6 +92,15 @@ pkgdown::build_site()
 ```
 
 # Package index
+
+## Example Data
+
+Sample datasets used in jpmap examples and website articles.
+
+- [`jp_prefecture_gdp`](https://yhoriuchi.github.io/jpmap/reference/jp_prefecture_gdp.md)
+  : GDP per capita by Japanese prefecture
+- [`jp_us_military_bases`](https://yhoriuchi.github.io/jpmap/reference/jp_us_military_bases.md)
+  : Selected U.S. military installations in Japan
 
 ## Map Data
 
@@ -132,6 +154,8 @@ Practical map workflows for plotting, joining data, and transforming
 locations.
 
 - [Plot Maps](https://yhoriuchi.github.io/jpmap/articles/plot-maps.md):
+- [U.S. Military Bases and Prefecture
+  GDP](https://yhoriuchi.github.io/jpmap/articles/us-military-bases.md):
 - [Transform
   Data](https://yhoriuchi.github.io/jpmap/articles/transform-data.md):
 - [FAQ](https://yhoriuchi.github.io/jpmap/articles/faq.md):

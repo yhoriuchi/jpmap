@@ -162,8 +162,12 @@ canonical_region <- function(regions) {
 }
 
 jpmap_data_dirs <- function(data_dir = NULL) {
+  if (!is.null(data_dir)) {
+    return(unique(data_dir))
+  }
+
   package_dir <- system.file("extdata", package = "jpmap", mustWork = FALSE)
-  unique(c(data_dir, package_dir, jpmap_data_dir(create = FALSE)))
+  unique(c(package_dir, jpmap_data_dir(create = FALSE)))
 }
 
 choose_jpmap_data <- function(data_year = NULL, data_dir = NULL) {

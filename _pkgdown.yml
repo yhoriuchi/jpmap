@@ -37,10 +37,17 @@ articles:
   desc: Practical map workflows for plotting, joining data, and transforming locations.
   contents:
   - plot-maps
+  - us-military-bases
   - transform-data
   - faq
 
 reference:
+- title: Example Data
+  desc: Sample datasets used in jpmap examples and website articles.
+  contents:
+  - jp_prefecture_gdp
+  - jp_us_military_bases
+
 - title: Map Data
   desc: Retrieve, build, and inspect Japan boundary data.
   contents:

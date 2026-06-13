@@ -62,6 +62,18 @@ layers:
 After data is available, `jp_map()` returns `sf` objects and `plot_jpmap()`
 returns ordinary `ggplot2` maps.
 
+The package also includes a small Natural Earth prefecture layer for examples
+and website figures. Detailed municipal boundaries still require
+`jpmap_build_data()`.
+
+## Example Data
+
+Two public-source sample datasets are included:
+
+- `jp_prefecture_gdp`: 2021 prefecture GDP per capita values.
+- `jp_us_military_bases`: selected U.S. military installations in Japan with
+  public approximate personnel figures and coordinates.
+
 ## Website
 
 Build the pkgdown site locally with:

@@ -14,3 +14,5 @@ Initial development version.
 - Added inset transformations for Okinawa and Ogasawara.
 - Added pkgdown website configuration using Florida State University
   garnet and gold colors.
+- Added sample GDP-per-capita and U.S. military base datasets plus a
+  website vignette showing both on a Japan map.
