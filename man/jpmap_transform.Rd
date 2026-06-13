@@ -2,7 +2,14 @@
 \alias{jpmap_transform}
 \title{Transform Data to the jpmap Projection}
 \usage{
-jpmap_transform(data, input_names = c("lon", "lat"), output_names = input_names, inset = TRUE)
+jpmap_transform(
+  data,
+  input_names = c("lon", "lat"),
+  output_names = input_names,
+  inset = TRUE,
+  okinawa = TRUE,
+  ogasawara = TRUE
+)
 }
 \arguments{
 \item{data}{An \code{sf} object, \code{sfc} geometry vector, or data frame.}
@@ -11,12 +18,15 @@ jpmap_transform(data, input_names = c("lon", "lat"), output_names = input_names,
 \item{inset}{Inset behavior. Use \code{TRUE} to move both Okinawa and
 Ogasawara, \code{FALSE} for no movement, or a character vector containing
 \code{"okinawa"} and/or \code{"ogasawara"} to move selected island groups.}
+\item{okinawa}{Whether Okinawa should be moved when \code{inset} includes it.}
+\item{ogasawara}{Whether Ogasawara should be moved when \code{inset} includes it.}
 }
 \description{
 Transforms geographic data to the jpmap projected coordinate system. When
 \code{inset = TRUE}, Okinawa and Ogasawara are moved to visible inset
-locations. Use \code{inset = "okinawa"} or \code{inset = "ogasawara"} to
-transport only one island group.
+locations. Use \code{okinawa = FALSE}, \code{ogasawara = FALSE},
+\code{inset = "okinawa"}, or \code{inset = "ogasawara"} to transport only one
+island group.
 }
 \value{
 An object of the same general type as \code{data}.
@@ -28,4 +38,5 @@ places <- data.frame(
 )
 jpmap_transform(places, output_names = c("x", "y"))
 jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
+jpmap_transform(places, output_names = c("x", "y"), ogasawara = FALSE)
 }

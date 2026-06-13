@@ -22,14 +22,14 @@ The main plotting function is `plot_jpmap()`.
 
 ```{r, eval = FALSE}
 plot_jpmap("prefectures")
-plot_jpmap("municipalities", include = "Tokyo")
+plot_jpmap("municipalities", include = "Okinawa")
 ```
 
 The data function is `jp_map()`, which returns an `sf` object.
 
 ```{r, eval = FALSE}
 prefectures <- jp_map("prefectures")
-municipalities <- jp_map("municipalities")
+okinawa_municipalities <- jp_map("municipalities", include = "Okinawa")
 ```
 
 The transform function is `jpmap_transform()`.
@@ -47,3 +47,4 @@ jpmap_transform(places, output_names = c("x", "y"))
 By default, the transform moves Okinawa and Ogasawara into visible inset
 locations. Use `inset = FALSE` for a literal projected map, or pass a character
 vector such as `inset = "okinawa"` to transport only selected island groups.
+You can also use `okinawa = FALSE` or `ogasawara = FALSE`.

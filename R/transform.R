@@ -1,23 +1,37 @@
 jpmap_transform <- function(data,
                             input_names = c("lon", "lat"),
                             output_names = input_names,
-                            inset = TRUE) {
+                            inset = TRUE,
+                            okinawa = TRUE,
+                            ogasawara = TRUE) {
   if (inherits(data, "sf")) {
-    return(transform_sf(data, inset = inset))
+    return(transform_sf(data, inset = inset, okinawa = okinawa, ogasawara = ogasawara))
   }
 
   if (inherits(data, "sfc")) {
-    return(sf::st_geometry(transform_sf(sf::st_sf(geometry = data), inset = inset)))
+    return(sf::st_geometry(transform_sf(
+      sf::st_sf(geometry = data),
+      inset = inset,
+      okinawa = okinawa,
+      ogasawara = ogasawara
+    )))
   }
 
   if (is.data.frame(data)) {
-    return(transform_data_frame(data, input_names, output_names, inset = inset))
+    return(transform_data_frame(
+      data,
+      input_names,
+      output_names,
+      inset = inset,
+      okinawa = okinawa,
+      ogasawara = ogasawara
+    ))
   }
 
   stop("`data` must be an sf object, sfc geometry vector, or data frame.", call. = FALSE)
 }
 
-transform_data_frame <- function(data, input_names, output_names, inset) {
+transform_data_frame <- function(data, input_names, output_names, inset, okinawa, ogasawara) {
   check_coordinate_names(data, input_names, output_names)
 
   coords <- data[input_names]
@@ -36,7 +50,7 @@ transform_data_frame <- function(data, input_names, output_names, inset) {
     crs = 4326,
     remove = FALSE
   )
-  pts <- transform_sf(pts, inset = inset)
+  pts <- transform_sf(pts, inset = inset, okinawa = okinawa, ogasawara = ogasawara)
   xy <- sf::st_coordinates(pts)
 
   out[[output_names[1]]][complete] <- xy[, "X"]
@@ -44,8 +58,8 @@ transform_data_frame <- function(data, input_names, output_names, inset) {
   out
 }
 
-transform_sf <- function(data, inset) {
-  inset_regions <- normalize_inset(inset)
+transform_sf <- function(data, inset, okinawa, ogasawara) {
+  inset_regions <- normalize_inset(inset, okinawa = okinawa, ogasawara = ogasawara)
   original <- data
   geom <- sf::st_geometry(original)
 
@@ -71,7 +85,10 @@ transform_sf <- function(data, inset) {
   projected
 }
 
-normalize_inset <- function(inset) {
+normalize_inset <- function(inset, okinawa = TRUE, ogasawara = TRUE) {
+  check_inset_switch(okinawa, "okinawa")
+  check_inset_switch(ogasawara, "ogasawara")
+
   if (is.null(inset)) {
     return(character())
   }
@@ -81,7 +98,7 @@ normalize_inset <- function(inset) {
       stop("`inset` must be TRUE, FALSE, or a character vector.", call. = FALSE)
     }
     if (isTRUE(inset)) {
-      return(c("okinawa", "ogasawara"))
+      return(c(if (isTRUE(okinawa)) "okinawa", if (isTRUE(ogasawara)) "ogasawara"))
     }
     return(character())
   }
@@ -103,10 +120,22 @@ normalize_inset <- function(inset) {
         call. = FALSE
       )
     }
+    if (!isTRUE(okinawa)) {
+      inset <- setdiff(inset, "okinawa")
+    }
+    if (!isTRUE(ogasawara)) {
+      inset <- setdiff(inset, "ogasawara")
+    }
     return(unique(inset))
   }
 
   stop("`inset` must be TRUE, FALSE, or a character vector.", call. = FALSE)
+}
+
+check_inset_switch <- function(x, name) {
+  if (!is.logical(x) || length(x) != 1 || is.na(x)) {
+    stop("`", name, "` must be TRUE or FALSE.", call. = FALSE)
+  }
 }
 
 check_coordinate_names <- function(data, input_names, output_names) {
@@ -189,21 +218,23 @@ apply_inset_transform <- function(geometry,
 
   okinawa <- regions == "okinawa" & "okinawa" %in% inset_regions
   if (any(okinawa)) {
+    spec <- inset_transform_spec("okinawa")
     out[okinawa] <- affine_inset(
       out[okinawa],
-      source_lonlat = c(127.75, 26.30),
-      target_lonlat = c(130.60, 31.00),
-      scale = 1.35
+      source_lonlat = spec$source_lonlat,
+      target_lonlat = spec$target_lonlat,
+      scale = spec$scale
     )
   }
 
   ogasawara <- regions == "ogasawara" & "ogasawara" %in% inset_regions
   if (any(ogasawara)) {
+    spec <- inset_transform_spec("ogasawara")
     out[ogasawara] <- affine_inset(
       out[ogasawara],
-      source_lonlat = c(142.20, 27.10),
-      target_lonlat = c(134.40, 30.00),
-      scale = 1.75
+      source_lonlat = spec$source_lonlat,
+      target_lonlat = spec$target_lonlat,
+      scale = spec$scale
     )
   }
 
@@ -245,14 +276,31 @@ inset_ogasawara_components <- function(projected_geometry, wgs84_geometry) {
 
   projected_parts[ogasawara] <- affine_inset(
     projected_parts[ogasawara],
-    source_lonlat = c(142.20, 27.10),
-    target_lonlat = c(134.40, 30.00),
-    scale = 1.75
+    source_lonlat = inset_transform_spec("ogasawara")$source_lonlat,
+    target_lonlat = inset_transform_spec("ogasawara")$target_lonlat,
+    scale = inset_transform_spec("ogasawara")$scale
   )
 
   combined <- suppressWarnings(sf::st_cast(sf::st_combine(projected_parts), "MULTIPOLYGON"))
   sf::st_crs(combined) <- jpmap_crs()
   combined
+}
+
+inset_transform_spec <- function(region) {
+  switch(
+    region,
+    okinawa = list(
+      source_lonlat = c(127.75, 26.30),
+      target_lonlat = c(132.80, 42.25),
+      scale = 0.90
+    ),
+    ogasawara = list(
+      source_lonlat = c(142.20, 27.10),
+      target_lonlat = c(144.40, 33.55),
+      scale = 3.60
+    ),
+    stop("Unknown inset region: ", region, call. = FALSE)
+  )
 }
 
 polygon_parts <- function(geometry) {

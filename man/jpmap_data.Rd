@@ -29,6 +29,9 @@ jpmap_build_data(
 }
 \description{
 Helpers for locating and building the GeoPackage boundary data used by jpmap.
+The installed package includes example prefecture boundaries and Okinawa
+municipal boundaries. Use \code{jpmap_build_data()} to build nationwide detailed
+municipal boundaries.
 }
 \value{
 \code{jpmap_data_dir()} returns a path, \code{available_jpmap_data()} returns a

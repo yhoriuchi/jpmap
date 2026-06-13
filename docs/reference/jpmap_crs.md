@@ -10,6 +10,4 @@ jpmap_crs()
 
 ## Value
 
-An
-[`sf::st_crs()`](https://r-spatial.github.io/sf/reference/st_crs.html)
-object.
+An [`sf::st_crs()`](https://rdrr.io/pkg/sf/man/st_crs.html) object.

@@ -72,15 +72,18 @@ literal map can make smaller islands difficult to see.
 so important regions remain visible in ordinary plots. Use
 <code>inset = FALSE</code>, <code>inset = "okinawa"</code>, or
 <code>inset = "ogasawara"</code> when you want to exclude one or both
-transported island groups.</p>
+transported island groups. You can also use <code>okinawa = FALSE</code>
+or <code>ogasawara = FALSE</code>, mirroring the style of
+<code>UchidaMizuki/jpmap</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="does-jpmap-include-boundary-data">Does jpmap include boundary data?<a class="anchor" aria-label="anchor" href="#does-jpmap-include-boundary-data"></a>
 </h2>
 <p>The package includes code for building and reading boundary data, but
-large boundary files are kept outside the package. Use
-<code><a href="../reference/jpmap_data.html">jpmap_build_data()</a></code> to build a local GeoPackage from MLIT
-N03 administrative area data.</p>
+large nationwide boundary files are kept outside the package. The
+installed package ships all-prefecture example boundaries and Okinawa
+municipal boundaries. Use <code><a href="../reference/jpmap_data.html">jpmap_build_data()</a></code> to build a
+local GeoPackage from MLIT N03 administrative area data.</p>
 </div>
 <div class="section level2">
 <h2 id="which-boundary-levels-are-supported">Which boundary levels are supported?<a class="anchor" aria-label="anchor" href="#which-boundary-levels-are-supported"></a>

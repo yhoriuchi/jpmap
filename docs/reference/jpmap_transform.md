@@ -2,13 +2,21 @@
 
 Transforms geographic data to the jpmap projected coordinate system.
 When `inset = TRUE`, Okinawa and Ogasawara are moved to visible inset
-locations. Use `inset = "okinawa"` or `inset = "ogasawara"` to transport
-only one island group.
+locations. Use `okinawa = FALSE`, `ogasawara = FALSE`,
+`inset = "okinawa"`, or `inset = "ogasawara"` to transport only one
+island group.
 
 ## Usage
 
 ``` r
-jpmap_transform(data, input_names = c("lon", "lat"), output_names = input_names, inset = TRUE)
+jpmap_transform(
+  data,
+  input_names = c("lon", "lat"),
+  output_names = input_names,
+  inset = TRUE,
+  okinawa = TRUE,
+  ogasawara = TRUE
+)
 ```
 
 ## Arguments
@@ -31,6 +39,14 @@ jpmap_transform(data, input_names = c("lon", "lat"), output_names = input_names,
   for no movement, or a character vector containing `"okinawa"` and/or
   `"ogasawara"` to move selected island groups.
 
+- okinawa:
+
+  Whether Okinawa should be moved when `inset` includes it.
+
+- ogasawara:
+
+  Whether Ogasawara should be moved when `inset` includes it.
+
 ## Value
 
 An object of the same general type as `data`.
@@ -45,11 +61,16 @@ places <- data.frame(
 jpmap_transform(places, output_names = c("x", "y"))
 #>       lon    lat         x         y
 #> 1 139.767 35.681  205212.3 -199413.7
-#> 2 127.681 26.212 -669566.3 -709667.3
-#> 3 142.191 27.094 -301154.6 -827881.3
+#> 2 127.681 26.212 -394918.6  529024.8
+#> 3 142.191 27.094  637228.4 -417843.4
 jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
 #>       lon    lat         x          y
 #> 1 139.767 35.681  205212.3  -199413.7
-#> 2 127.681 26.212 -669566.3  -709667.3
+#> 2 127.681 26.212 -394918.6   529024.8
+#> 3 142.191 27.094  466806.8 -1141584.2
+jpmap_transform(places, output_names = c("x", "y"), ogasawara = FALSE)
+#>       lon    lat         x          y
+#> 1 139.767 35.681  205212.3  -199413.7
+#> 2 127.681 26.212 -394918.6   529024.8
 #> 3 142.191 27.094  466806.8 -1141584.2
 ```

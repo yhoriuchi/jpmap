@@ -12,7 +12,8 @@ Ogasawara can be seen together in one plotting frame.
 
 Inset behavior is selectable: use `inset = TRUE` for both Okinawa and
 Ogasawara, `inset = FALSE` for a literal projected map, or values such
-as `inset = "okinawa"` to transport only selected island groups.
+as `inset = "okinawa"` to transport only selected island groups. You can
+also use `okinawa = FALSE` or `ogasawara = FALSE`.
 
 ## Core Workflow
 
@@ -21,7 +22,7 @@ as `inset = "okinawa"` to transport only selected island groups.
 library(jpmap)
 
 plot_jpmap("prefectures")
-plot_jpmap("municipalities", include = "Tokyo")
+plot_jpmap("municipalities", include = "Okinawa")
 ```
 
 ## Transform Point Data
@@ -73,9 +74,9 @@ returns `sf` objects and
 [`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
 returns ordinary `ggplot2` maps.
 
-The package also includes a small Natural Earth prefecture layer for
-examples and website figures. Detailed municipal boundaries still
-require
+The package also includes a small Natural Earth prefecture layer and an
+Okinawa municipal layer from Geoshape for examples and website figures.
+Nationwide detailed municipal boundaries still require
 [`jpmap_build_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md).
 
 ## Example Data

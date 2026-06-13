@@ -14,7 +14,7 @@ The main plotting function is
 ``` r
 
 plot_jpmap("prefectures")
-plot_jpmap("municipalities", include = "Tokyo")
+plot_jpmap("municipalities", include = "Okinawa")
 ```
 
 The data function is
@@ -24,7 +24,7 @@ which returns an `sf` object.
 ``` r
 
 prefectures <- jp_map("prefectures")
-municipalities <- jp_map("municipalities")
+okinawa_municipalities <- jp_map("municipalities", include = "Okinawa")
 ```
 
 The transform function is
@@ -41,11 +41,12 @@ places <- data.frame(
 jpmap_transform(places, output_names = c("x", "y"))
 #>       place     lon    lat         x         y
 #> 1     Tokyo 139.767 35.681  205212.3 -199413.7
-#> 2      Naha 127.681 26.212 -669566.3 -709667.3
-#> 3 Ogasawara 142.191 27.094 -301154.6 -827881.3
+#> 2      Naha 127.681 26.212 -394918.6  529024.8
+#> 3 Ogasawara 142.191 27.094  637228.4 -417843.4
 ```
 
 By default, the transform moves Okinawa and Ogasawara into visible inset
 locations. Use `inset = FALSE` for a literal projected map, or pass a
 character vector such as `inset = "okinawa"` to transport only selected
-island groups.
+island groups. You can also use `okinawa = FALSE` or
+`ogasawara = FALSE`.

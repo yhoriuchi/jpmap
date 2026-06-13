@@ -1,7 +1,9 @@
 # Manage jpmap Boundary Data
 
 Helpers for locating and building the GeoPackage boundary data used by
-jpmap.
+jpmap. The installed package includes example prefecture boundaries and
+Okinawa municipal boundaries. Use `jpmap_build_data()` to build
+nationwide detailed municipal boundaries.
 
 ## Usage
 
@@ -53,7 +55,7 @@ jpmap_build_data(
 - simplify_tolerance:
 
   Optional tolerance passed to
-  [`sf::st_simplify()`](https://r-spatial.github.io/sf/reference/geos_unary.html).
+  [`sf::st_simplify()`](https://rdrr.io/pkg/sf/man/geos_unary.html).
 
 ## Value
 

@@ -27,13 +27,20 @@ test_that("inset can select island groups", {
   both <- jpmap_transform(places, output_names = c("x", "y"))
   okinawa_only <- jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
   ogasawara_only <- jpmap_transform(places, output_names = c("x", "y"), inset = "ogasawara")
+  without_okinawa <- jpmap_transform(places, output_names = c("x", "y"), okinawa = FALSE)
+  without_ogasawara <- jpmap_transform(places, output_names = c("x", "y"), ogasawara = FALSE)
   literal <- jpmap_transform(places, output_names = c("x", "y"), inset = FALSE)
 
   expect_equal(okinawa_only$x[places$name == "Naha"], both$x[places$name == "Naha"])
   expect_equal(okinawa_only$x[places$name == "Ogasawara"], literal$x[places$name == "Ogasawara"])
   expect_equal(ogasawara_only$x[places$name == "Naha"], literal$x[places$name == "Naha"])
   expect_equal(ogasawara_only$x[places$name == "Ogasawara"], both$x[places$name == "Ogasawara"])
+  expect_equal(without_okinawa$x[places$name == "Naha"], literal$x[places$name == "Naha"])
+  expect_equal(without_okinawa$x[places$name == "Ogasawara"], both$x[places$name == "Ogasawara"])
+  expect_equal(without_ogasawara$x[places$name == "Naha"], both$x[places$name == "Naha"])
+  expect_equal(without_ogasawara$x[places$name == "Ogasawara"], literal$x[places$name == "Ogasawara"])
   expect_error(jpmap_transform(places, inset = "hokkaido"), "one or more of")
+  expect_error(jpmap_transform(places, okinawa = NA), "`okinawa` must be TRUE or FALSE", fixed = TRUE)
 })
 
 test_that("sf geometries can be transformed", {
@@ -65,4 +72,13 @@ test_that("bundled prefecture data are available by default", {
   map <- jp_map("prefectures", data_year = 2021)
   expect_s3_class(map, "sf")
   expect_equal(nrow(map), 47)
+})
+
+test_that("bundled Okinawa municipalities are available by default", {
+  map <- jp_map("municipalities", include = "Okinawa", data_year = 2021, inset = FALSE)
+
+  expect_s3_class(map, "sf")
+  expect_equal(nrow(map), 41)
+  expect_true(all(map$prefecture == "Okinawa"))
+  expect_false(any(is.na(map$municipality)))
 })

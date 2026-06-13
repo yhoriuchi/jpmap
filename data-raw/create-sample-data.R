@@ -13,9 +13,22 @@ natural_earth_url <- paste0(
   "https://naturalearth.s3.amazonaws.com/10m_cultural/",
   "ne_10m_admin_1_states_provinces.zip"
 )
+downloaded_okinawa_topojson <- "/private/tmp/okinawa_20230101_city.h.topojson"
+okinawa_topojson <- if (file.exists(downloaded_okinawa_topojson)) {
+  downloaded_okinawa_topojson
+} else {
+  file.path(tempdir(), "okinawa_20230101_city.h.topojson")
+}
+okinawa_topojson_url <- paste0(
+  "https://geoshape.ex.nii.ac.jp/city/topojson/20230101/47/",
+  "47_city.h.topojson"
+)
 
 if (!file.exists(natural_earth_zip)) {
   utils::download.file(natural_earth_url, natural_earth_zip, mode = "wb")
+}
+if (!file.exists(okinawa_topojson)) {
+  utils::download.file(okinawa_topojson_url, okinawa_topojson, mode = "wb")
 }
 
 natural_earth_dir <- file.path(tempdir(), "jpmap-natural-earth-admin1")
@@ -58,6 +71,72 @@ if (file.exists(gpkg)) {
   unlink(gpkg)
 }
 sf::st_write(prefectures, gpkg, layer = "prefectures", quiet = TRUE)
+
+okinawa_raw <- sf::st_read(okinawa_topojson, quiet = TRUE)
+sf::st_crs(okinawa_raw) <- 4326
+
+okinawa_names <- data.frame(
+  municipality_code = c(
+    "47201", "47205", "47207", "47208", "47209", "47210",
+    "47211", "47212", "47213", "47214", "47215", "47301",
+    "47302", "47303", "47306", "47308", "47311", "47313",
+    "47314", "47315", "47324", "47325", "47326", "47327",
+    "47328", "47329", "47348", "47350", "47353", "47354",
+    "47355", "47356", "47357", "47358", "47359", "47360",
+    "47361", "47362", "47375", "47381", "47382"
+  ),
+  municipality = c(
+    "Naha", "Ginowan", "Ishigaki", "Urasoe", "Nago", "Itoman",
+    "Okinawa", "Tomigusuku", "Uruma", "Miyakojima", "Nanjo", "Kunigami",
+    "Ogimi", "Higashi", "Nakijin", "Motobu", "Onna", "Ginoza",
+    "Kin", "Ie", "Yomitan", "Kadena", "Chatan", "Kitanakagusuku",
+    "Nakagusuku", "Nishihara", "Yonabaru", "Haebaru", "Tokashiki",
+    "Zamami", "Aguni", "Tonaki", "Minamidaito", "Kitadaito", "Iheya",
+    "Izena", "Kumejima", "Yaese", "Tarama", "Taketomi", "Yonaguni"
+  ),
+  stringsAsFactors = FALSE
+)
+
+current_municipality <- !is.na(okinawa_raw$N03_007) &
+  as.character(okinawa_raw$N03_007) %in% okinawa_names$municipality_code
+okinawa_raw <- okinawa_raw[current_municipality, ]
+
+okinawa_municipalities <- merge(
+  okinawa_raw,
+  okinawa_names,
+  by.x = "N03_007",
+  by.y = "municipality_code",
+  all.x = TRUE,
+  sort = FALSE
+)
+if (any(is.na(okinawa_municipalities$municipality))) {
+  stop("Missing English municipality names in the Okinawa example boundary layer.")
+}
+district <- as.character(okinawa_municipalities$N03_003)
+district[is.na(district)] <- ""
+municipality_ja <- as.character(okinawa_municipalities$N03_004)
+municipality_full_ja <- ifelse(nzchar(district), paste0(district, municipality_ja), municipality_ja)
+
+okinawa_municipalities <- sf::st_sf(
+  data.frame(
+    jis_code = okinawa_municipalities$N03_007,
+    pref_code = "47",
+    prefecture = "Okinawa",
+    prefecture_ja = "沖縄県",
+    municipality_code = okinawa_municipalities$N03_007,
+    municipality = okinawa_municipalities$municipality,
+    municipality_ja = municipality_ja,
+    municipality_full_ja = municipality_full_ja,
+    source = "Geoshape city boundaries 2023-01-01, CC BY 4.0",
+    source_url = okinawa_topojson_url,
+    stringsAsFactors = FALSE
+  ),
+  geometry = sf::st_geometry(okinawa_municipalities),
+  crs = 4326
+)
+okinawa_municipalities <- okinawa_municipalities[order(okinawa_municipalities$municipality_code), ]
+okinawa_municipalities <- sf::st_make_valid(okinawa_municipalities)
+sf::st_write(okinawa_municipalities, gpkg, layer = "municipalities", append = TRUE, quiet = TRUE)
 
 jp_prefecture_gdp <- data.frame(
   pref_code = c(

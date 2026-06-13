@@ -32,13 +32,15 @@ jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "m
                    exclude = c(),
                    data_year = NULL,
                    inset = TRUE,
+                   okinawa = TRUE,
+                   ogasawara = TRUE,
                    data_dir = NULL) {
   layer <- canonical_region(regions)
   path <- choose_jpmap_data(data_year, data_dir)
 
   map <- sf::st_read(path, layer = layer, quiet = TRUE)
   map <- filter_jpmap(map, layer, include, exclude)
-  jpmap_transform(map, inset = inset)
+  jpmap_transform(map, inset = inset, okinawa = okinawa, ogasawara = ogasawara)
 }
 
 jp_map_with_data <- function(map, data, values = NULL, by = NULL) {

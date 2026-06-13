@@ -8,6 +8,8 @@ jp_map(
   exclude = c(),
   data_year = NULL,
   inset = TRUE,
+  okinawa = TRUE,
+  ogasawara = TRUE,
   data_dir = NULL
 )
 }
@@ -19,6 +21,8 @@ jp_map(
 \item{inset}{Inset behavior. Use \code{TRUE} to move both Okinawa and
 Ogasawara, \code{FALSE} for no movement, or a character vector containing
 \code{"okinawa"} and/or \code{"ogasawara"} to move selected island groups.}
+\item{okinawa}{Whether Okinawa should be moved when \code{inset} includes it.}
+\item{ogasawara}{Whether Ogasawara should be moved when \code{inset} includes it.}
 \item{data_dir}{Optional directory containing \code{jpmap_boundaries_YYYY.gpkg}.}
 }
 \description{
@@ -30,6 +34,7 @@ An \code{sf} data frame.
 \examples{
 \dontrun{
 jp_map("prefectures")
-jp_map("municipalities", include = "Tokyo")
+jp_map("prefectures", okinawa = FALSE)
+jp_map("municipalities", include = "Okinawa")
 }
 }

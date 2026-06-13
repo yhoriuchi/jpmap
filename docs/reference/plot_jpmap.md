@@ -15,6 +15,8 @@ plot_jpmap(
   label_color = "black",
   data_year = NULL,
   inset = TRUE,
+  okinawa = TRUE,
+  ogasawara = TRUE,
   data_dir = NULL,
   color = "white",
   linewidth = 0.2,
@@ -62,6 +64,14 @@ plot_jpmap(
   for no movement, or a character vector containing `"okinawa"` and/or
   `"ogasawara"` to move selected island groups.
 
+- okinawa:
+
+  Whether Okinawa should be moved when `inset` includes it.
+
+- ogasawara:
+
+  Whether Ogasawara should be moved when `inset` includes it.
+
 - data_dir:
 
   Optional directory containing `jpmap_boundaries_YYYY.gpkg`.
@@ -77,7 +87,7 @@ plot_jpmap(
 - ...:
 
   Additional arguments passed to
-  [`ggplot2::geom_sf()`](https://ggplot2.tidyverse.org/reference/ggsf.html).
+  [`ggplot2::geom_sf()`](https://rdrr.io/pkg/ggplot2/man/ggsf.html).
 
 ## Value
 
@@ -88,5 +98,6 @@ A `ggplot2` plot.
 ``` r
 if (FALSE) { # \dontrun{
 plot_jpmap("prefectures")
+plot_jpmap("prefectures", ogasawara = FALSE)
 } # }
 ```

@@ -11,6 +11,8 @@ jp_map(
   exclude = c(),
   data_year = NULL,
   inset = TRUE,
+  okinawa = TRUE,
+  ogasawara = TRUE,
   data_dir = NULL
 )
 ```
@@ -39,6 +41,14 @@ jp_map(
   for no movement, or a character vector containing `"okinawa"` and/or
   `"ogasawara"` to move selected island groups.
 
+- okinawa:
+
+  Whether Okinawa should be moved when `inset` includes it.
+
+- ogasawara:
+
+  Whether Ogasawara should be moved when `inset` includes it.
+
 - data_dir:
 
   Optional directory containing `jpmap_boundaries_YYYY.gpkg`.
@@ -52,6 +62,7 @@ An `sf` data frame.
 ``` r
 if (FALSE) { # \dontrun{
 jp_map("prefectures")
-jp_map("municipalities", include = "Tokyo")
+jp_map("prefectures", okinawa = FALSE)
+jp_map("municipalities", include = "Okinawa")
 } # }
 ```

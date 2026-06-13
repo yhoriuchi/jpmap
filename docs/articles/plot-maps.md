@@ -16,7 +16,7 @@ plot_jpmap("prefectures")
 
 ``` r
 
-plot_jpmap("municipalities", include = "Tokyo", linewidth = 0.1)
+plot_jpmap("municipalities", include = "Okinawa", linewidth = 0.1)
 ```
 
 ## Choropleths

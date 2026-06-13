@@ -7,6 +7,8 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
                        label_color = "black",
                        data_year = NULL,
                        inset = TRUE,
+                       okinawa = TRUE,
+                       ogasawara = TRUE,
                        data_dir = NULL,
                        color = "white",
                        linewidth = 0.2,
@@ -18,6 +20,8 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
     exclude = exclude,
     data_year = data_year,
     inset = inset,
+    okinawa = okinawa,
+    ogasawara = ogasawara,
     data_dir = data_dir
   )
 
@@ -37,9 +41,22 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
       ggplot2::geom_sf(color = color, linewidth = linewidth, ...)
   }
 
-  plot <- plot +
-    ggplot2::coord_sf(crs = jpmap_crs(), datum = NA) +
-    ggplot2::theme_void()
+  inset_regions <- normalize_inset(inset, okinawa = okinawa, ogasawara = ogasawara)
+  if (length(inset_regions) > 0) {
+    limits <- jpmap_default_plot_limits()
+    plot <- plot +
+      ggplot2::coord_sf(
+        crs = jpmap_crs(),
+        xlim = limits$xlim,
+        ylim = limits$ylim,
+        datum = NA
+      )
+  } else {
+    plot <- plot +
+      ggplot2::coord_sf(crs = jpmap_crs(), datum = NA)
+  }
+
+  plot <- plot + ggplot2::theme_void()
 
   if (isTRUE(labels)) {
     label_col <- label_column(layer, map)
@@ -67,4 +84,24 @@ label_column <- function(regions, map) {
     stop("No label column is available for this map.", call. = FALSE)
   }
   hit[[1]]
+}
+
+jpmap_default_plot_limits <- function() {
+  n <- 25L
+  frame <- data.frame(
+    lon = c(
+      seq(128, 150, length.out = n),
+      rep(150, n),
+      seq(150, 128, length.out = n),
+      rep(128, n)
+    ),
+    lat = c(
+      rep(30, n),
+      seq(30, 46, length.out = n),
+      rep(46, n),
+      seq(46, 30, length.out = n)
+    )
+  )
+  frame <- jpmap_transform(frame, output_names = c("x", "y"), inset = FALSE)
+  list(xlim = range(frame$x), ylim = range(frame$y))
 }

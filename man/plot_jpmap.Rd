@@ -12,6 +12,8 @@ plot_jpmap(
   label_color = "black",
   data_year = NULL,
   inset = TRUE,
+  okinawa = TRUE,
+  ogasawara = TRUE,
   data_dir = NULL,
   color = "white",
   linewidth = 0.2,
@@ -30,6 +32,8 @@ plot_jpmap(
 \item{inset}{Inset behavior. Use \code{TRUE} to move both Okinawa and
 Ogasawara, \code{FALSE} for no movement, or a character vector containing
 \code{"okinawa"} and/or \code{"ogasawara"} to move selected island groups.}
+\item{okinawa}{Whether Okinawa should be moved when \code{inset} includes it.}
+\item{ogasawara}{Whether Ogasawara should be moved when \code{inset} includes it.}
 \item{data_dir}{Optional directory containing \code{jpmap_boundaries_YYYY.gpkg}.}
 \item{color}{Boundary line color.}
 \item{linewidth}{Boundary line width.}
@@ -44,5 +48,6 @@ A \code{ggplot2} plot.
 \examples{
 \dontrun{
 plot_jpmap("prefectures")
+plot_jpmap("prefectures", ogasawara = FALSE)
 }
 }

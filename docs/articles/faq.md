@@ -7,12 +7,15 @@ literal map can make smaller islands difficult to see. `jpmap` follows
 the `usmap` idea of using insets so important regions remain visible in
 ordinary plots. Use `inset = FALSE`, `inset = "okinawa"`, or
 `inset = "ogasawara"` when you want to exclude one or both transported
-island groups.
+island groups. You can also use `okinawa = FALSE` or
+`ogasawara = FALSE`, mirroring the style of `UchidaMizuki/jpmap`.
 
 ## Does jpmap include boundary data?
 
 The package includes code for building and reading boundary data, but
-large boundary files are kept outside the package. Use
+large nationwide boundary files are kept outside the package. The
+installed package ships all-prefecture example boundaries and Okinawa
+municipal boundaries. Use
 [`jpmap_build_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
 to build a local GeoPackage from MLIT N03 administrative area data.
 

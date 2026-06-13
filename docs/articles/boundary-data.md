@@ -2,7 +2,9 @@
 
 `jpmap` stores map boundaries outside the installed package. This keeps
 the package small while still allowing detailed prefecture and municipal
-maps.
+maps. The installed package includes lightweight example data: Natural
+Earth prefectures for all of Japan and Geoshape municipal boundaries for
+Okinawa.
 
 ## Data Directory
 
