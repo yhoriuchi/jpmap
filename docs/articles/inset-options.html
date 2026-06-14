@@ -107,6 +107,29 @@ moved.</p>
 <p><img src="inset-options_files/figure-html/ogasawara-only-1.png" class="r-plt" alt="" width="840"></p>
 </div>
 <div class="section level2">
+<h2 id="adjust-the-map-frame">Adjust The Map Frame<a class="anchor" aria-label="anchor" href="#adjust-the-map-frame"></a>
+</h2>
+<p>Use <code>xlim</code> and <code>ylim</code> to set longitude/latitude
+limits. You can also set axis breaks and labels. This example keeps the
+main islands and Okinawa while dropping the Ogasawara inset.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span></span>
+<span>  <span class="st">"prefecture"</span>,</span>
+<span>  ogasawara <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">122</span>, <span class="fl">149</span><span class="op">)</span>,</span>
+<span>  ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">28.5</span>, <span class="fl">47</span><span class="op">)</span>,</span>
+<span>  x_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">125</span>, <span class="fl">145</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  y_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">45</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  x_labels <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"\u00b0E"</span><span class="op">)</span>,</span>
+<span>  y_labels <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">y</span>, <span class="st">"\u00b0N"</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Main islands with Okinawa inset"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="inset-options_files/figure-html/axis-controls-1.png" class="r-plt" alt="" width="840"></p>
+</div>
+<div class="section level2">
 <h2 id="remove-the-boxes">Remove The Boxes<a class="anchor" aria-label="anchor" href="#remove-the-boxes"></a>
 </h2>
 <p>Set <code>inset_boxes = FALSE</code> to keep the transported islands
@@ -115,7 +138,7 @@ masks the ordinary main-panel graticules inside each box and draws local
 longitude/latitude lines for the transported island group. Those labels
 are the islands’ original coordinates, not the destination coordinates
 of the inset box.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span></span>
 <span>  <span class="st">"prefecture"</span>,</span>
 <span>  inset_boxes <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -131,7 +154,7 @@ of the inset box.</p>
 </h2>
 <p>Set <code>inset = FALSE</code> to keep every geometry in its
 projected geographic location.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span></span>
 <span>  <span class="st">"prefecture"</span>,</span>
 <span>  inset <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -139,8 +162,34 @@ projected geographic location.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Projected map without transported insets"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
 <span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<span>      <span class="op">)</span></span></code></pre></div>
 <p><img src="inset-options_files/figure-html/literal-map-1.png" class="r-plt" alt="" width="840"></p>
+</div>
+<div class="section level2">
+<h2 id="add-disputed-territory-shapes">Add Disputed-Territory Shapes<a class="anchor" aria-label="anchor" href="#add-disputed-territory-shapes"></a>
+</h2>
+<p>Areas discussed in Japan territorial-dispute references are excluded
+by default. Set <code>territorial_disputes = TRUE</code> to add
+cartographic island/reef shapes for Northern Territories,
+Okinotorishima, Senkaku Islands, and Takeshima / Liancourt Rocks. You
+can also pass a character vector to include only selected regions, such
+as <code>territorial_disputes = "senkaku"</code> or
+<code>territorial_disputes = c("senkaku", "takeshima")</code>.</p>
+<p><code><a href="../reference/plot_jpmap.html">plot_jpmap()</a></code> gives opt-in disputed shapes a separate
+fill and dot overlay so small islands and reefs remain visible at the
+default scale. Use <code>disputed_fill</code>,
+<code>disputed_color</code>, or <code>disputed_dots = FALSE</code> to
+change that styling.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span></span>
+<span>  <span class="st">"prefecture"</span>,</span>
+<span>  territorial_disputes <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Map with opt-in disputed-territory shapes"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="inset-options_files/figure-html/disputed-territories-1.png" class="r-plt" alt="" width="840"></p>
 </div>
 <div class="section level2">
 <h2 id="what-the-boxes-mean">What The Boxes Mean<a class="anchor" aria-label="anchor" href="#what-the-boxes-mean"></a>
@@ -156,6 +205,10 @@ is transported as Okinawa. For Ogasawara, the default box also covers
 the remote Ogasawara pieces present in the bundled prefecture layer,
 such as Minamitorishima. Use <code>inset = FALSE</code> when literal
 geographic placement matters more than a compact display.</p>
+<p>When <code>territorial_disputes = TRUE</code> includes
+Okinotorishima, the Ogasawara box is expanded so the opt-in
+Okinotorishima reef shape remains visible. These disputed-territory
+shapes are not official boundary polygons.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -17,6 +17,11 @@ also use `okinawa = FALSE` or `ogasawara = FALSE`.
 [`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
 draws inset boxes by default; set `inset_boxes = FALSE` to remove them.
 
+Areas discussed in Japan territorial-dispute references are excluded by
+default. Use `territorial_disputes = TRUE` to add cartographic
+island/reef shapes, or pass a subset such as `"senkaku"` or
+`"takeshima"`.
+
 ## Installation
 
 Install the development version from GitHub:
@@ -35,6 +40,7 @@ library(jpmap)
 
 plot_jpmap("prefecture")
 plot_jpmap("municipality", include = "Okinawa")
+plot_jpmap("prefecture", territorial_disputes = TRUE)
 ```
 
 ## Articles

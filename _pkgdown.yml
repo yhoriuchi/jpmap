@@ -65,6 +65,7 @@ reference:
   contents:
   - jp_map
   - jp_map_with_data
+  - jp_disputed_territories
   - jpmap_data
 
 - title: Plotting

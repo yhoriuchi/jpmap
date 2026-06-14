@@ -21,6 +21,8 @@ Retrieve, build, and inspect Japan boundary data.
   Retrieve Japan Map Data
 - [`jp_map_with_data()`](https://yhoriuchi.github.io/jpmap/reference/jp_map_with_data.md)
   : Join Data to a jpmap Map
+- [`jp_disputed_territories()`](https://yhoriuchi.github.io/jpmap/reference/jp_disputed_territories.md)
+  : Retrieve Disputed-Territory Island And Reef Shapes
 - [`jpmap_data_dir()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
   [`available_jpmap_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)
   [`jpmap_build_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md)

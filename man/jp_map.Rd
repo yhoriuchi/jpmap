@@ -10,6 +10,7 @@ jp_map(
   inset = TRUE,
   okinawa = TRUE,
   ogasawara = TRUE,
+  territorial_disputes = FALSE,
   data_dir = NULL
 )
 }
@@ -25,6 +26,11 @@ Ogasawara, \code{FALSE} for no movement, or a character vector containing
 \code{"okinawa"} and/or \code{"ogasawara"} to move selected island groups.}
 \item{okinawa}{Whether Okinawa should be moved when \code{inset} includes it.}
 \item{ogasawara}{Whether Ogasawara should be moved when \code{inset} includes it.}
+\item{territorial_disputes}{Whether to include disputed-territory island/reef
+shapes. The default is \code{FALSE}. Use \code{TRUE} for all built-in
+shapes, or a character vector containing one or more of
+\code{"northern_territories"}, \code{"okinotorishima"}, \code{"senkaku"}, and
+\code{"takeshima"}.}
 \item{data_dir}{Optional directory containing \code{jpmap_boundaries_YYYY.gpkg}.}
 }
 \description{
@@ -37,6 +43,7 @@ An \code{sf} data frame.
 \dontrun{
 jp_map("prefectures")
 jp_map("prefectures", okinawa = FALSE)
+jp_map("prefectures", territorial_disputes = TRUE)
 jp_map("municipalities", include = "Okinawa")
 jp_map("prefecture")
 jp_map("municipality", include = "Okinawa")

@@ -97,15 +97,18 @@ options.</p>
 <span><span class="fu"><a href="../reference/jpmap_transform.html">jpmap_transform</a></span><span class="op">(</span><span class="va">places</span>, output_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       place     lon    lat         x         y</span></span>
 <span><span class="co">#&gt; 1     Tokyo 139.767 35.681  205212.3 -199413.7</span></span>
-<span><span class="co">#&gt; 2      Naha 127.681 26.212 -463547.6  529529.7</span></span>
-<span><span class="co">#&gt; 3 Ogasawara 142.191 27.094  324501.9 -432790.6</span></span></code></pre></div>
+<span><span class="co">#&gt; 2      Naha 127.681 26.212 -683245.1  657516.5</span></span>
+<span><span class="co">#&gt; 3 Ogasawara 142.191 27.094  537218.7 -578088.9</span></span></code></pre></div>
 <p>By default, the transform moves Okinawa and Ogasawara into visible
 inset locations. Use <code>inset = FALSE</code> for a literal projected
 map, or pass a character vector such as <code>inset = "okinawa"</code>
 to transport only selected island groups. You can also use
 <code>okinawa = FALSE</code> or <code>ogasawara = FALSE</code>.
 <code><a href="../reference/plot_jpmap.html">plot_jpmap()</a></code> draws inset boxes by default; set
-<code>inset_boxes = FALSE</code> to remove them.</p>
+<code>inset_boxes = FALSE</code> to remove them. Use <code>xlim</code>,
+<code>ylim</code>, <code>x_breaks</code>, <code>y_breaks</code>,
+<code>x_labels</code>, and <code>y_labels</code> when you want to
+customize the displayed longitude/latitude frame.</p>
   </main>
 </div>
 

@@ -13,6 +13,7 @@ jp_map(
   inset = TRUE,
   okinawa = TRUE,
   ogasawara = TRUE,
+  territorial_disputes = FALSE,
   data_dir = NULL
 )
 ```
@@ -52,6 +53,13 @@ jp_map(
 
   Whether Ogasawara should be moved when `inset` includes it.
 
+- territorial_disputes:
+
+  Whether to include disputed-territory island/reef shapes. The default
+  is `FALSE`. Use `TRUE` for all built-in shapes, or a character vector
+  containing one or more of `"northern_territories"`,
+  `"okinotorishima"`, `"senkaku"`, and `"takeshima"`.
+
 - data_dir:
 
   Optional directory containing `jpmap_boundaries_YYYY.gpkg`.
@@ -66,6 +74,7 @@ An `sf` data frame.
 if (FALSE) { # \dontrun{
 jp_map("prefectures")
 jp_map("prefectures", okinawa = FALSE)
+jp_map("prefectures", territorial_disputes = TRUE)
 jp_map("municipalities", include = "Okinawa")
 jp_map("prefecture")
 jp_map("municipality", include = "Okinawa")

@@ -57,4 +57,6 @@ By default, the transform moves Okinawa and Ogasawara into visible inset
 locations. Use `inset = FALSE` for a literal projected map, or pass a character
 vector such as `inset = "okinawa"` to transport only selected island groups.
 You can also use `okinawa = FALSE` or `ogasawara = FALSE`. `plot_jpmap()`
-draws inset boxes by default; set `inset_boxes = FALSE` to remove them.
+draws inset boxes by default; set `inset_boxes = FALSE` to remove them. Use
+`xlim`, `ylim`, `x_breaks`, `y_breaks`, `x_labels`, and `y_labels` when you
+want to customize the displayed longitude/latitude frame.

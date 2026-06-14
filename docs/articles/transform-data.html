@@ -83,8 +83,8 @@ projected coordinate system used by <code><a href="../reference/plot_jpmap.html"
 <span><span class="fu"><a href="../reference/jpmap_transform.html">jpmap_transform</a></span><span class="op">(</span><span class="va">places</span>, output_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       place     lon    lat         x         y</span></span>
 <span><span class="co">#&gt; 1     Tokyo 139.767 35.681  205212.3 -199413.7</span></span>
-<span><span class="co">#&gt; 2      Naha 127.681 26.212 -463547.6  529529.7</span></span>
-<span><span class="co">#&gt; 3 Ogasawara 142.191 27.094  324501.9 -432790.6</span></span></code></pre></div>
+<span><span class="co">#&gt; 2      Naha 127.681 26.212 -683245.1  657516.5</span></span>
+<span><span class="co">#&gt; 3 Ogasawara 142.191 27.094  537218.7 -578088.9</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="simple-features">Simple Features<a class="anchor" aria-label="anchor" href="#simple-features"></a>
@@ -103,12 +103,12 @@ projected coordinate system used by <code><a href="../reference/plot_jpmap.html"
 <span><span class="co">#&gt; Simple feature collection with 3 features and 3 fields</span></span>
 <span><span class="co">#&gt; Geometry type: POINT</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: -463547.6 ymin: -432790.6 xmax: 324501.9 ymax: 529529.7</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -683245.1 ymin: -578088.9 xmax: 537218.7 ymax: 657516.5</span></span>
 <span><span class="co">#&gt; Projected CRS: +proj=laea +lat_0=37.5 +lon_0=137.5 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</span></span>
 <span><span class="co">#&gt;       place     lon    lat                   geometry</span></span>
 <span><span class="co">#&gt; 1     Tokyo 139.767 35.681 POINT (205212.3 -199413.7)</span></span>
-<span><span class="co">#&gt; 2      Naha 127.681 26.212 POINT (-463547.6 529529.7)</span></span>
-<span><span class="co">#&gt; 3 Ogasawara 142.191 27.094 POINT (324501.9 -432790.6)</span></span></code></pre></div>
+<span><span class="co">#&gt; 2      Naha 127.681 26.212 POINT (-683245.1 657516.5)</span></span>
+<span><span class="co">#&gt; 3 Ogasawara 142.191 27.094 POINT (537218.7 -578088.9)</span></span></code></pre></div>
 <p>Use <code>inset = FALSE</code> when you want only the projected Japan
 CRS and not the Okinawa/Ogasawara inset movement.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -122,13 +122,13 @@ CRS and not the Okinawa/Ogasawara inset movement.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/jpmap_transform.html">jpmap_transform</a></span><span class="op">(</span><span class="va">places</span>, output_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>, inset <span class="op">=</span> <span class="st">"okinawa"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       place     lon    lat         x          y</span></span>
 <span><span class="co">#&gt; 1     Tokyo 139.767 35.681  205212.3  -199413.7</span></span>
-<span><span class="co">#&gt; 2      Naha 127.681 26.212 -463547.6   529529.7</span></span>
+<span><span class="co">#&gt; 2      Naha 127.681 26.212 -683245.1   657516.5</span></span>
 <span><span class="co">#&gt; 3 Ogasawara 142.191 27.094  466806.8 -1141584.2</span></span>
 <span><span class="fu"><a href="../reference/jpmap_transform.html">jpmap_transform</a></span><span class="op">(</span><span class="va">places</span>, output_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>, inset <span class="op">=</span> <span class="st">"ogasawara"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       place     lon    lat         x          y</span></span>
 <span><span class="co">#&gt; 1     Tokyo 139.767 35.681  205212.3  -199413.7</span></span>
 <span><span class="co">#&gt; 2      Naha 127.681 26.212 -983633.2 -1201884.3</span></span>
-<span><span class="co">#&gt; 3 Ogasawara 142.191 27.094  324501.9  -432790.6</span></span></code></pre></div>
+<span><span class="co">#&gt; 3 Ogasawara 142.191 27.094  537218.7  -578088.9</span></span></code></pre></div>
 <p>The same switches can be written as boolean arguments when you want
 the default <code>inset = TRUE</code> behavior except for one island
 group.</p>
@@ -137,11 +137,11 @@ group.</p>
 <span><span class="co">#&gt;       place     lon    lat         x          y</span></span>
 <span><span class="co">#&gt; 1     Tokyo 139.767 35.681  205212.3  -199413.7</span></span>
 <span><span class="co">#&gt; 2      Naha 127.681 26.212 -983633.2 -1201884.3</span></span>
-<span><span class="co">#&gt; 3 Ogasawara 142.191 27.094  324501.9  -432790.6</span></span>
+<span><span class="co">#&gt; 3 Ogasawara 142.191 27.094  537218.7  -578088.9</span></span>
 <span><span class="fu"><a href="../reference/jpmap_transform.html">jpmap_transform</a></span><span class="op">(</span><span class="va">places</span>, output_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>, ogasawara <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       place     lon    lat         x          y</span></span>
 <span><span class="co">#&gt; 1     Tokyo 139.767 35.681  205212.3  -199413.7</span></span>
-<span><span class="co">#&gt; 2      Naha 127.681 26.212 -463547.6   529529.7</span></span>
+<span><span class="co">#&gt; 2      Naha 127.681 26.212 -683245.1   657516.5</span></span>
 <span><span class="co">#&gt; 3 Ogasawara 142.191 27.094  466806.8 -1141584.2</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

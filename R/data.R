@@ -56,8 +56,10 @@ jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "m
                    inset = TRUE,
                    okinawa = TRUE,
                    ogasawara = TRUE,
+                   territorial_disputes = FALSE,
                    data_dir = NULL) {
   layer <- canonical_region(regions)
+  disputed_regions <- normalize_territorial_disputes(territorial_disputes)
   path <- choose_jpmap_data(
     data_year,
     data_dir,
@@ -67,7 +69,26 @@ jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "m
 
   map <- sf::st_read(path, layer = layer, quiet = TRUE)
   map <- filter_jpmap(map, layer, include, exclude)
+  map <- remove_disputed_territories(map)
+  if (length(disputed_regions) > 0) {
+    map <- add_disputed_territories(map, layer, disputed_regions)
+  }
   jpmap_transform(map, inset = inset, okinawa = okinawa, ogasawara = ogasawara)
+}
+
+jp_disputed_territories <- function(territorial_disputes = TRUE,
+                                    regions = c("prefectures", "prefecture", "municipalities", "municipality"),
+                                    inset = TRUE,
+                                    okinawa = TRUE,
+                                    ogasawara = TRUE) {
+  layer <- canonical_region(regions)
+  disputed_regions <- normalize_territorial_disputes(territorial_disputes)
+  if (length(disputed_regions) == 0) {
+    return(empty_disputed_territories(layer))
+  }
+
+  territories <- disputed_territories_sf(layer, disputed_regions)
+  jpmap_transform(territories, inset = inset, okinawa = okinawa, ogasawara = ogasawara)
 }
 
 jp_map_with_data <- function(map, data, values = NULL, by = NULL) {
@@ -339,6 +360,227 @@ filter_jpmap <- function(map, regions, include, exclude) {
   }
 
   map[keep, , drop = FALSE]
+}
+
+add_disputed_territories <- function(map, layer, disputed_regions) {
+  disputes <- disputed_territories_sf(layer, disputed_regions)
+  disputes <- sf::st_transform(disputes, sf::st_crs(map))
+  disputes <- match_sf_geometry_column(disputes, map)
+
+  missing_cols <- setdiff(names(map), names(disputes))
+  for (col in missing_cols) {
+    disputes[[col]] <- NA
+  }
+  extra_cols <- setdiff(names(disputes), names(map))
+  for (col in extra_cols) {
+    map[[col]] <- NA
+  }
+  disputes <- disputes[names(map)]
+
+  rbind(map, disputes)
+}
+
+remove_disputed_territories <- function(map) {
+  disputes <- disputed_territory_source()
+  if (nrow(disputes) == 0) {
+    return(map)
+  }
+
+  source_crs <- sf::st_crs(map)
+  projected <- sf::st_transform(map, jpmap_crs())
+  erase <- sf::st_geometry(sf::st_transform(disputes, jpmap_crs()))
+  erase <- sf::st_buffer(sf::st_union(erase), dist = 100)
+  if (inherits(erase, "sfc")) {
+    erase <- erase[[1]]
+  }
+  erase <- sf::st_sfc(erase, crs = jpmap_crs())
+  geometries <- sf::st_geometry(projected)
+  hits <- lengths(sf::st_intersects(geometries, erase)) > 0
+  if (!any(hits)) {
+    return(sf::st_transform(projected, source_crs))
+  }
+  geometries[hits] <- sf::st_sfc(
+    lapply(geometries[hits], function(geometry) {
+      out <- suppressWarnings(sf::st_difference(
+        sf::st_sfc(geometry, crs = jpmap_crs()),
+        erase
+      ))
+      if (length(out) == 0) {
+        return(sf::st_geometrycollection())
+      }
+      out[[1]]
+    }),
+    crs = jpmap_crs()
+  )
+  sf::st_geometry(projected) <- geometries
+  projected <- projected[!sf::st_is_empty(projected), , drop = FALSE]
+  sf::st_transform(projected, source_crs)
+}
+
+match_sf_geometry_column <- function(x, template) {
+  template_geometry <- attr(template, "sf_column")
+  x_geometry <- attr(x, "sf_column")
+  if (!identical(x_geometry, template_geometry)) {
+    names(x)[names(x) == x_geometry] <- template_geometry
+    attr(x, "sf_column") <- template_geometry
+  }
+  x
+}
+
+empty_disputed_territories <- function(layer) {
+  disputed_territories_sf(layer, character())
+}
+
+normalize_territorial_disputes <- function(territorial_disputes = FALSE) {
+  all_regions <- c("northern_territories", "okinotorishima", "senkaku", "takeshima")
+
+  if (is.null(territorial_disputes)) {
+    return(character())
+  }
+
+  if (is.logical(territorial_disputes)) {
+    if (length(territorial_disputes) != 1 || is.na(territorial_disputes)) {
+      stop("`territorial_disputes` must be TRUE, FALSE, or a character vector.", call. = FALSE)
+    }
+    if (isTRUE(territorial_disputes)) {
+      return(all_regions)
+    }
+    return(character())
+  }
+
+  if (!is.character(territorial_disputes)) {
+    stop("`territorial_disputes` must be TRUE, FALSE, or a character vector.", call. = FALSE)
+  }
+  if (length(territorial_disputes) == 0) {
+    return(character())
+  }
+
+  keys <- normalize_key(territorial_disputes)
+  keys[keys %in% c("all", "true", "yes")] <- "all"
+  if ("all" %in% keys) {
+    return(all_regions)
+  }
+  if (any(keys %in% c("none", "false", "no"))) {
+    return(character())
+  }
+
+  aliases <- c(
+    northernterritories = "northern_territories",
+    northernterritory = "northern_territories",
+    kuril = "northern_territories",
+    kurils = "northern_territories",
+    kurilislands = "northern_territories",
+    etorofu = "northern_territories",
+    iturup = "northern_territories",
+    kunashiri = "northern_territories",
+    kunashir = "northern_territories",
+    shikotan = "northern_territories",
+    habomai = "northern_territories",
+    okinotorishima = "okinotorishima",
+    okinotorishimaisland = "okinotorishima",
+    senkaku = "senkaku",
+    senkakuislands = "senkaku",
+    diaoyu = "senkaku",
+    diaoyuislands = "senkaku",
+    takeshima = "takeshima",
+    liancourt = "takeshima",
+    liancourtrocks = "takeshima",
+    dokdo = "takeshima"
+  )
+
+  normalized <- unname(aliases[keys])
+  invalid <- territorial_disputes[is.na(normalized)]
+  if (length(invalid) > 0) {
+    stop(
+      "`territorial_disputes` must be TRUE, FALSE, or one or more of: ",
+      paste(all_regions, collapse = ", "),
+      call. = FALSE
+    )
+  }
+
+  unique(normalized)
+}
+
+disputed_territories_sf <- function(layer, disputed_regions) {
+  specs <- disputed_territory_source()
+  specs <- specs[specs$dispute_region %in% disputed_regions, , drop = FALSE]
+
+  if (nrow(specs) == 0) {
+    data <- disputed_territory_rows(layer, specs)
+    return(sf::st_sf(data, geometry = sf::st_sfc(crs = 4326)))
+  }
+
+  data <- disputed_territory_rows(layer, specs)
+  sf::st_sf(data, geometry = sf::st_geometry(specs), crs = sf::st_crs(specs))
+}
+
+disputed_territory_source <- function() {
+  path <- system.file(
+    "extdata",
+    "jpmap_disputed_territories.gpkg",
+    package = "jpmap"
+  )
+  if (!nzchar(path)) {
+    dev_path <- file.path("inst", "extdata", "jpmap_disputed_territories.gpkg")
+    if (file.exists(dev_path)) {
+      path <- dev_path
+    }
+  }
+  if (!nzchar(path) || !file.exists(path)) {
+    stop("Could not find bundled disputed-territory geometry data.", call. = FALSE)
+  }
+  sf::st_read(path, layer = "territorial_disputes", quiet = TRUE)
+}
+
+disputed_territory_rows <- function(layer, specs) {
+  n <- nrow(specs)
+  if (n == 0) {
+    data <- data.frame(
+      jis_code = character(),
+      pref_code = character(),
+      prefecture = character(),
+      prefecture_ja = character(),
+      is_disputed_territory = logical(),
+      dispute_region = character(),
+      territory = character(),
+      territory_ja = character(),
+      source = character(),
+      source_url = character(),
+      note = character(),
+      stringsAsFactors = FALSE
+    )
+    if (identical(layer, "municipalities")) {
+      data$municipality_code <- character()
+      data$municipality <- character()
+      data$municipality_ja <- character()
+      data$municipality_full_ja <- character()
+    }
+    return(data)
+  }
+
+  data <- data.frame(
+    jis_code = paste0("disputed_", specs$dispute_region),
+    pref_code = rep(NA_character_, n),
+    prefecture = specs$name_en,
+    prefecture_ja = specs$name_ja,
+    is_disputed_territory = rep(TRUE, n),
+    dispute_region = specs$dispute_region,
+    territory = specs$name_en,
+    territory_ja = specs$name_ja,
+    source = specs$source,
+    source_url = specs$source_url,
+    note = specs$note,
+    stringsAsFactors = FALSE
+  )
+
+  if (identical(layer, "municipalities")) {
+    data$municipality_code <- data$jis_code
+    data$municipality <- data$territory
+    data$municipality_ja <- data$territory_ja
+    data$municipality_full_ja <- data$territory_ja
+  }
+
+  data
 }
 
 match_admin_values <- function(map, regions, values) {

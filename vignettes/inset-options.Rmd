@@ -64,6 +64,29 @@ plot_jpmap(
   )
 ```
 
+## Adjust The Map Frame
+
+Use `xlim` and `ylim` to set longitude/latitude limits. You can also set axis
+breaks and labels. This example keeps the main islands and Okinawa while
+dropping the Ogasawara inset.
+
+```{r axis-controls}
+plot_jpmap(
+  "prefecture",
+  ogasawara = FALSE,
+  xlim = c(122, 149),
+  ylim = c(28.5, 47),
+  x_breaks = seq(125, 145, 5),
+  y_breaks = seq(30, 45, 5),
+  x_labels = function(x) paste0(x, "\u00b0E"),
+  y_labels = function(y) paste0(y, "\u00b0N")
+) +
+  labs(title = "Main islands with Okinawa inset") +
+  theme(
+    plot.title = element_text(face = "bold", color = "#2C2A29")
+  )
+```
+
 ## Remove The Boxes
 
 Set `inset_boxes = FALSE` to keep the transported islands but remove the
@@ -99,6 +122,31 @@ plot_jpmap(
   )
 ```
 
+## Add Disputed-Territory Shapes
+
+Areas discussed in Japan territorial-dispute references are excluded by default.
+Set `territorial_disputes = TRUE` to add cartographic island/reef shapes for
+Northern Territories, Okinotorishima, Senkaku Islands, and Takeshima / Liancourt
+Rocks. You can also pass a character vector to include only selected regions,
+such as `territorial_disputes = "senkaku"` or
+`territorial_disputes = c("senkaku", "takeshima")`.
+
+`plot_jpmap()` gives opt-in disputed shapes a separate fill and dot overlay so
+small islands and reefs remain visible at the default scale. Use
+`disputed_fill`, `disputed_color`, or `disputed_dots = FALSE` to change that
+styling.
+
+```{r disputed-territories}
+plot_jpmap(
+  "prefecture",
+  territorial_disputes = TRUE
+) +
+  labs(title = "Map with opt-in disputed-territory shapes") +
+  theme(
+    plot.title = element_text(face = "bold", color = "#2C2A29")
+  )
+```
+
 ## What The Boxes Mean
 
 The inset boxes are visual guide frames for the transported island groups. They
@@ -112,3 +160,7 @@ transported as Okinawa. For Ogasawara, the default box also covers the remote
 Ogasawara pieces present in the bundled prefecture layer, such as
 Minamitorishima. Use `inset = FALSE` when literal geographic placement matters
 more than a compact display.
+
+When `territorial_disputes = TRUE` includes Okinotorishima, the Ogasawara box is
+expanded so the opt-in Okinotorishima reef shape remains visible. These
+disputed-territory shapes are not official boundary polygons.

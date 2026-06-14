@@ -50,10 +50,25 @@
 <span>  inset <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  okinawa <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ogasawara <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  territorial_disputes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  disputed_fill <span class="op">=</span> <span class="st">"#F6C85F"</span>,</span>
+<span>  disputed_color <span class="op">=</span> <span class="st">"#2C2A29"</span>,</span>
+<span>  disputed_linewidth <span class="op">=</span> <span class="fl">0.35</span>,</span>
+<span>  disputed_dots <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  disputed_dot_fill <span class="op">=</span> <span class="st">"#2C2A29"</span>,</span>
+<span>  disputed_dot_color <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>  disputed_dot_size <span class="op">=</span> <span class="fl">1.25</span>,</span>
+<span>  disputed_dot_stroke <span class="op">=</span> <span class="fl">0.2</span>,</span>
 <span>  inset_boxes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  inset_box_color <span class="op">=</span> <span class="st">"grey50"</span>,</span>
 <span>  inset_box_linewidth <span class="op">=</span> <span class="fl">0.35</span>,</span>
 <span>  data_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ylim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  x_breaks <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  y_breaks <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  x_labels <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  y_labels <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  fill <span class="op">=</span> <span class="st">"grey92"</span>,</span>
 <span>  color <span class="op">=</span> <span class="st">"grey35"</span>,</span>
 <span>  linewidth <span class="op">=</span> <span class="fl">0.25</span>,</span>
@@ -100,6 +115,38 @@ Ogasawara, <code>FALSE</code> for no movement, or a character vector containing
 <dt id="arg-ogasawara">ogasawara<a class="anchor" aria-label="anchor" href="#arg-ogasawara"></a></dt>
 <dd><p>Whether Ogasawara should be moved when <code>inset</code> includes it.</p></dd>
 
+<dt id="arg-territorial-disputes">territorial_disputes<a class="anchor" aria-label="anchor" href="#arg-territorial-disputes"></a></dt>
+<dd><p>Whether to include disputed-territory island/reef
+shapes. The default is <code>FALSE</code>. Use <code>TRUE</code> for all built-in
+shapes, or a character vector containing one or more of
+<code>"northern_territories"</code>, <code>"okinotorishima"</code>, <code>"senkaku"</code>, and
+<code>"takeshima"</code>.</p></dd>
+
+<dt id="arg-disputed-fill">disputed_fill<a class="anchor" aria-label="anchor" href="#arg-disputed-fill"></a></dt>
+<dd><p>Fill color for opt-in disputed-territory shapes.</p></dd>
+
+<dt id="arg-disputed-color">disputed_color<a class="anchor" aria-label="anchor" href="#arg-disputed-color"></a></dt>
+<dd><p>Outline color for opt-in disputed-territory shapes.</p></dd>
+
+<dt id="arg-disputed-linewidth">disputed_linewidth<a class="anchor" aria-label="anchor" href="#arg-disputed-linewidth"></a></dt>
+<dd><p>Line width for opt-in disputed-territory shapes.</p></dd>
+
+<dt id="arg-disputed-dots">disputed_dots<a class="anchor" aria-label="anchor" href="#arg-disputed-dots"></a></dt>
+<dd><p>Whether to draw dot markers on opt-in disputed-territory
+shapes.</p></dd>
+
+<dt id="arg-disputed-dot-fill">disputed_dot_fill<a class="anchor" aria-label="anchor" href="#arg-disputed-dot-fill"></a></dt>
+<dd><p>Fill color for disputed-territory dot markers.</p></dd>
+
+<dt id="arg-disputed-dot-color">disputed_dot_color<a class="anchor" aria-label="anchor" href="#arg-disputed-dot-color"></a></dt>
+<dd><p>Outline color for disputed-territory dot markers.</p></dd>
+
+<dt id="arg-disputed-dot-size">disputed_dot_size<a class="anchor" aria-label="anchor" href="#arg-disputed-dot-size"></a></dt>
+<dd><p>Size for disputed-territory dot markers.</p></dd>
+
+<dt id="arg-disputed-dot-stroke">disputed_dot_stroke<a class="anchor" aria-label="anchor" href="#arg-disputed-dot-stroke"></a></dt>
+<dd><p>Stroke width for disputed-territory dot markers.</p></dd>
+
 <dt id="arg-inset-boxes">inset_boxes<a class="anchor" aria-label="anchor" href="#arg-inset-boxes"></a></dt>
 <dd><p>Whether to draw boxes around transported Okinawa and
 Ogasawara insets.</p></dd>
@@ -112,6 +159,15 @@ Ogasawara insets.</p></dd>
 
 <dt id="arg-data-dir">data_dir<a class="anchor" aria-label="anchor" href="#arg-data-dir"></a></dt>
 <dd><p>Optional directory containing <code>jpmap_boundaries_YYYY.gpkg</code>.</p></dd>
+
+<dt id="arg-xlim-ylim">xlim, ylim<a class="anchor" aria-label="anchor" href="#arg-xlim-ylim"></a></dt>
+<dd><p>Optional longitude and latitude limits for the plot frame.</p></dd>
+
+<dt id="arg-x-breaks-y-breaks">x_breaks, y_breaks<a class="anchor" aria-label="anchor" href="#arg-x-breaks-y-breaks"></a></dt>
+<dd><p>Optional longitude and latitude axis breaks.</p></dd>
+
+<dt id="arg-x-labels-y-labels">x_labels, y_labels<a class="anchor" aria-label="anchor" href="#arg-x-labels-y-labels"></a></dt>
+<dd><p>Optional longitude and latitude axis labels.</p></dd>
 
 <dt id="arg-fill">fill<a class="anchor" aria-label="anchor" href="#arg-fill"></a></dt>
 <dd><p>Boundary fill color when <code>values</code> is not supplied.</p></dd>
@@ -136,6 +192,15 @@ Ogasawara insets.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefecture"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefecture"</span>, ogasawara <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefecture"</span>, territorial_disputes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"prefecture"</span>,</span></span>
+<span class="r-in"><span>  ogasawara <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">122</span>, <span class="fl">149</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">28.5</span>, <span class="fl">47</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  x_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">125</span>, <span class="fl">145</span>, <span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  y_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">45</span>, <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefecture"</span>, inset_boxes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"municipality"</span>, include <span class="op">=</span> <span class="st">"Okinawa"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>

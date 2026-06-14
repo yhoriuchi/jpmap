@@ -75,6 +75,46 @@ test_that("bundled prefecture data are available by default", {
   expect_equal(nrow(map), 47)
 })
 
+test_that("disputed-territory shapes are opt-in", {
+  default_map <- jp_map("prefecture")
+  default_literal <- jp_map("prefecture", inset = FALSE)
+  disputed_map <- jp_map("prefecture", territorial_disputes = TRUE)
+  disputed_only <- jp_disputed_territories()
+  senkaku_only <- jp_disputed_territories("senkaku")
+  senkaku_literal <- jp_disputed_territories("senkaku", inset = FALSE)
+
+  expect_false("is_disputed_territory" %in% names(default_map))
+  expect_true(all(lengths(sf::st_intersects(default_literal, senkaku_literal)) == 0))
+  expect_equal(nrow(disputed_map), 51)
+  expect_equal(sum(disputed_map$is_disputed_territory %in% TRUE), 4)
+  expect_false(any(sf::st_is_empty(disputed_map[disputed_map$is_disputed_territory %in% TRUE, ])))
+  expect_equal(
+    sort(unique(disputed_map$dispute_region[disputed_map$is_disputed_territory %in% TRUE])),
+    c("northern_territories", "okinotorishima", "senkaku", "takeshima")
+  )
+
+  expect_s3_class(disputed_only, "sf")
+  expect_equal(nrow(disputed_only), 4)
+  expect_true(all(disputed_only$is_disputed_territory))
+  expect_true(all(grepl("POLYGON", as.character(sf::st_geometry_type(disputed_only)))))
+  expect_true(all(c("source", "source_url") %in% names(disputed_only)))
+  expect_equal(senkaku_only$dispute_region, "senkaku")
+  expect_equal(nrow(jp_disputed_territories(FALSE)), 0)
+  expect_error(jp_disputed_territories("atlantis"), "`territorial_disputes` must be TRUE")
+  plot <- plot_jpmap("prefecture", territorial_disputes = TRUE)
+  expect_s3_class(plot, "ggplot")
+  expect_true(length(plot$layers) >= 7)
+  expect_s3_class(
+    plot_jpmap("prefecture", territorial_disputes = TRUE, disputed_dots = FALSE),
+    "ggplot"
+  )
+  expect_error(
+    plot_jpmap("prefecture", territorial_disputes = TRUE, disputed_dots = NA),
+    "`disputed_dots` must be TRUE or FALSE",
+    fixed = TRUE
+  )
+})
+
 test_that("bundled Okinawa municipalities are available by default", {
   map <- jp_map("municipality", include = "Okinawa", inset = FALSE)
 
@@ -114,12 +154,36 @@ test_that("inset boxes are available for plot maps", {
     expect_equal(length(unique(ring[, 2])), 2)
   }
   expect_s3_class(graticules$lines, "sf")
+  expect_s3_class(graticules$labels, "sf")
   expect_true(nrow(graticules$lines) > nrow(boxes))
   expect_true(all(graticules$lines$region %in% c("okinawa", "ogasawara")))
-  expect_true(all(c("x", "y", "label") %in% names(graticules$labels)))
+  expect_true(all(c("x", "y", "label", "hjust", "vjust") %in% names(graticules$labels)))
   expect_true(any(grepl("E$", graticules$labels$label)))
   expect_true(any(grepl("N$", graticules$labels$label)))
   expect_s3_class(plot, "ggplot")
+  expect_s3_class(
+    plot_jpmap(
+      "prefectures",
+      data_year = 2021,
+      xlim = c(122, 149),
+      ylim = c(28.5, 47),
+      x_breaks = seq(125, 145, 5),
+      y_breaks = seq(30, 45, 5),
+      x_labels = paste0(seq(125, 145, 5), "E"),
+      y_labels = paste0(seq(30, 45, 5), "N")
+    ),
+    "ggplot"
+  )
+  expect_error(
+    plot_jpmap("prefectures", data_year = 2021, xlim = c(140, 130)),
+    "`xlim` must be NULL or an increasing numeric vector of length 2",
+    fixed = TRUE
+  )
+  expect_error(
+    plot_jpmap("prefectures", data_year = 2021, ylim = c(30, NA)),
+    "`ylim` must be NULL or an increasing numeric vector of length 2",
+    fixed = TRUE
+  )
   expect_error(
     plot_jpmap("prefectures", data_year = 2021, inset_boxes = NA),
     "`inset_boxes` must be TRUE or FALSE",
