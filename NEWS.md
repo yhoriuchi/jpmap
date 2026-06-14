@@ -1,11 +1,22 @@
 # jpmap 0.1.1
 
-Initial CRAN release.
+Minor CRAN resubmission update.
+
+- Removed large boundary GeoPackage files from `jpmap` so the package now
+  contains functionality only.
+- Updated the package and website documentation to point users to the companion
+  `jpmapdata` package or locally built MLIT N03 GeoPackage files for boundary
+  data.
+- Replaced relative README article links with absolute pkgdown URLs.
+- Reduced the source tarball size substantially for CRAN resubmission.
+
+# jpmap 0.1.0
+
+Initial CRAN submission.
 
 - Added a `usmap`-style API for Japan maps: `jp_map()`, `plot_jpmap()`,
   `jp_map_join()`, `plot_jpmap()`, `jpmap_transform()`, and `jpmap_crs()`.
-- Added support for prefecture and municipal boundary layers through a companion
-  data package or locally built MLIT N03 GeoPackage files.
+- Added support for prefecture and municipal boundary layers.
 - Added inset transformations and controls for Okinawa and Ogasawara, including
   true-coordinate graticules inside inset boxes and axis-limit controls.
 - Added disputed-territory island/reef shapes with controls such as
