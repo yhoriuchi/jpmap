@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jpmap</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,13 +32,15 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.0.9000" id="jpmap-0009000">jpmap 0.0.0.9000<a class="anchor" aria-label="anchor" href="#jpmap-0009000"></a></h2>
-<p>Initial development version.</p>
-<ul><li>Added a <code>usmap</code>-style API for Japan maps: <code><a href="../reference/jp_map.html">jp_map()</a></code>, <code><a href="../reference/plot_jpmap.html">plot_jpmap()</a></code>, <code><a href="../reference/jpmap_transform.html">jpmap_transform()</a></code>, and <code><a href="../reference/jpmap_crs.html">jpmap_crs()</a></code>.</li>
-<li>Added support for prefecture and municipal boundary layers.</li>
-<li>Added inset transformations for Okinawa and Ogasawara, with support for selecting which island groups to transport via <code>inset</code>.</li>
-<li>Added pkgdown website configuration using Florida State University garnet and gold colors.</li>
-<li>Added sample GDP-per-capita and U.S. military base datasets plus a website vignette showing both on a Japan map. The military-base example now separates installation locations from regional, command-level, and base-specific public personnel figures.</li>
+<h2 class="pkg-version" data-toc-text="0.1.0" id="jpmap-010">jpmap 0.1.0<a class="anchor" aria-label="anchor" href="#jpmap-010"></a></h2>
+<p>Initial CRAN release.</p>
+<ul><li>Added a <code>usmap</code>-style API for Japan maps: <code><a href="../reference/jp_map.html">jp_map()</a></code>, <code><a href="../reference/plot_jpmap.html">plot_jpmap()</a></code>, <code><a href="../reference/jp_map_join.html">jp_map_join()</a></code>, <code><a href="../reference/plot_jpmap.html">plot_jpmap()</a></code>, <code><a href="../reference/jpmap_transform.html">jpmap_transform()</a></code>, and <code><a href="../reference/jpmap_crs.html">jpmap_crs()</a></code>.</li>
+<li>Added support for prefecture and municipal boundary layers, including bundled MLIT N03 2024 municipal boundaries for Okinawa Prefecture.</li>
+<li>Added inset transformations and controls for Okinawa and Ogasawara, including true-coordinate graticules inside inset boxes and axis-limit controls.</li>
+<li>Added disputed-territory island/reef shapes, included quietly by default and removable with <code>territorial_disputes = FALSE</code>.</li>
+<li>Added <code><a href="../reference/jp_map_leaflet.html">jp_map_leaflet()</a></code> for interactive web maps.</li>
+<li>Added sample GDP-per-capita and U.S. military base datasets, plus focused vignettes using tidyverse-style examples with the native R pipe.</li>
+<li>Added a pkgdown website and Samurai Blue logo/theme.</li>
 </ul></div>
   </main></div>
 
