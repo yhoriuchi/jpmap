@@ -137,6 +137,25 @@ make an explicit and documented display choice rather than relying on
 inconsistent small-island and reef handling across data sources.</p>
 </div>
 <div class="section level2">
+<h2 id="custom-boundary-roadmap">Custom Boundary Roadmap<a class="anchor" aria-label="anchor" href="#custom-boundary-roadmap"></a>
+</h2>
+<p>Future extensions should make it easier to work with user-supplied
+special boundary data, such as electoral districts, historical
+municipalities, school districts, and other research-specific
+geographies. These datasets should usually remain outside
+<code>jpmap</code> and <code>jpmapdata</code> because they are larger,
+more specialized, and often depend on a particular election, law, time
+period, or research design.</p>
+<p>The intended direction is for <code>jpmap</code> to provide
+easy-to-use helpers for reading, checking, transforming, and plotting
+user-supplied <code>sf</code>, GeoPackage, or shapefile boundary data
+with the same Okinawa and Ogasawara inset behavior used by the built-in
+map workflows.</p>
+<p>For now, users can already bring their own spatial data into the
+<code>jpmap</code> coordinate system with
+<code><a href="../reference/jpmap_transform.html">jpmap_transform()</a></code>.</p>
+</div>
+<div class="section level2">
 <h2 id="reproducibility">Reproducibility<a class="anchor" aria-label="anchor" href="#reproducibility"></a>
 </h2>
 <p>For a reproducible project, record:</p>

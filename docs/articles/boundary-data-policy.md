@@ -86,6 +86,24 @@ a legal statement about sovereignty. The layer exists so users can make
 an explicit and documented display choice rather than relying on
 inconsistent small-island and reef handling across data sources.
 
+## Custom Boundary Roadmap
+
+Future extensions should make it easier to work with user-supplied
+special boundary data, such as electoral districts, historical
+municipalities, school districts, and other research-specific
+geographies. These datasets should usually remain outside `jpmap` and
+`jpmapdata` because they are larger, more specialized, and often depend
+on a particular election, law, time period, or research design.
+
+The intended direction is for `jpmap` to provide easy-to-use helpers for
+reading, checking, transforming, and plotting user-supplied `sf`,
+GeoPackage, or shapefile boundary data with the same Okinawa and
+Ogasawara inset behavior used by the built-in map workflows.
+
+For now, users can already bring their own spatial data into the
+`jpmap` coordinate system with
+[`jpmap_transform()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_transform.md).
+
 ## Reproducibility
 
 For a reproducible project, record:
