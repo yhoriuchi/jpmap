@@ -9,12 +9,12 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
                        inset = TRUE,
                        okinawa = TRUE,
                        ogasawara = TRUE,
-                       territorial_disputes = FALSE,
-                       disputed_fill = "#F6C85F",
-                       disputed_color = "#2C2A29",
-                       disputed_linewidth = 0.35,
-                       disputed_dots = TRUE,
-                       disputed_dot_fill = "#2C2A29",
+                       territorial_disputes = TRUE,
+                       disputed_fill = NULL,
+                       disputed_color = NULL,
+                       disputed_linewidth = NULL,
+                       disputed_dots = FALSE,
+                       disputed_dot_fill = "#001040",
                        disputed_dot_color = "white",
                        disputed_dot_size = 1.25,
                        disputed_dot_stroke = 0.2,
@@ -95,9 +95,9 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
     plot <- plot +
       ggplot2::geom_sf(
         data = disputed_map,
-        fill = disputed_fill,
-        color = disputed_color,
-        linewidth = disputed_linewidth,
+        fill = disputed_fill %||% fill,
+        color = disputed_color %||% color,
+        linewidth = disputed_linewidth %||% linewidth,
         inherit.aes = FALSE
       )
 

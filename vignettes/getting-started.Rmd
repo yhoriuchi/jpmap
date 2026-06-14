@@ -9,7 +9,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", message = FALSE)
 ```
 
 `jpmap` follows the same basic workflow as `usmap`: plot a map, get the map
@@ -23,6 +23,7 @@ remotes::install_github("yhoriuchi/jpmap")
 ```
 
 ```{r}
+library(tidyverse)
 library(jpmap)
 ```
 
@@ -44,13 +45,15 @@ okinawa_municipalities <- jp_map("municipality", include = "Okinawa")
 The transform function is `jpmap_transform()`.
 
 ```{r}
-places <- data.frame(
-  place = c("Tokyo", "Naha", "Ogasawara"),
-  lon = c(139.767, 127.681, 142.191),
-  lat = c(35.681, 26.212, 27.094)
+places <- tribble(
+  ~place, ~lon, ~lat,
+  "Tokyo", 139.767, 35.681,
+  "Naha", 127.681, 26.212,
+  "Ogasawara", 142.191, 27.094
 )
 
-jpmap_transform(places, output_names = c("x", "y"))
+places |>
+  jpmap_transform(output_names = c("x", "y"))
 ```
 
 By default, the transform moves Okinawa and Ogasawara into visible inset

@@ -1,16 +1,16 @@
-/* jpmap pkgdown theme, using Florida State University garnet and gold. */
+/* jpmap pkgdown theme, using a Samurai Blue-inspired palette. */
 
 :root {
-  --jpmap-garnet: #782F40;
-  --jpmap-gold: #CEB888;
-  --jpmap-gold-light: #F7F1E4;
+  --jpmap-blue: #001040;
+  --jpmap-blue-mid: #005BAC;
+  --jpmap-blue-light: #F2F6FF;
   --jpmap-ink: #2C2A29;
-  --jpmap-border: #E6D9C3;
+  --jpmap-border: #BBD7FF;
 }
 
 .navbar {
-  background-color: var(--jpmap-garnet) !important;
-  border-bottom: 4px solid var(--jpmap-gold);
+  background-color: var(--jpmap-blue) !important;
+  border-bottom: 4px solid var(--jpmap-blue-mid);
 }
 
 .navbar .navbar-brand,
@@ -21,18 +21,18 @@
 .navbar .navbar-brand:hover,
 .navbar .navbar-nav .nav-link:hover,
 .navbar .navbar-nav .nav-link:focus {
-  color: var(--jpmap-gold) !important;
+  color: var(--jpmap-border) !important;
 }
 
 a,
 .page-header a,
 .contents a {
-  color: var(--jpmap-garnet);
+  color: var(--jpmap-blue);
 }
 
 a:hover,
 .contents a:hover {
-  color: var(--jpmap-ink);
+  color: var(--jpmap-blue-mid);
 }
 
 .contents h1,
@@ -40,7 +40,7 @@ a:hover,
 .contents h3,
 .contents h4,
 .page-header h1 {
-  color: var(--jpmap-garnet);
+  color: var(--jpmap-blue);
 }
 
 .contents h2 {
@@ -50,7 +50,7 @@ a:hover,
 }
 
 .template-home .contents > h3:first-of-type {
-  color: var(--jpmap-garnet);
+  color: var(--jpmap-blue);
   font-weight: 700;
 }
 
@@ -72,7 +72,7 @@ pre.downlit {
 
 div.sourceCode {
   border-radius: 7px;
-  background-color: var(--jpmap-gold-light);
+  background-color: var(--jpmap-blue-light);
 }
 
 pre,
@@ -89,29 +89,29 @@ code {
 code a,
 pre a,
 .sourceCode a {
-  color: var(--jpmap-garnet);
+  color: var(--jpmap-blue);
   text-decoration: none !important;
 }
 
 code a:hover,
 pre a:hover,
 .sourceCode a:hover {
-  color: var(--jpmap-ink);
+  color: var(--jpmap-blue-mid);
   text-decoration: underline !important;
 }
 
 .sourceCode .fu,
 .sourceCode .kw {
-  color: var(--jpmap-garnet) !important;
+  color: var(--jpmap-blue) !important;
 }
 
 .sourceCode .st,
 .sourceCode .cn {
-  color: #5F4B1B !important;
+  color: var(--jpmap-blue-mid) !important;
 }
 
 .ref-index h2 {
-  color: var(--jpmap-garnet);
+  color: var(--jpmap-blue);
 }
 
 .pkgdown-footer-left,

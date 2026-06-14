@@ -39,8 +39,15 @@ including \code{pref_code}, \code{jis_code}, and \code{municipality_code}, and
 keeps leading zeroes from getting in the user's way.
 }
 \examples{
-data("jp_prefecture_gdp")
-map <- jp_map("prefecture")
-joined <- jp_map_join(map, jp_prefecture_gdp, by = "pref_code")
-names(joined)
+if (requireNamespace("dplyr", quietly = TRUE)) {
+  data("jp_prefecture_gdp")
+
+  gdp <- jp_prefecture_gdp |>
+    dplyr::select(pref_code, gdp_per_capita_jpy)
+
+  joined <- jp_map("prefecture") |>
+    jp_map_join(gdp, by = "pref_code")
+
+  "gdp_per_capita_jpy" \%in\% names(joined)
+}
 }

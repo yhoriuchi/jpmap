@@ -50,12 +50,12 @@
 <span>  inset <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  okinawa <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ogasawara <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  territorial_disputes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  disputed_fill <span class="op">=</span> <span class="st">"#F6C85F"</span>,</span>
-<span>  disputed_color <span class="op">=</span> <span class="st">"#2C2A29"</span>,</span>
-<span>  disputed_linewidth <span class="op">=</span> <span class="fl">0.35</span>,</span>
-<span>  disputed_dots <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  disputed_dot_fill <span class="op">=</span> <span class="st">"#2C2A29"</span>,</span>
+<span>  territorial_disputes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  disputed_fill <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  disputed_color <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  disputed_linewidth <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  disputed_dots <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  disputed_dot_fill <span class="op">=</span> <span class="st">"#001040"</span>,</span>
 <span>  disputed_dot_color <span class="op">=</span> <span class="st">"white"</span>,</span>
 <span>  disputed_dot_size <span class="op">=</span> <span class="fl">1.25</span>,</span>
 <span>  disputed_dot_stroke <span class="op">=</span> <span class="fl">0.2</span>,</span>
@@ -117,23 +117,24 @@ Ogasawara, <code>FALSE</code> for no movement, or a character vector containing
 
 <dt id="arg-territorial-disputes">territorial_disputes<a class="anchor" aria-label="anchor" href="#arg-territorial-disputes"></a></dt>
 <dd><p>Whether to include disputed-territory island/reef
-shapes. The default is <code>FALSE</code>. Use <code>TRUE</code> for all built-in
-shapes, or a character vector containing one or more of
+shapes. The default is <code>TRUE</code>. Use <code>FALSE</code> to exclude them, or a
+character vector containing one or more of
 <code>"northern_territories"</code>, <code>"okinotorishima"</code>, <code>"senkaku"</code>, and
 <code>"takeshima"</code>.</p></dd>
 
 <dt id="arg-disputed-fill">disputed_fill<a class="anchor" aria-label="anchor" href="#arg-disputed-fill"></a></dt>
-<dd><p>Fill color for opt-in disputed-territory shapes.</p></dd>
+<dd><p>Optional fill color for disputed-territory shapes. The
+default, <code>NULL</code>, draws them quietly with the ordinary map fill.</p></dd>
 
 <dt id="arg-disputed-color">disputed_color<a class="anchor" aria-label="anchor" href="#arg-disputed-color"></a></dt>
-<dd><p>Outline color for opt-in disputed-territory shapes.</p></dd>
+<dd><p>Optional outline color for disputed-territory shapes. The
+default, <code>NULL</code>, draws them quietly with the ordinary map outline.</p></dd>
 
 <dt id="arg-disputed-linewidth">disputed_linewidth<a class="anchor" aria-label="anchor" href="#arg-disputed-linewidth"></a></dt>
-<dd><p>Line width for opt-in disputed-territory shapes.</p></dd>
+<dd><p>Optional line width for disputed-territory shapes.</p></dd>
 
 <dt id="arg-disputed-dots">disputed_dots<a class="anchor" aria-label="anchor" href="#arg-disputed-dots"></a></dt>
-<dd><p>Whether to draw dot markers on opt-in disputed-territory
-shapes.</p></dd>
+<dd><p>Whether to draw dot markers on disputed-territory shapes.</p></dd>
 
 <dt id="arg-disputed-dot-fill">disputed_dot_fill<a class="anchor" aria-label="anchor" href="#arg-disputed-dot-fill"></a></dt>
 <dd><p>Fill color for disputed-territory dot markers.</p></dd>
@@ -192,7 +193,7 @@ Ogasawara insets.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefecture"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefecture"</span>, ogasawara <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefecture"</span>, territorial_disputes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span><span class="st">"prefecture"</span>, territorial_disputes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">plot_jpmap</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"prefecture"</span>,</span></span>
 <span class="r-in"><span>  ogasawara <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>

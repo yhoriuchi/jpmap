@@ -7,15 +7,14 @@ points are legible.
 
 ``` r
 
-library(ggplot2)
+library(tidyverse)
 library(jpmap)
 
-data("jp_us_military_bases")
-
-okinawa_bases <- jp_us_military_bases[
-  jp_us_military_bases$prefecture == "Okinawa" &
-    jp_us_military_bases$base != "Okinawa U.S. military facilities",
-]
+okinawa_bases <- jp_us_military_bases |>
+  filter(
+    prefecture == "Okinawa",
+    base != "Okinawa U.S. military facilities"
+  )
 
 okinawa_main_island <- c(
   "那覇市", "宜野湾市", "浦添市", "名護市", "糸満市", "沖縄市",
@@ -25,20 +24,21 @@ okinawa_main_island <- c(
   "南風原町", "八重瀬町"
 )
 okinawa_main_island_min_area <- 5e6
+keep_okinawa_main_island <- function(map) {
+  filtered <- map |>
+    filter(municipality_ja %in% okinawa_main_island)
 
-okinawa_main_map <- jp_map("municipality", include = "Okinawa", inset = FALSE)
-okinawa_main_map <- okinawa_main_map[
-  okinawa_main_map$municipality_ja %in% okinawa_main_island,
-]
-okinawa_main_map <- okinawa_main_map[
-  as.numeric(sf::st_area(okinawa_main_map)) >= okinawa_main_island_min_area,
-]
+  filtered |>
+    mutate(area_m2 = as.numeric(sf::st_area(filtered))) |>
+    filter(area_m2 >= okinawa_main_island_min_area) |>
+    select(-area_m2)
+}
 
-okinawa_bases_xy <- jpmap_transform(
-  okinawa_bases,
-  output_names = c("x", "y"),
-  inset = FALSE
-)
+okinawa_main_map <- jp_map("municipality", include = "Okinawa", inset = FALSE) |>
+  keep_okinawa_main_island()
+
+okinawa_bases_xy <- okinawa_bases |>
+  jpmap_transform(output_names = c("x", "y"), inset = FALSE)
 ```
 
 ``` r
@@ -61,10 +61,10 @@ ggplot(okinawa_main_map) +
   ) +
   scale_color_manual(
     values = c(
-      "Air Force" = "#782F40",
+      "Air Force" = "#005BAC",
       "Army" = "#2C2A29",
-      "Marine Corps" = "#CEB888",
-      "Navy" = "#3A6EA5"
+      "Marine Corps" = "#7899D4",
+      "Navy" = "#001040"
     ),
     name = "Branch"
   ) +
@@ -77,7 +77,7 @@ ggplot(okinawa_main_map) +
     axis.title = element_blank(),
     panel.grid.minor = element_blank(),
     legend.background = element_rect(fill = "white", color = NA),
-    plot.title = element_text(face = "bold", color = "#2C2A29"),
+    plot.title = element_text(face = "bold", color = "#001040"),
     plot.caption = element_text(color = "#2C2A29", hjust = 0, size = 8)
   )
 ```

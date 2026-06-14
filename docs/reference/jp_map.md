@@ -13,7 +13,7 @@ jp_map(
   inset = TRUE,
   okinawa = TRUE,
   ogasawara = TRUE,
-  territorial_disputes = FALSE,
+  territorial_disputes = TRUE,
   data_dir = NULL
 )
 ```
@@ -56,7 +56,7 @@ jp_map(
 - territorial_disputes:
 
   Whether to include disputed-territory island/reef shapes. The default
-  is `FALSE`. Use `TRUE` for all built-in shapes, or a character vector
+  is `TRUE`. Use `FALSE` to exclude them, or a character vector
   containing one or more of `"northern_territories"`,
   `"okinotorishima"`, `"senkaku"`, and `"takeshima"`.
 
@@ -74,7 +74,7 @@ An `sf` data frame.
 if (FALSE) { # \dontrun{
 jp_map("prefectures")
 jp_map("prefectures", okinawa = FALSE)
-jp_map("prefectures", territorial_disputes = TRUE)
+jp_map("prefectures", territorial_disputes = FALSE)
 jp_map("municipalities", include = "Okinawa")
 jp_map("prefecture")
 jp_map("municipality", include = "Okinawa")

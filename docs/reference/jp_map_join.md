@@ -62,11 +62,16 @@ An `sf` object with non-geometry columns from `data` joined to `map`.
 ## Examples
 
 ``` r
-data("jp_prefecture_gdp")
-map <- jp_map("prefecture")
-joined <- jp_map_join(map, jp_prefecture_gdp, by = "pref_code")
-names(joined)
-#> [1] "jis_code"               "pref_code"              "prefecture"            
-#> [4] "prefecture_ja"          "geom"                   "year"                  
-#> [7] "gdp_per_capita_jpy"     "gdp_per_capita_usd_ppp" "source"                
+if (requireNamespace("dplyr", quietly = TRUE)) {
+  data("jp_prefecture_gdp")
+
+  gdp <- jp_prefecture_gdp |>
+    dplyr::select(pref_code, gdp_per_capita_jpy)
+
+  joined <- jp_map("prefecture") |>
+    jp_map_join(gdp, by = "pref_code")
+
+  "gdp_per_capita_jpy" %in% names(joined)
+}
+#> [1] TRUE
 ```

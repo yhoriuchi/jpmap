@@ -14,12 +14,12 @@ plot_jpmap(
   inset = TRUE,
   okinawa = TRUE,
   ogasawara = TRUE,
-  territorial_disputes = FALSE,
-  disputed_fill = "#F6C85F",
-  disputed_color = "#2C2A29",
-  disputed_linewidth = 0.35,
-  disputed_dots = TRUE,
-  disputed_dot_fill = "#2C2A29",
+  territorial_disputes = TRUE,
+  disputed_fill = NULL,
+  disputed_color = NULL,
+  disputed_linewidth = NULL,
+  disputed_dots = FALSE,
+  disputed_dot_fill = "#001040",
   disputed_dot_color = "white",
   disputed_dot_size = 1.25,
   disputed_dot_stroke = 0.2,
@@ -54,15 +54,16 @@ Ogasawara, \code{FALSE} for no movement, or a character vector containing
 \item{okinawa}{Whether Okinawa should be moved when \code{inset} includes it.}
 \item{ogasawara}{Whether Ogasawara should be moved when \code{inset} includes it.}
 \item{territorial_disputes}{Whether to include disputed-territory island/reef
-shapes. The default is \code{FALSE}. Use \code{TRUE} for all built-in
-shapes, or a character vector containing one or more of
+shapes. The default is \code{TRUE}. Use \code{FALSE} to exclude them, or a
+character vector containing one or more of
 \code{"northern_territories"}, \code{"okinotorishima"}, \code{"senkaku"}, and
 \code{"takeshima"}.}
-\item{disputed_fill}{Fill color for opt-in disputed-territory shapes.}
-\item{disputed_color}{Outline color for opt-in disputed-territory shapes.}
-\item{disputed_linewidth}{Line width for opt-in disputed-territory shapes.}
-\item{disputed_dots}{Whether to draw dot markers on opt-in disputed-territory
-shapes.}
+\item{disputed_fill}{Optional fill color for disputed-territory shapes. The
+default, \code{NULL}, draws them quietly with the ordinary map fill.}
+\item{disputed_color}{Optional outline color for disputed-territory shapes. The
+default, \code{NULL}, draws them quietly with the ordinary map outline.}
+\item{disputed_linewidth}{Optional line width for disputed-territory shapes.}
+\item{disputed_dots}{Whether to draw dot markers on disputed-territory shapes.}
 \item{disputed_dot_fill}{Fill color for disputed-territory dot markers.}
 \item{disputed_dot_color}{Outline color for disputed-territory dot markers.}
 \item{disputed_dot_size}{Size for disputed-territory dot markers.}
@@ -90,7 +91,7 @@ A \code{ggplot2} plot.
 \dontrun{
 plot_jpmap("prefecture")
 plot_jpmap("prefecture", ogasawara = FALSE)
-plot_jpmap("prefecture", territorial_disputes = TRUE)
+plot_jpmap("prefecture", territorial_disputes = FALSE)
 plot_jpmap(
   "prefecture",
   ogasawara = FALSE,

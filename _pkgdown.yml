@@ -4,11 +4,11 @@ template:
   bootstrap: 5
   bootswatch: flatly
   bslib:
-    primary: "#782F40"
-    secondary: "#CEB888"
-    link-color: "#782F40"
+    primary: "#001040"
+    secondary: "#005BAC"
+    link-color: "#001040"
     navbar-dark-color: "#FFFFFF"
-    navbar-dark-hover-color: "#CEB888"
+    navbar-dark-hover-color: "#BBD7FF"
 
 development:
   mode: unreleased

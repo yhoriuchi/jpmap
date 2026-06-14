@@ -6,17 +6,12 @@ as base-specific public personnel figures.
 
 ``` r
 
-library(ggplot2)
+library(tidyverse)
 library(jpmap)
 
-data("jp_us_military_bases")
-
-bases <- jp_us_military_bases[
-  !is.na(jp_us_military_bases$personnel) &
-    jp_us_military_bases$personnel_is_base_specific,
-]
-
-bases_xy <- jpmap_transform(bases, output_names = c("x", "y"))
+bases_xy <- jp_us_military_bases |>
+  filter(!is.na(personnel), personnel_is_base_specific) |>
+  jpmap_transform(output_names = c("x", "y"))
 ```
 
 ``` r
@@ -31,7 +26,7 @@ plot_jpmap(
     data = bases_xy,
     aes(x = x, y = y, size = personnel),
     shape = 21,
-    fill = "#782F40",
+    fill = "#001040",
     color = "grey15",
     alpha = 0.85,
     stroke = 0.35
@@ -43,7 +38,7 @@ plot_jpmap(
   ) +
   theme(
     legend.background = element_rect(fill = "white", color = NA),
-    plot.title = element_text(face = "bold", color = "#2C2A29"),
+    plot.title = element_text(face = "bold", color = "#001040"),
     plot.caption = element_text(color = "#2C2A29", hjust = 0, size = 8)
   )
 ```

@@ -13,8 +13,8 @@ The installed package includes:
   maps;
 - official MLIT N03 municipal boundaries for Okinawa Prefecture as of
   January 1, 2024;
-- opt-in disputed-territory shapes used only when `territorial_disputes`
-  is requested.
+- disputed-territory shapes that are included by default and can be
+  excluded with `territorial_disputes = FALSE`.
 
 You can see the available bundled and local GeoPackage files with:
 
@@ -64,7 +64,8 @@ converts the source archive to a GeoPackage with two layers,
 
 ## Disputed-Territory Shapes
 
-Disputed-territory shapes are excluded by default:
+Disputed-territory shapes are included by default and drawn quietly with
+the rest of the map:
 
 ``` r
 
@@ -73,11 +74,11 @@ plot_jpmap("prefecture")
 
 ![](boundary-data-policy_files/figure-html/unnamed-chunk-5-1.png)
 
-Add them explicitly when they are relevant to your map:
+Exclude them explicitly when that is the right display choice:
 
 ``` r
 
-plot_jpmap("prefecture", territorial_disputes = TRUE)
+plot_jpmap("prefecture", territorial_disputes = FALSE)
 ```
 
 ![](boundary-data-policy_files/figure-html/unnamed-chunk-6-1.png)
@@ -93,7 +94,7 @@ plot_jpmap("prefecture", territorial_disputes = c("senkaku", "takeshima"))
 The disputed-territory layer is a cartographic display layer. It is not
 a legal statement about sovereignty. The layer exists so users can make
 an explicit and documented display choice rather than relying on
-silently included or silently omitted small islands and reefs.
+inconsistent small-island and reef handling across data sources.
 
 ## Reproducibility
 

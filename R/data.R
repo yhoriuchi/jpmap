@@ -56,7 +56,7 @@ jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "m
                    inset = TRUE,
                    okinawa = TRUE,
                    ogasawara = TRUE,
-                   territorial_disputes = FALSE,
+                   territorial_disputes = TRUE,
                    data_dir = NULL) {
   layer <- canonical_region(regions)
   disputed_regions <- normalize_territorial_disputes(territorial_disputes)
@@ -71,7 +71,13 @@ jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "m
   map <- filter_jpmap(map, layer, include, exclude)
   map <- remove_disputed_territories(map)
   if (length(disputed_regions) > 0) {
-    map <- add_disputed_territories(map, layer, disputed_regions)
+    map <- add_disputed_territories(
+      map,
+      layer,
+      disputed_regions,
+      include = include,
+      exclude = exclude
+    )
   }
   jpmap_transform(map, inset = inset, okinawa = okinawa, ogasawara = ogasawara)
 }
@@ -331,8 +337,13 @@ filter_jpmap <- function(map, regions, include, exclude) {
   map[keep, , drop = FALSE]
 }
 
-add_disputed_territories <- function(map, layer, disputed_regions) {
+add_disputed_territories <- function(map,
+                                     layer,
+                                     disputed_regions,
+                                     include = c(),
+                                     exclude = c()) {
   disputes <- disputed_territories_sf(layer, disputed_regions)
+  disputes <- filter_disputed_territories(disputes, layer, include, exclude)
   disputes <- sf::st_transform(disputes, sf::st_crs(map))
   disputes <- match_sf_geometry_column(disputes, map)
 
@@ -347,6 +358,21 @@ add_disputed_territories <- function(map, layer, disputed_regions) {
   disputes <- disputes[names(map)]
 
   rbind(map, disputes)
+}
+
+filter_disputed_territories <- function(disputes, layer, include = c(), exclude = c()) {
+  include <- as.character(include)
+  exclude <- as.character(exclude)
+
+  if (length(include) > 0) {
+    keep <- match_disputed_values(disputes, layer, include)
+  } else if (length(exclude) > 0) {
+    keep <- !match_disputed_values(disputes, layer, exclude)
+  } else {
+    keep <- rep(TRUE, nrow(disputes))
+  }
+
+  disputes[keep, , drop = FALSE]
 }
 
 remove_disputed_territories <- function(map) {
@@ -400,7 +426,7 @@ empty_disputed_territories <- function(layer) {
   disputed_territories_sf(layer, character())
 }
 
-normalize_territorial_disputes <- function(territorial_disputes = FALSE) {
+normalize_territorial_disputes <- function(territorial_disputes = TRUE) {
   all_regions <- c("northern_territories", "okinotorishima", "senkaku", "takeshima")
 
   if (is.null(territorial_disputes)) {
@@ -503,6 +529,7 @@ disputed_territory_source <- function() {
 
 disputed_territory_rows <- function(layer, specs) {
   n <- nrow(specs)
+  claims <- disputed_territory_claims(specs$dispute_region)
   if (n == 0) {
     data <- data.frame(
       jis_code = character(),
@@ -513,6 +540,9 @@ disputed_territory_rows <- function(layer, specs) {
       dispute_region = character(),
       territory = character(),
       territory_ja = character(),
+      claimed_pref_code = character(),
+      claimed_prefecture = character(),
+      claimed_prefecture_ja = character(),
       source = character(),
       source_url = character(),
       note = character(),
@@ -523,6 +553,9 @@ disputed_territory_rows <- function(layer, specs) {
       data$municipality <- character()
       data$municipality_ja <- character()
       data$municipality_full_ja <- character()
+      data$claimed_municipality_code <- character()
+      data$claimed_municipality <- character()
+      data$claimed_municipality_ja <- character()
     }
     return(data)
   }
@@ -536,6 +569,9 @@ disputed_territory_rows <- function(layer, specs) {
     dispute_region = specs$dispute_region,
     territory = specs$name_en,
     territory_ja = specs$name_ja,
+    claimed_pref_code = claims$claimed_pref_code,
+    claimed_prefecture = claims$claimed_prefecture,
+    claimed_prefecture_ja = claims$claimed_prefecture_ja,
     source = specs$source,
     source_url = specs$source_url,
     note = specs$note,
@@ -547,9 +583,57 @@ disputed_territory_rows <- function(layer, specs) {
     data$municipality <- data$territory
     data$municipality_ja <- data$territory_ja
     data$municipality_full_ja <- data$territory_ja
+    data$claimed_municipality_code <- claims$claimed_municipality_code
+    data$claimed_municipality <- claims$claimed_municipality
+    data$claimed_municipality_ja <- claims$claimed_municipality_ja
   }
 
   data
+}
+
+disputed_territory_claims <- function(dispute_region) {
+  claims <- data.frame(
+    dispute_region = c("northern_territories", "okinotorishima", "senkaku", "takeshima"),
+    claimed_pref_code = c("01", "13", "47", "32"),
+    claimed_prefecture = c("Hokkaido", "Tokyo", "Okinawa", "Shimane"),
+    claimed_prefecture_ja = c("\u5317\u6d77\u9053", "\u6771\u4eac\u90fd", "\u6c96\u7e04\u770c", "\u5cf6\u6839\u770c"),
+    claimed_municipality_code = c(NA_character_, "13421", "47207", "32528"),
+    claimed_municipality = c(NA_character_, "Ogasawara", "Ishigaki", "Okinoshima"),
+    claimed_municipality_ja = c(NA_character_, "\u5c0f\u7b20\u539f\u6751", "\u77f3\u57a3\u5e02", "\u96a0\u5c90\u306e\u5cf6\u753a"),
+    stringsAsFactors = FALSE
+  )
+  claims[match(dispute_region, claims$dispute_region), , drop = FALSE]
+}
+
+match_disputed_values <- function(disputes, layer, values) {
+  if (length(values) == 0 || nrow(disputes) == 0) {
+    return(rep(FALSE, nrow(disputes)))
+  }
+
+  cols <- c(
+    "dispute_region",
+    "territory",
+    "territory_ja",
+    "claimed_pref_code",
+    "claimed_prefecture",
+    "claimed_prefecture_ja"
+  )
+  if (identical(layer, "municipalities")) {
+    cols <- c(
+      cols,
+      "claimed_municipality_code",
+      "claimed_municipality",
+      "claimed_municipality_ja"
+    )
+  }
+  cols <- cols[cols %in% names(disputes)]
+
+  keys <- normalize_key(values)
+  hit <- rep(FALSE, nrow(disputes))
+  for (col in cols) {
+    hit <- hit | normalize_key(disputes[[col]]) %in% keys
+  }
+  hit
 }
 
 match_admin_values <- function(map, regions, values) {

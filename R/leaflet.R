@@ -24,10 +24,14 @@
 #' @param tiles Whether to add default OpenStreetMap tiles.
 #' @param legend Whether to add a legend when `values` is supplied.
 #' @param fit_bounds Whether to zoom the widget to the map bounds.
-#' @param disputed_fill Fill color for opt-in disputed-territory shapes.
-#' @param disputed_color Outline color for opt-in disputed-territory shapes.
-#' @param disputed_dots Whether to draw circle markers on opt-in
-#'   disputed-territory shapes.
+#' @param simplify_tolerance Optional tolerance passed to [sf::st_simplify()]
+#'   before drawing polygons. This is useful for smaller website widgets.
+#' @param disputed_fill Optional fill color for disputed-territory shapes. The
+#'   default, `NULL`, draws them quietly with the ordinary map fill.
+#' @param disputed_color Optional outline color for disputed-territory shapes.
+#'   The default, `NULL`, draws them quietly with the ordinary map outline.
+#' @param disputed_dots Whether to draw circle markers on disputed-territory
+#'   shapes.
 #' @param disputed_dot_radius Radius for disputed-territory circle markers.
 #' @param ... Additional arguments passed to [leaflet::leaflet()].
 #'
@@ -35,12 +39,18 @@
 #' @export
 #'
 #' @examples
-#' if (requireNamespace("leaflet", quietly = TRUE)) {
+#' if (requireNamespace("leaflet", quietly = TRUE) &&
+#'     requireNamespace("dplyr", quietly = TRUE)) {
 #'   data("jp_prefecture_gdp")
+#'
+#'   gdp <- jp_prefecture_gdp |>
+#'     dplyr::select(pref_code, prefecture, gdp_per_capita_jpy)
+#'
 #'   jp_map_leaflet(
 #'     "prefecture",
-#'     data = jp_prefecture_gdp,
-#'     values = "gdp_per_capita_jpy"
+#'     data = gdp,
+#'     values = "gdp_per_capita_jpy",
+#'     popup = "prefecture"
 #'   )
 #' }
 jp_map_leaflet <- function(regions = c("prefectures", "prefecture", "municipalities", "municipality"),
@@ -50,9 +60,9 @@ jp_map_leaflet <- function(regions = c("prefectures", "prefecture", "municipalit
                            values = NULL,
                            by = NULL,
                            data_year = NULL,
-                           territorial_disputes = FALSE,
+                           territorial_disputes = TRUE,
                            data_dir = NULL,
-                           palette = "YlOrRd",
+                           palette = "Blues",
                            fill = "grey92",
                            color = "grey35",
                            weight = 1,
@@ -64,9 +74,10 @@ jp_map_leaflet <- function(regions = c("prefectures", "prefecture", "municipalit
                            tiles = TRUE,
                            legend = TRUE,
                            fit_bounds = TRUE,
-                           disputed_fill = "#F6C85F",
-                           disputed_color = "#2C2A29",
-                           disputed_dots = TRUE,
+                           simplify_tolerance = NULL,
+                           disputed_fill = NULL,
+                           disputed_color = NULL,
+                           disputed_dots = FALSE,
                            disputed_dot_radius = 5,
                            ...) {
   if (!requireNamespace("leaflet", quietly = TRUE)) {
@@ -90,6 +101,13 @@ jp_map_leaflet <- function(regions = c("prefectures", "prefecture", "municipalit
   }
   if (!is.null(values) && !values %in% names(map)) {
     stop("`values` column not found: ", values, call. = FALSE)
+  }
+  if (!is.null(simplify_tolerance)) {
+    map <- sf::st_simplify(
+      map,
+      dTolerance = simplify_tolerance,
+      preserveTopology = TRUE
+    )
   }
 
   styles <- leaflet_polygon_styles(
@@ -140,7 +158,7 @@ jp_map_leaflet <- function(regions = c("prefectures", "prefecture", "municipalit
       lng = coords[, "X"],
       lat = coords[, "Y"],
       radius = disputed_dot_radius,
-      fillColor = disputed_color,
+      fillColor = disputed_color %||% "#001040",
       color = "white",
       weight = 1,
       fillOpacity = 1,
@@ -164,12 +182,12 @@ jp_map_leaflet <- function(regions = c("prefectures", "prefecture", "municipalit
 
 leaflet_polygon_styles <- function(map,
                                    values = NULL,
-                                   palette = "YlOrRd",
+                                   palette = "Blues",
                                    fill = "grey92",
                                    color = "grey35",
                                    na_color = "#D9D9D9",
-                                   disputed_fill = "#F6C85F",
-                                   disputed_color = "#2C2A29") {
+                                   disputed_fill = NULL,
+                                   disputed_color = NULL) {
   disputed <- leaflet_disputed_index(map)
 
   if (is.null(values)) {
@@ -187,8 +205,8 @@ leaflet_polygon_styles <- function(map,
 
   line_colors <- rep(color, nrow(map))
   if (any(disputed)) {
-    fill_colors[disputed] <- disputed_fill
-    line_colors[disputed] <- disputed_color
+    fill_colors[disputed] <- disputed_fill %||% fill
+    line_colors[disputed] <- disputed_color %||% color
   }
 
   list(fill = fill_colors, color = line_colors, palette = palette_fun)

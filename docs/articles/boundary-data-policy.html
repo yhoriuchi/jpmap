@@ -79,8 +79,8 @@ boundary files from official public sources.</p>
 prefecture maps;</li>
 <li>official MLIT N03 municipal boundaries for Okinawa Prefecture as of
 January 1, 2024;</li>
-<li>opt-in disputed-territory shapes used only when
-<code>territorial_disputes</code> is requested.</li>
+<li>disputed-territory shapes that are included by default and can be
+excluded with <code>territorial_disputes = FALSE</code>.</li>
 </ul>
 <p>You can see the available bundled and local GeoPackage files
 with:</p>
@@ -122,13 +122,14 @@ GeoPackage with two layers, <code>prefectures</code> and
 <div class="section level2">
 <h2 id="disputed-territory-shapes">Disputed-Territory Shapes<a class="anchor" aria-label="anchor" href="#disputed-territory-shapes"></a>
 </h2>
-<p>Disputed-territory shapes are excluded by default:</p>
+<p>Disputed-territory shapes are included by default and drawn quietly
+with the rest of the map:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"prefecture"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="boundary-data-policy_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="700"></p>
-<p>Add them explicitly when they are relevant to your map:</p>
+<p>Exclude them explicitly when that is the right display choice:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"prefecture"</span>, territorial_disputes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"prefecture"</span>, territorial_disputes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="boundary-data-policy_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
 <p>You can also include selected areas:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -137,7 +138,7 @@ GeoPackage with two layers, <code>prefectures</code> and
 <p>The disputed-territory layer is a cartographic display layer. It is
 not a legal statement about sovereignty. The layer exists so users can
 make an explicit and documented display choice rather than relying on
-silently included or silently omitted small islands and reefs.</p>
+inconsistent small-island and reef handling across data sources.</p>
 </div>
 <div class="section level2">
 <h2 id="reproducibility">Reproducibility<a class="anchor" aria-label="anchor" href="#reproducibility"></a>

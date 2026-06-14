@@ -17,12 +17,12 @@ plot_jpmap(
   inset = TRUE,
   okinawa = TRUE,
   ogasawara = TRUE,
-  territorial_disputes = FALSE,
-  disputed_fill = "#F6C85F",
-  disputed_color = "#2C2A29",
-  disputed_linewidth = 0.35,
-  disputed_dots = TRUE,
-  disputed_dot_fill = "#2C2A29",
+  territorial_disputes = TRUE,
+  disputed_fill = NULL,
+  disputed_color = NULL,
+  disputed_linewidth = NULL,
+  disputed_dots = FALSE,
+  disputed_dot_fill = "#001040",
   disputed_dot_color = "white",
   disputed_dot_size = 1.25,
   disputed_dot_stroke = 0.2,
@@ -94,25 +94,27 @@ plot_jpmap(
 - territorial_disputes:
 
   Whether to include disputed-territory island/reef shapes. The default
-  is `FALSE`. Use `TRUE` for all built-in shapes, or a character vector
+  is `TRUE`. Use `FALSE` to exclude them, or a character vector
   containing one or more of `"northern_territories"`,
   `"okinotorishima"`, `"senkaku"`, and `"takeshima"`.
 
 - disputed_fill:
 
-  Fill color for opt-in disputed-territory shapes.
+  Optional fill color for disputed-territory shapes. The default,
+  `NULL`, draws them quietly with the ordinary map fill.
 
 - disputed_color:
 
-  Outline color for opt-in disputed-territory shapes.
+  Optional outline color for disputed-territory shapes. The default,
+  `NULL`, draws them quietly with the ordinary map outline.
 
 - disputed_linewidth:
 
-  Line width for opt-in disputed-territory shapes.
+  Optional line width for disputed-territory shapes.
 
 - disputed_dots:
 
-  Whether to draw dot markers on opt-in disputed-territory shapes.
+  Whether to draw dot markers on disputed-territory shapes.
 
 - disputed_dot_fill:
 
@@ -185,7 +187,7 @@ A `ggplot2` plot.
 if (FALSE) { # \dontrun{
 plot_jpmap("prefecture")
 plot_jpmap("prefecture", ogasawara = FALSE)
-plot_jpmap("prefecture", territorial_disputes = TRUE)
+plot_jpmap("prefecture", territorial_disputes = FALSE)
 plot_jpmap(
   "prefecture",
   ogasawara = FALSE,

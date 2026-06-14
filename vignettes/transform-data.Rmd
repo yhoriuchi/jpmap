@@ -9,7 +9,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", message = FALSE)
 ```
 
 `jpmap_transform()` moves user data into the same projected coordinate system
@@ -18,15 +18,18 @@ used by `plot_jpmap()`.
 ## Data Frames
 
 ```{r}
+library(tidyverse)
 library(jpmap)
 
-places <- data.frame(
-  place = c("Tokyo", "Naha", "Ogasawara"),
-  lon = c(139.767, 127.681, 142.191),
-  lat = c(35.681, 26.212, 27.094)
+places <- tribble(
+  ~place, ~lon, ~lat,
+  "Tokyo", 139.767, 35.681,
+  "Naha", 127.681, 26.212,
+  "Ogasawara", 142.191, 27.094
 )
 
-jpmap_transform(places, output_names = c("x", "y"))
+places |>
+  jpmap_transform(output_names = c("x", "y"))
 ```
 
 ## Simple Features
@@ -41,27 +44,33 @@ pts <- sf::st_as_sf(
   remove = FALSE
 )
 
-jpmap_transform(pts)
+pts |>
+  jpmap_transform()
 ```
 
 Use `inset = FALSE` when you want only the projected Japan CRS and not the
 Okinawa/Ogasawara inset movement.
 
 ```{r}
-jpmap_transform(places, output_names = c("x", "y"), inset = FALSE)
+places |>
+  jpmap_transform(output_names = c("x", "y"), inset = FALSE)
 ```
 
 You can also move only one island group.
 
 ```{r}
-jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
-jpmap_transform(places, output_names = c("x", "y"), inset = "ogasawara")
+places |>
+  jpmap_transform(output_names = c("x", "y"), inset = "okinawa")
+places |>
+  jpmap_transform(output_names = c("x", "y"), inset = "ogasawara")
 ```
 
 The same switches can be written as boolean arguments when you want the default
 `inset = TRUE` behavior except for one island group.
 
 ```{r}
-jpmap_transform(places, output_names = c("x", "y"), okinawa = FALSE)
-jpmap_transform(places, output_names = c("x", "y"), ogasawara = FALSE)
+places |>
+  jpmap_transform(output_names = c("x", "y"), okinawa = FALSE)
+places |>
+  jpmap_transform(output_names = c("x", "y"), ogasawara = FALSE)
 ```

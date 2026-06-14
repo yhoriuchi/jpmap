@@ -14,6 +14,7 @@ remotes::install_github("yhoriuchi/jpmap")
 
 ``` r
 
+library(tidyverse)
 library(jpmap)
 ```
 
@@ -43,17 +44,21 @@ The transform function is
 
 ``` r
 
-places <- data.frame(
-  place = c("Tokyo", "Naha", "Ogasawara"),
-  lon = c(139.767, 127.681, 142.191),
-  lat = c(35.681, 26.212, 27.094)
+places <- tribble(
+  ~place, ~lon, ~lat,
+  "Tokyo", 139.767, 35.681,
+  "Naha", 127.681, 26.212,
+  "Ogasawara", 142.191, 27.094
 )
 
-jpmap_transform(places, output_names = c("x", "y"))
-#>       place     lon    lat         x         y
-#> 1     Tokyo 139.767 35.681  205212.3 -199413.7
-#> 2      Naha 127.681 26.212 -683245.1  657516.5
-#> 3 Ogasawara 142.191 27.094  537218.7 -578088.9
+places |>
+  jpmap_transform(output_names = c("x", "y"))
+#> # A tibble: 3 × 5
+#>   place       lon   lat        x        y
+#>   <chr>     <dbl> <dbl>    <dbl>    <dbl>
+#> 1 Tokyo      140.  35.7  205212. -199414.
+#> 2 Naha       128.  26.2 -683245.  657517.
+#> 3 Ogasawara  142.  27.1  537219. -578089.
 ```
 
 By default, the transform moves Okinawa and Ogasawara into visible inset

@@ -31,23 +31,45 @@ bundled all-Japan prefecture file.
 
 prefectures <- jp_map("prefecture")
 prefectures
-#> Simple feature collection with 47 features and 4 fields
+#> Simple feature collection with 51 features and 14 fields
 #> Geometry type: MULTIPOLYGON
 #> Dimension:     XY
-#> Bounding box:  xmin: -1301914 ymin: -862391 xmax: 1382212 ymax: 952450.3
+#> Bounding box:  xmin: -1301914 ymin: -1099224 xmax: 1382212 ymax: 952450.3
 #> Projected CRS: +proj=laea +lat_0=37.5 +lon_0=137.5 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
 #> First 10 features:
-#>    jis_code pref_code prefecture prefecture_ja                           geom
-#> 1        01        01   Hokkaido        北海道 MULTIPOLYGON (((511996.2 75...
-#> 2        02        02     Aomori        青森県 MULTIPOLYGON (((207443 3278...
-#> 3        03        03      Iwate        岩手県 MULTIPOLYGON (((354100.1 33...
-#> 4        04        04     Miyagi        宮城県 MULTIPOLYGON (((358110.3 17...
-#> 5        05        05      Akita        秋田県 MULTIPOLYGON (((205918 1818...
-#> 6        06        06   Yamagata        山形県 MULTIPOLYGON (((178613.3 11...
-#> 7        07        07  Fukushima        福島県 MULTIPOLYGON (((301336.6 48...
-#> 8        08        08    Ibaraki        茨城県 MULTIPOLYGON (((285086.4 -6...
-#> 9        09        09    Tochigi        栃木県 MULTIPOLYGON (((175647.2 -1...
-#> 10       10        10      Gunma        群馬県 MULTIPOLYGON (((140563.2 -5...
+#>    jis_code pref_code prefecture prefecture_ja is_disputed_territory
+#> 1        01        01   Hokkaido        北海道                    NA
+#> 2        02        02     Aomori        青森県                    NA
+#> 3        03        03      Iwate        岩手県                    NA
+#> 4        04        04     Miyagi        宮城県                    NA
+#> 5        05        05      Akita        秋田県                    NA
+#> 6        06        06   Yamagata        山形県                    NA
+#> 7        07        07  Fukushima        福島県                    NA
+#> 8        08        08    Ibaraki        茨城県                    NA
+#> 9        09        09    Tochigi        栃木県                    NA
+#> 10       10        10      Gunma        群馬県                    NA
+#>    dispute_region territory territory_ja claimed_pref_code claimed_prefecture
+#> 1            <NA>      <NA>         <NA>              <NA>               <NA>
+#> 2            <NA>      <NA>         <NA>              <NA>               <NA>
+#> 3            <NA>      <NA>         <NA>              <NA>               <NA>
+#> 4            <NA>      <NA>         <NA>              <NA>               <NA>
+#> 5            <NA>      <NA>         <NA>              <NA>               <NA>
+#> 6            <NA>      <NA>         <NA>              <NA>               <NA>
+#> 7            <NA>      <NA>         <NA>              <NA>               <NA>
+#> 8            <NA>      <NA>         <NA>              <NA>               <NA>
+#> 9            <NA>      <NA>         <NA>              <NA>               <NA>
+#> 10           <NA>      <NA>         <NA>              <NA>               <NA>
+#>    claimed_prefecture_ja source source_url note                           geom
+#> 1                   <NA>   <NA>       <NA> <NA> MULTIPOLYGON (((511996.2 75...
+#> 2                   <NA>   <NA>       <NA> <NA> MULTIPOLYGON (((207443 3278...
+#> 3                   <NA>   <NA>       <NA> <NA> MULTIPOLYGON (((354100.1 33...
+#> 4                   <NA>   <NA>       <NA> <NA> MULTIPOLYGON (((358110.3 17...
+#> 5                   <NA>   <NA>       <NA> <NA> MULTIPOLYGON (((205918 1818...
+#> 6                   <NA>   <NA>       <NA> <NA> MULTIPOLYGON (((178613.3 11...
+#> 7                   <NA>   <NA>       <NA> <NA> MULTIPOLYGON (((301336.6 48...
+#> 8                   <NA>   <NA>       <NA> <NA> MULTIPOLYGON (((285086.4 -6...
+#> 9                   <NA>   <NA>       <NA> <NA> MULTIPOLYGON (((175647.2 -1...
+#> 10                  <NA>   <NA>       <NA> <NA> MULTIPOLYGON (((140563.2 -5...
 ```
 
 ## Load Bundled Okinawa Municipal Data
@@ -59,7 +81,7 @@ Prefecture as of January 1, 2024.
 
 okinawa_municipalities <- jp_map("municipality", include = "Okinawa")
 okinawa_municipalities
-#> Simple feature collection with 5721 features and 7 fields
+#> Simple feature collection with 5722 features and 21 fields
 #> Geometry type: GEOMETRY
 #> Dimension:     XY
 #> Bounding box:  xmin: -1302554 ymin: 381372.8 xmax: -228994.3 ymax: 881725
@@ -76,17 +98,61 @@ okinawa_municipalities
 #> 8     47201        47    Okinawa        沖縄県             47201
 #> 9     47205        47    Okinawa        沖縄県             47205
 #> 10    47207        47    Okinawa        沖縄県             47207
-#>    municipality_ja municipality_full_ja                           geom
-#> 1       所属未定地           所属未定地 POLYGON ((-660668.8 686316....
-#> 2           那覇市               那覇市 POLYGON ((-688261.6 653232....
-#> 3           那覇市               那覇市 POLYGON ((-686149.7 660762,...
-#> 4           那覇市               那覇市 POLYGON ((-687930.7 658623....
-#> 5           那覇市               那覇市 POLYGON ((-684618.2 659034....
-#> 6           那覇市               那覇市 POLYGON ((-684986.2 659017....
-#> 7           那覇市               那覇市 POLYGON ((-684460.9 658946....
-#> 8           那覇市               那覇市 POLYGON ((-684330.1 658981....
-#> 9         宜野湾市             宜野湾市 POLYGON ((-673274 661798.1,...
-#> 10          石垣市               石垣市 POLYGON ((-1158043 462743.9...
+#>    municipality_ja municipality_full_ja is_disputed_territory dispute_region
+#> 1       所属未定地           所属未定地                    NA           <NA>
+#> 2           那覇市               那覇市                    NA           <NA>
+#> 3           那覇市               那覇市                    NA           <NA>
+#> 4           那覇市               那覇市                    NA           <NA>
+#> 5           那覇市               那覇市                    NA           <NA>
+#> 6           那覇市               那覇市                    NA           <NA>
+#> 7           那覇市               那覇市                    NA           <NA>
+#> 8           那覇市               那覇市                    NA           <NA>
+#> 9         宜野湾市             宜野湾市                    NA           <NA>
+#> 10          石垣市               石垣市                    NA           <NA>
+#>    territory territory_ja claimed_pref_code claimed_prefecture
+#> 1       <NA>         <NA>              <NA>               <NA>
+#> 2       <NA>         <NA>              <NA>               <NA>
+#> 3       <NA>         <NA>              <NA>               <NA>
+#> 4       <NA>         <NA>              <NA>               <NA>
+#> 5       <NA>         <NA>              <NA>               <NA>
+#> 6       <NA>         <NA>              <NA>               <NA>
+#> 7       <NA>         <NA>              <NA>               <NA>
+#> 8       <NA>         <NA>              <NA>               <NA>
+#> 9       <NA>         <NA>              <NA>               <NA>
+#> 10      <NA>         <NA>              <NA>               <NA>
+#>    claimed_prefecture_ja source source_url note municipality
+#> 1                   <NA>   <NA>       <NA> <NA>         <NA>
+#> 2                   <NA>   <NA>       <NA> <NA>         <NA>
+#> 3                   <NA>   <NA>       <NA> <NA>         <NA>
+#> 4                   <NA>   <NA>       <NA> <NA>         <NA>
+#> 5                   <NA>   <NA>       <NA> <NA>         <NA>
+#> 6                   <NA>   <NA>       <NA> <NA>         <NA>
+#> 7                   <NA>   <NA>       <NA> <NA>         <NA>
+#> 8                   <NA>   <NA>       <NA> <NA>         <NA>
+#> 9                   <NA>   <NA>       <NA> <NA>         <NA>
+#> 10                  <NA>   <NA>       <NA> <NA>         <NA>
+#>    claimed_municipality_code claimed_municipality claimed_municipality_ja
+#> 1                       <NA>                 <NA>                    <NA>
+#> 2                       <NA>                 <NA>                    <NA>
+#> 3                       <NA>                 <NA>                    <NA>
+#> 4                       <NA>                 <NA>                    <NA>
+#> 5                       <NA>                 <NA>                    <NA>
+#> 6                       <NA>                 <NA>                    <NA>
+#> 7                       <NA>                 <NA>                    <NA>
+#> 8                       <NA>                 <NA>                    <NA>
+#> 9                       <NA>                 <NA>                    <NA>
+#> 10                      <NA>                 <NA>                    <NA>
+#>                              geom
+#> 1  POLYGON ((-660668.8 686316....
+#> 2  POLYGON ((-688261.6 653232....
+#> 3  POLYGON ((-686149.7 660762,...
+#> 4  POLYGON ((-687930.7 658623....
+#> 5  POLYGON ((-684618.2 659034....
+#> 6  POLYGON ((-684986.2 659017....
+#> 7  POLYGON ((-684460.9 658946....
+#> 8  POLYGON ((-684330.1 658981....
+#> 9  POLYGON ((-673274 661798.1,...
+#> 10 POLYGON ((-1158043 462743.9...
 ```
 
 This works without `data_year` or `data_dir` because `jpmap` can see the

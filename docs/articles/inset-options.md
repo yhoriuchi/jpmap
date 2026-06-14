@@ -5,7 +5,7 @@ locations.
 
 ``` r
 
-library(ggplot2)
+library(tidyverse)
 library(jpmap)
 ```
 
@@ -14,7 +14,7 @@ library(jpmap)
 plot_jpmap("prefecture") +
   labs(title = "Default map with Okinawa and Ogasawara insets") +
   theme(
-    plot.title = element_text(face = "bold", color = "#2C2A29")
+    plot.title = element_text(face = "bold", color = "#001040")
   )
 ```
 
@@ -32,7 +32,7 @@ plot_jpmap(
 ) +
   labs(title = "Okinawa inset only") +
   theme(
-    plot.title = element_text(face = "bold", color = "#2C2A29")
+    plot.title = element_text(face = "bold", color = "#001040")
   )
 ```
 
@@ -48,7 +48,7 @@ plot_jpmap(
 ) +
   labs(title = "Ogasawara inset only") +
   theme(
-    plot.title = element_text(face = "bold", color = "#2C2A29")
+    plot.title = element_text(face = "bold", color = "#001040")
   )
 ```
 
@@ -74,7 +74,7 @@ plot_jpmap(
 ) +
   labs(title = "Main islands with Okinawa inset") +
   theme(
-    plot.title = element_text(face = "bold", color = "#2C2A29")
+    plot.title = element_text(face = "bold", color = "#001040")
   )
 ```
 
@@ -96,7 +96,7 @@ plot_jpmap(
 ) +
   labs(title = "Insets without boxes") +
   theme(
-    plot.title = element_text(face = "bold", color = "#2C2A29")
+    plot.title = element_text(face = "bold", color = "#001040")
   )
 ```
 
@@ -115,41 +115,39 @@ plot_jpmap(
 ) +
   labs(title = "Projected map without transported insets") +
   theme(
-    plot.title = element_text(face = "bold", color = "#2C2A29")
+    plot.title = element_text(face = "bold", color = "#001040")
   )
 ```
 
 ![](inset-options_files/figure-html/literal-map-1.png)
 
-## Add Disputed-Territory Shapes
+## Control Disputed-Territory Shapes
 
-Areas discussed in Japan territorial-dispute references are excluded by
-default. Set `territorial_disputes = TRUE` to add cartographic
-island/reef shapes for Northern Territories, Okinotorishima, Senkaku
-Islands, and Takeshima / Liancourt Rocks. You can also pass a character
-vector to include only selected regions, such as
+Areas discussed in Japan territorial-dispute references are included by
+default and drawn quietly with the rest of the map. Set
+`territorial_disputes = FALSE` to exclude them. You can also pass a
+character vector to include only selected regions, such as
 `territorial_disputes = "senkaku"` or
 `territorial_disputes = c("senkaku", "takeshima")`.
 
-[`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
-gives opt-in disputed shapes a separate fill and dot overlay so small
-islands and reefs remain visible at the default scale. Use
-`disputed_fill`, `disputed_color`, or `disputed_dots = FALSE` to change
-that styling.
+Use `disputed_fill`, `disputed_color`, and `disputed_dots = TRUE` when
+you want to emphasize these small islands and reefs.
 
 ``` r
 
 plot_jpmap(
   "prefecture",
-  territorial_disputes = TRUE
+  disputed_fill = "#005BAC",
+  disputed_color = "#001040",
+  disputed_dots = TRUE
 ) +
-  labs(title = "Map with opt-in disputed-territory shapes") +
+  labs(title = "Map with highlighted disputed-territory shapes") +
   theme(
-    plot.title = element_text(face = "bold", color = "#2C2A29")
+    plot.title = element_text(face = "bold", color = "#001040")
   )
 ```
 
-![](inset-options_files/figure-html/disputed-territories-1.png)
+![](inset-options_files/figure-html/disputed-territories-highlight-1.png)
 
 ## What The Boxes Mean
 
@@ -167,6 +165,6 @@ Minamitorishima. Use `inset = FALSE` when literal geographic placement
 matters more than a compact display.
 
 When `territorial_disputes = TRUE` includes Okinotorishima, the
-Ogasawara box is expanded so the opt-in Okinotorishima reef shape
-remains visible. These disputed-territory shapes are not official
-boundary polygons.
+Ogasawara box is expanded so the Okinotorishima reef shape remains
+visible. These disputed-territory shapes are not official boundary
+polygons.

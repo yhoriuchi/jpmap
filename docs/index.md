@@ -18,10 +18,10 @@ also use `okinawa = FALSE` or `ogasawara = FALSE`.
 [`plot_jpmap()`](https://yhoriuchi.github.io/jpmap/reference/plot_jpmap.md)
 draws inset boxes by default; set `inset_boxes = FALSE` to remove them.
 
-Areas discussed in Japan territorial-dispute references are excluded by
-default. Use `territorial_disputes = TRUE` to add cartographic
-island/reef shapes, or pass a subset such as `"senkaku"` or
-`"takeshima"`.
+Areas discussed in Japan territorial-dispute references are included by
+default and drawn quietly with the rest of the map. Use
+`territorial_disputes = FALSE` to exclude them, or pass a subset such as
+`"senkaku"` or `"takeshima"`.
 
 For website maps,
 [`jp_map_leaflet()`](https://yhoriuchi.github.io/jpmap/reference/jp_map_leaflet.md)
@@ -41,14 +41,18 @@ remotes::install_github("yhoriuchi/jpmap")
 
 ``` r
 
+library(tidyverse)
 library(jpmap)
 
 plot_jpmap("prefecture")
 plot_jpmap("municipality", include = "Okinawa")
-plot_jpmap("prefecture", territorial_disputes = TRUE)
+plot_jpmap("prefecture", territorial_disputes = FALSE)
 
-data("jp_prefecture_gdp")
-jp_map_join(jp_map("prefecture"), jp_prefecture_gdp, by = "pref_code")
+gdp <- jp_prefecture_gdp |>
+  select(pref_code, gdp_per_capita_jpy)
+
+jp_map("prefecture") |>
+  jp_map_join(gdp, by = "pref_code")
 ```
 
 ## Articles
@@ -92,15 +96,18 @@ coordinate system used by
 
 ``` r
 
+library(tidyverse)
 library(jpmap)
 
-points <- data.frame(
-  place = c("Tokyo", "Naha", "Ogasawara"),
-  lon = c(139.767, 127.681, 142.191),
-  lat = c(35.681, 26.212, 27.094)
+points <- tribble(
+  ~place, ~lon, ~lat,
+  "Tokyo", 139.767, 35.681,
+  "Naha", 127.681, 26.212,
+  "Ogasawara", 142.191, 27.094
 )
 
-jpmap_transform(points)
+points |>
+  jpmap_transform()
 ```
 
 ## Boundary Data

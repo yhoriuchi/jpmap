@@ -77,7 +77,8 @@ specialists.</p>
 workflow;</li>
 <li>visible Okinawa and Ogasawara inset maps for static plots;</li>
 <li>prefecture and municipality boundaries through the same API;</li>
-<li>explicit, opt-in disputed-territory shapes and styling.</li>
+<li>explicit disputed-territory handling: included quietly by default,
+removable by the user, and highlightable when needed.</li>
 </ul>
 <div class="section level2">
 <h2 id="package-landscape">Package Landscape<a class="anchor" aria-label="anchor" href="#package-landscape"></a>
@@ -166,15 +167,16 @@ workflow reusable.</p>
 and documentation check on June 14, 2026, the packages above did not
 provide a documented user-facing option equivalent to:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"prefecture"</span>, territorial_disputes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"prefecture"</span>, territorial_disputes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><code>jpndistrict</code> source data includes rows for some Northern
 Territories municipalities, but that is not the same as an explicit
-disputed-territory layer with opt-in inclusion, separate styling, and
-documented source notes.</p>
-<p><code>jpmap</code> excludes disputed-territory shapes by default and
-adds them only when the user asks for them. This keeps ordinary maps
-simple while allowing users to make the display decision
-consciously.</p>
+disputed-territory layer with documented inclusion/exclusion controls,
+separate styling options, and documented source notes.</p>
+<p><code>jpmap</code> includes disputed-territory shapes by default and
+draws them quietly with the rest of the map. Users can remove them with
+<code>territorial_disputes = FALSE</code>, include only selected areas,
+or highlight them with <code>disputed_fill</code> and
+<code>disputed_dots</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="when-to-use-jpmap">When To Use jpmap<a class="anchor" aria-label="anchor" href="#when-to-use-jpmap"></a>
@@ -190,7 +192,7 @@ Japan map with ordinary R data:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"municipality"</span>, include <span class="op">=</span> <span class="st">"Okinawa"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="related-packages_files/figure-html/unnamed-chunk-3-2.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"prefecture"</span>, territorial_disputes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"prefecture"</span>, territorial_disputes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="related-packages_files/figure-html/unnamed-chunk-3-3.png" class="r-plt" alt="" width="700"></p>
 <p>Use companion packages when they solve a more specific part of the
 workflow: <code>jpcity</code> for code conversion,

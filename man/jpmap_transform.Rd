@@ -32,11 +32,19 @@ island group.
 An object of the same general type as \code{data}.
 }
 \examples{
-places <- data.frame(
-  lon = c(139.767, 127.681, 142.191),
-  lat = c(35.681, 26.212, 27.094)
-)
-jpmap_transform(places, output_names = c("x", "y"))
-jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
-jpmap_transform(places, output_names = c("x", "y"), ogasawara = FALSE)
+if (requireNamespace("tibble", quietly = TRUE)) {
+  places <- tibble::tribble(
+    ~place, ~lon, ~lat,
+    "Tokyo", 139.767, 35.681,
+    "Naha", 127.681, 26.212,
+    "Ogasawara", 142.191, 27.094
+  )
+
+  places |>
+    jpmap_transform(output_names = c("x", "y"))
+  places |>
+    jpmap_transform(output_names = c("x", "y"), inset = "okinawa")
+  places |>
+    jpmap_transform(output_names = c("x", "y"), ogasawara = FALSE)
+}
 }

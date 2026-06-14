@@ -13,20 +13,23 @@ Description: Provides tools for drawing maps of Japan with prefecture and
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
-    R (>= 3.5.0)
+    R (>= 4.1.0)
 LazyData: true
 Imports:
     ggplot2,
     rlang,
     sf
 Suggests:
+    dplyr,
     knitr,
     leaflet,
     pkgdown,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tibble,
+    tidyverse
 Config/testthat/edition: 3
-Config/Needs/website: pkgdown, knitr, rmarkdown, ggplot2, sf, leaflet
+Config/Needs/website: pkgdown, knitr, rmarkdown, ggplot2, sf, leaflet, dplyr, tibble, tidyverse
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

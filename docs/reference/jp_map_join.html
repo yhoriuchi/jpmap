@@ -97,13 +97,18 @@ regions do not receive a data row. One of <code>"warning"</code>, <code>"error"<
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"jp_prefecture_gdp"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="jp_map.html">jp_map</a></span><span class="op">(</span><span class="st">"prefecture"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">joined</span> <span class="op">&lt;-</span> <span class="fu">jp_map_join</span><span class="op">(</span><span class="va">map</span>, <span class="va">jp_prefecture_gdp</span>, by <span class="op">=</span> <span class="st">"pref_code"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">joined</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "jis_code"               "pref_code"              "prefecture"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "prefecture_ja"          "geom"                   "year"                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [7] "gdp_per_capita_jpy"     "gdp_per_capita_usd_ppp" "source"                </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"dplyr"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"jp_prefecture_gdp"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">gdp</span> <span class="op">&lt;-</span> <span class="va">jp_prefecture_gdp</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">pref_code</span>, <span class="va">gdp_per_capita_jpy</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">joined</span> <span class="op">&lt;-</span> <span class="fu"><a href="jp_map.html">jp_map</a></span><span class="op">(</span><span class="st">"prefecture"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>    <span class="fu">jp_map_join</span><span class="op">(</span><span class="va">gdp</span>, by <span class="op">=</span> <span class="st">"pref_code"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="st">"gdp_per_capita_jpy"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">joined</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

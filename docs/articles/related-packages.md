@@ -13,7 +13,8 @@ The package focuses on four things together:
   workflow;
 - visible Okinawa and Ogasawara inset maps for static plots;
 - prefecture and municipality boundaries through the same API;
-- explicit, opt-in disputed-territory shapes and styling.
+- explicit disputed-territory handling: included quietly by default,
+  removable by the user, and highlightable when needed.
 
 ## Package Landscape
 
@@ -40,17 +41,18 @@ a documented user-facing option equivalent to:
 
 ``` r
 
-plot_jpmap("prefecture", territorial_disputes = TRUE)
+plot_jpmap("prefecture", territorial_disputes = FALSE)
 ```
 
 `jpndistrict` source data includes rows for some Northern Territories
 municipalities, but that is not the same as an explicit
-disputed-territory layer with opt-in inclusion, separate styling, and
-documented source notes.
+disputed-territory layer with documented inclusion/exclusion controls,
+separate styling options, and documented source notes.
 
-`jpmap` excludes disputed-territory shapes by default and adds them only
-when the user asks for them. This keeps ordinary maps simple while
-allowing users to make the display decision consciously.
+`jpmap` includes disputed-territory shapes by default and draws them
+quietly with the rest of the map. Users can remove them with
+`territorial_disputes = FALSE`, include only selected areas, or
+highlight them with `disputed_fill` and `disputed_dots`.
 
 ## When To Use jpmap
 
@@ -75,7 +77,7 @@ plot_jpmap("municipality", include = "Okinawa")
 
 ``` r
 
-plot_jpmap("prefecture", territorial_disputes = TRUE)
+plot_jpmap("prefecture", territorial_disputes = FALSE)
 ```
 
 ![](related-packages_files/figure-html/unnamed-chunk-3-3.png)

@@ -72,24 +72,27 @@ test_that("bundled prefecture data are available by default", {
 
   map <- jp_map("prefecture")
   expect_s3_class(map, "sf")
-  expect_equal(nrow(map), 47)
+  expect_equal(nrow(map), 51)
+  expect_equal(nrow(jp_map("prefecture", territorial_disputes = FALSE)), 47)
 })
 
-test_that("disputed-territory shapes are opt-in", {
+test_that("disputed-territory shapes are included quietly by default", {
   default_map <- jp_map("prefecture")
   default_literal <- jp_map("prefecture", inset = FALSE)
-  disputed_map <- jp_map("prefecture", territorial_disputes = TRUE)
+  excluded_map <- jp_map("prefecture", territorial_disputes = FALSE)
   disputed_only <- jp_disputed_territories()
   senkaku_only <- jp_disputed_territories("senkaku")
   senkaku_literal <- jp_disputed_territories("senkaku", inset = FALSE)
 
-  expect_false("is_disputed_territory" %in% names(default_map))
-  expect_true(all(lengths(sf::st_intersects(default_literal, senkaku_literal)) == 0))
-  expect_equal(nrow(disputed_map), 51)
-  expect_equal(sum(disputed_map$is_disputed_territory %in% TRUE), 4)
-  expect_false(any(sf::st_is_empty(disputed_map[disputed_map$is_disputed_territory %in% TRUE, ])))
+  expect_equal(nrow(default_map), 51)
+  expect_equal(sum(default_map$is_disputed_territory %in% TRUE), 4)
+  expect_equal(nrow(excluded_map), 47)
+  expect_false("is_disputed_territory" %in% names(excluded_map))
+  expect_true(any(lengths(sf::st_intersects(default_literal, senkaku_literal)) > 0))
+  expect_equal(nrow(jp_map("prefecture", territorial_disputes = "senkaku")), 48)
+  expect_false(any(sf::st_is_empty(default_map[default_map$is_disputed_territory %in% TRUE, ])))
   expect_equal(
-    sort(unique(disputed_map$dispute_region[disputed_map$is_disputed_territory %in% TRUE])),
+    sort(unique(default_map$dispute_region[default_map$is_disputed_territory %in% TRUE])),
     c("northern_territories", "okinotorishima", "senkaku", "takeshima")
   )
 
@@ -101,15 +104,15 @@ test_that("disputed-territory shapes are opt-in", {
   expect_equal(senkaku_only$dispute_region, "senkaku")
   expect_equal(nrow(jp_disputed_territories(FALSE)), 0)
   expect_error(jp_disputed_territories("atlantis"), "`territorial_disputes` must be TRUE")
-  plot <- plot_jpmap("prefecture", territorial_disputes = TRUE)
+  plot <- plot_jpmap("prefecture")
   expect_s3_class(plot, "ggplot")
-  expect_true(length(plot$layers) >= 7)
+  expect_true(length(plot$layers) >= 6)
   expect_s3_class(
-    plot_jpmap("prefecture", territorial_disputes = TRUE, disputed_dots = FALSE),
+    plot_jpmap("prefecture", disputed_fill = "#005BAC", disputed_dots = TRUE),
     "ggplot"
   )
   expect_error(
-    plot_jpmap("prefecture", territorial_disputes = TRUE, disputed_dots = NA),
+    plot_jpmap("prefecture", disputed_dots = NA),
     "`disputed_dots` must be TRUE or FALSE",
     fixed = TRUE
   )
@@ -117,12 +120,15 @@ test_that("disputed-territory shapes are opt-in", {
 
 test_that("bundled Okinawa municipalities are available by default", {
   map <- jp_map("municipality", include = "Okinawa", inset = FALSE)
+  admin_map <- map[!(map$is_disputed_territory %in% TRUE), , drop = FALSE]
+  disputed_map <- map[map$is_disputed_territory %in% TRUE, , drop = FALSE]
 
   expect_s3_class(map, "sf")
-  expect_true(nrow(map) > 41)
-  expect_true(all(map$prefecture == "Okinawa"))
-  expect_true(all(map$pref_code == "47"))
-  expect_true(all(map$municipality_code != ""))
+  expect_true(nrow(admin_map) > 41)
+  expect_true(all(admin_map$prefecture == "Okinawa"))
+  expect_true(all(admin_map$pref_code == "47"))
+  expect_true(all(admin_map$municipality_code != ""))
+  expect_equal(disputed_map$dispute_region, "senkaku")
 })
 
 test_that("jp_map_join handles common Japan map keys safely", {
@@ -137,11 +143,11 @@ test_that("jp_map_join handles common Japan map keys safely", {
   )
 
   joined <- jp_map_join(map, numeric_codes, by = "pref_code")
-  expect_equal(joined$value[joined$pref_code == "01"], 1)
-  expect_equal(joined$value[joined$pref_code == "47"], 47)
+  expect_equal(joined$value[joined$pref_code %in% "01"], 1)
+  expect_equal(joined$value[joined$pref_code %in% "47"], 47)
 
   named_join <- jp_map_join(map, named_codes, by = c("pref_code" = "code"))
-  expect_equal(named_join$named_value[named_join$pref_code == "01"], 10)
+  expect_equal(named_join$named_value[named_join$pref_code %in% "01"], 10)
   expect_false("code" %in% names(named_join))
 
   duplicated_codes <- rbind(numeric_codes[1, ], numeric_codes[1, ])

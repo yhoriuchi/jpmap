@@ -114,7 +114,7 @@ source_osm <- "OpenStreetMap geometry via Overpass API"
 source_ne_url <- "https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-land/"
 source_osm_url <- "https://www.openstreetmap.org/copyright"
 note <- paste(
-  "Cartographic island/reef geometry for an opt-in disputed territory or",
+  "Cartographic island/reef geometry for a disputed territory or",
   "disputed maritime/EEZ-status area; not an official boundary."
 )
 

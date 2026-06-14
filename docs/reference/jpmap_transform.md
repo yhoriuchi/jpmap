@@ -54,23 +54,25 @@ An object of the same general type as `data`.
 ## Examples
 
 ``` r
-places <- data.frame(
-  lon = c(139.767, 127.681, 142.191),
-  lat = c(35.681, 26.212, 27.094)
-)
-jpmap_transform(places, output_names = c("x", "y"))
-#>       lon    lat         x         y
-#> 1 139.767 35.681  205212.3 -199413.7
-#> 2 127.681 26.212 -683245.1  657516.5
-#> 3 142.191 27.094  537218.7 -578088.9
-jpmap_transform(places, output_names = c("x", "y"), inset = "okinawa")
-#>       lon    lat         x          y
-#> 1 139.767 35.681  205212.3  -199413.7
-#> 2 127.681 26.212 -683245.1   657516.5
-#> 3 142.191 27.094  466806.8 -1141584.2
-jpmap_transform(places, output_names = c("x", "y"), ogasawara = FALSE)
-#>       lon    lat         x          y
-#> 1 139.767 35.681  205212.3  -199413.7
-#> 2 127.681 26.212 -683245.1   657516.5
-#> 3 142.191 27.094  466806.8 -1141584.2
+if (requireNamespace("tibble", quietly = TRUE)) {
+  places <- tibble::tribble(
+    ~place, ~lon, ~lat,
+    "Tokyo", 139.767, 35.681,
+    "Naha", 127.681, 26.212,
+    "Ogasawara", 142.191, 27.094
+  )
+
+  places |>
+    jpmap_transform(output_names = c("x", "y"))
+  places |>
+    jpmap_transform(output_names = c("x", "y"), inset = "okinawa")
+  places |>
+    jpmap_transform(output_names = c("x", "y"), ogasawara = FALSE)
+}
+#> # A tibble: 3 × 5
+#>   place       lon   lat        x         y
+#>   <chr>     <dbl> <dbl>    <dbl>     <dbl>
+#> 1 Tokyo      140.  35.7  205212.  -199414.
+#> 2 Naha       128.  26.2 -683245.   657517.
+#> 3 Ogasawara  142.  27.1  466807. -1141584.
 ```

@@ -3,10 +3,10 @@ library(sf)
 
 pkgload::load_all(".", quiet = TRUE)
 
-garnet <- "#782F40"
-gold <- "#CEB888"
-cream <- "#FBF7ED"
-ink <- "#2C2A29"
+samurai_blue <- "#001040"
+samurai_blue_mid <- "#005BAC"
+samurai_blue_light <- "#F2F6FF"
+samurai_blue_grid <- "#BBD7FF"
 
 dir.create("man/figures", recursive = TRUE, showWarnings = FALSE)
 dir.create("pkgdown/favicon", recursive = TRUE, showWarnings = FALSE)
@@ -21,15 +21,39 @@ hexagon <- function(radius = 0.5, center = c(0.5, 0.5), rotation = pi / 6) {
 }
 
 sf_coordinates <- function(x) {
-  geometry <- suppressWarnings(sf::st_collection_extract(sf::st_geometry(x), "POLYGON"))
-  coords <- as.data.frame(sf::st_coordinates(geometry))
+  geometry <- sf::st_geometry(x)
+  pieces <- lapply(seq_along(geometry), function(i) {
+    coords <- as.data.frame(sf::st_coordinates(
+      sf::st_sfc(geometry[[i]], crs = sf::st_crs(geometry))
+    ))
+    if (nrow(coords) == 0) {
+      return(NULL)
+    }
+
+    group_cols <- grep("^L[0-9]+$", names(coords), value = TRUE)
+    coords$group <- if (length(group_cols) == 0) {
+      i
+    } else {
+      do.call(interaction, c(list(feature = i), coords[group_cols], drop = TRUE))
+    }
+    coords[c("X", "Y", "group")]
+  })
+  do.call(rbind, pieces)
+}
+
+sf_path_coordinates <- function(x) {
+  coords <- as.data.frame(sf::st_coordinates(sf::st_geometry(x)))
   group_cols <- grep("^L[0-9]+$", names(coords), value = TRUE)
-  coords$group <- do.call(interaction, c(coords[group_cols], drop = TRUE))
+  coords$group <- if (length(group_cols) == 0) {
+    seq_len(nrow(coords))
+  } else {
+    do.call(interaction, c(coords[group_cols], drop = TRUE))
+  }
   coords
 }
 
-scale_coordinates <- function(coords, xlim, ylim, target_x = c(0.14, 0.86),
-                              target_y = c(0.24, 0.83)) {
+scale_coordinates <- function(coords, xlim, ylim, target_x = c(0.17, 0.85),
+                              target_y = c(0.25, 0.80)) {
   scale <- min(diff(target_x) / diff(xlim), diff(target_y) / diff(ylim))
   width <- diff(xlim) * scale
   height <- diff(ylim) * scale
@@ -44,12 +68,15 @@ scale_coordinates <- function(coords, xlim, ylim, target_x = c(0.14, 0.86),
 map_data <- function() {
   map <- jp_map("prefectures")
   map <- suppressWarnings(sf::st_simplify(map, dTolerance = 2500))
-  boxes <- jpmap_inset_boxes(c("okinawa", "ogasawara"))
-  limits <- jpmap_default_plot_limits()
+  inset_regions <- c("okinawa", "ogasawara")
+  boxes <- jpmap_inset_boxes(inset_regions)
+  graticules <- jpmap_inset_graticules(inset_regions)$lines
+  limits <- jpmap_default_projected_plot_limits(inset_regions, map)
 
   list(
     map = scale_coordinates(sf_coordinates(map), limits$xlim, limits$ylim),
-    boxes = scale_coordinates(sf_coordinates(boxes), limits$xlim, limits$ylim)
+    boxes = scale_coordinates(sf_coordinates(boxes), limits$xlim, limits$ylim),
+    graticules = scale_coordinates(sf_path_coordinates(graticules), limits$xlim, limits$ylim)
   )
 }
 
@@ -63,34 +90,41 @@ logo_plot <- function(include_text = TRUE) {
     geom_polygon(
       data = outer_hex,
       aes(x = x, y = y),
-      fill = garnet,
+      fill = samurai_blue,
       color = NA
     ) +
     geom_polygon(
       data = border_hex,
       aes(x = x, y = y),
-      fill = gold,
+      fill = samurai_blue_mid,
       color = NA
     ) +
     geom_polygon(
       data = inner_hex,
       aes(x = x, y = y),
-      fill = cream,
+      fill = samurai_blue_light,
       color = NA
     ) +
     geom_polygon(
       data = data$map,
       aes(x = x, y = y, group = group),
-      fill = garnet,
+      fill = samurai_blue,
       color = "white",
       linewidth = 0.12,
       linejoin = "round"
     ) +
     geom_path(
+      data = data$graticules,
+      aes(x = x, y = y, group = group),
+      color = samurai_blue_grid,
+      linewidth = 0.22,
+      linejoin = "round"
+    ) +
+    geom_path(
       data = data$boxes,
       aes(x = x, y = y, group = group),
-      color = gold,
-      linewidth = 0.9,
+      color = samurai_blue_mid,
+      linewidth = 1.15,
       linejoin = "round"
     ) +
     coord_equal(xlim = c(0, 1), ylim = c(0, 1), expand = FALSE, clip = "off") +
@@ -111,7 +145,7 @@ logo_plot <- function(include_text = TRUE) {
         family = "sans",
         fontface = "bold",
         size = 10.8,
-        color = ink
+        color = samurai_blue
       )
   }
 

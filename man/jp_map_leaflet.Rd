@@ -10,9 +10,9 @@ jp_map_leaflet(
   values = NULL,
   by = NULL,
   data_year = NULL,
-  territorial_disputes = FALSE,
+  territorial_disputes = TRUE,
   data_dir = NULL,
-  palette = "YlOrRd",
+  palette = "Blues",
   fill = "grey92",
   color = "grey35",
   weight = 1,
@@ -24,9 +24,10 @@ jp_map_leaflet(
   tiles = TRUE,
   legend = TRUE,
   fit_bounds = TRUE,
-  disputed_fill = "#F6C85F",
-  disputed_color = "#2C2A29",
-  disputed_dots = TRUE,
+  simplify_tolerance = NULL,
+  disputed_fill = NULL,
+  disputed_color = NULL,
+  disputed_dots = FALSE,
   disputed_dot_radius = 5,
   ...
 )
@@ -41,8 +42,8 @@ jp_map_leaflet(
 \item{data_year}{Boundary data year. The newest appropriate available file is
 used by default.}
 \item{territorial_disputes}{Whether to include disputed-territory island/reef
-shapes. The default is \code{FALSE}. Use \code{TRUE} for all built-in shapes,
-or a selected character vector.}
+shapes. The default is \code{TRUE}. Use \code{FALSE} to exclude them, or a
+selected character vector.}
 \item{data_dir}{Optional directory containing \code{jpmap_boundaries_YYYY.gpkg}.}
 \item{palette}{Palette name or color vector passed to Leaflet palette functions
 when \code{values} is supplied.}
@@ -59,10 +60,14 @@ column name, or a character vector with one value per map row.}
 \item{tiles}{Whether to add default OpenStreetMap tiles.}
 \item{legend}{Whether to add a legend when \code{values} is supplied.}
 \item{fit_bounds}{Whether to zoom the widget to the map bounds.}
-\item{disputed_fill}{Fill color for opt-in disputed-territory shapes.}
-\item{disputed_color}{Outline color for opt-in disputed-territory shapes.}
-\item{disputed_dots}{Whether to draw circle markers on opt-in
-disputed-territory shapes.}
+\item{simplify_tolerance}{Optional tolerance passed to \code{sf::st_simplify()}
+before drawing polygons. This is useful for smaller website widgets.}
+\item{disputed_fill}{Optional fill color for disputed-territory shapes. The
+default, \code{NULL}, draws them quietly with the ordinary map fill.}
+\item{disputed_color}{Optional outline color for disputed-territory shapes. The
+default, \code{NULL}, draws them quietly with the ordinary map outline.}
+\item{disputed_dots}{Whether to draw circle markers on disputed-territory
+shapes.}
 \item{disputed_dot_radius}{Radius for disputed-territory circle markers.}
 \item{...}{Additional arguments passed to \code{leaflet::leaflet()}.}
 }
@@ -76,12 +81,18 @@ tiles expect WGS84 coordinates. Use \code{plot_jpmap()} when you want the
 static Okinawa and Ogasawara inset layout.
 }
 \examples{
-if (requireNamespace("leaflet", quietly = TRUE)) {
+if (requireNamespace("leaflet", quietly = TRUE) &&
+    requireNamespace("dplyr", quietly = TRUE)) {
   data("jp_prefecture_gdp")
+
+  gdp <- jp_prefecture_gdp |>
+    dplyr::select(pref_code, prefecture, gdp_per_capita_jpy)
+
   jp_map_leaflet(
     "prefecture",
-    data = jp_prefecture_gdp,
-    values = "gdp_per_capita_jpy"
+    data = gdp,
+    values = "gdp_per_capita_jpy",
+    popup = "prefecture"
   )
 }
 }

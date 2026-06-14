@@ -69,13 +69,13 @@
 <p>By default, <code>jpmap</code> transports Okinawa and Ogasawara into
 visible inset locations.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yhoriuchi.github.io/jpmap/">jpmap</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"prefecture"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Default map with Okinawa and Ogasawara insets"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
+<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#001040"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="inset-options_files/figure-html/default-insets-1.png" class="r-plt" alt="" width="840"></p>
 <div class="section level2">
@@ -90,7 +90,7 @@ moved.</p>
 <span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Okinawa inset only"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
+<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#001040"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="inset-options_files/figure-html/okinawa-only-1.png" class="r-plt" alt="" width="840"></p>
 <p>Use <code>okinawa = FALSE</code> when you only want Ogasawara
@@ -102,7 +102,7 @@ moved.</p>
 <span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Ogasawara inset only"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
+<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#001040"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="inset-options_files/figure-html/ogasawara-only-1.png" class="r-plt" alt="" width="840"></p>
 </div>
@@ -125,7 +125,7 @@ main islands and Okinawa while dropping the Ogasawara inset.</p>
 <span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Main islands with Okinawa inset"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
+<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#001040"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="inset-options_files/figure-html/axis-controls-1.png" class="r-plt" alt="" width="840"></p>
 </div>
@@ -145,7 +145,7 @@ of the inset box.</p>
 <span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Insets without boxes"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
+<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#001040"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="inset-options_files/figure-html/no-boxes-1.png" class="r-plt" alt="" width="840"></p>
 </div>
@@ -161,35 +161,34 @@ projected geographic location.</p>
 <span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Projected map without transported insets"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
+<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#001040"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="inset-options_files/figure-html/literal-map-1.png" class="r-plt" alt="" width="840"></p>
 </div>
 <div class="section level2">
-<h2 id="add-disputed-territory-shapes">Add Disputed-Territory Shapes<a class="anchor" aria-label="anchor" href="#add-disputed-territory-shapes"></a>
+<h2 id="control-disputed-territory-shapes">Control Disputed-Territory Shapes<a class="anchor" aria-label="anchor" href="#control-disputed-territory-shapes"></a>
 </h2>
-<p>Areas discussed in Japan territorial-dispute references are excluded
-by default. Set <code>territorial_disputes = TRUE</code> to add
-cartographic island/reef shapes for Northern Territories,
-Okinotorishima, Senkaku Islands, and Takeshima / Liancourt Rocks. You
-can also pass a character vector to include only selected regions, such
-as <code>territorial_disputes = "senkaku"</code> or
+<p>Areas discussed in Japan territorial-dispute references are included
+by default and drawn quietly with the rest of the map. Set
+<code>territorial_disputes = FALSE</code> to exclude them. You can also
+pass a character vector to include only selected regions, such as
+<code>territorial_disputes = "senkaku"</code> or
 <code>territorial_disputes = c("senkaku", "takeshima")</code>.</p>
-<p><code><a href="../reference/plot_jpmap.html">plot_jpmap()</a></code> gives opt-in disputed shapes a separate
-fill and dot overlay so small islands and reefs remain visible at the
-default scale. Use <code>disputed_fill</code>,
-<code>disputed_color</code>, or <code>disputed_dots = FALSE</code> to
-change that styling.</p>
+<p>Use <code>disputed_fill</code>, <code>disputed_color</code>, and
+<code>disputed_dots = TRUE</code> when you want to emphasize these small
+islands and reefs.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span></span>
 <span>  <span class="st">"prefecture"</span>,</span>
-<span>  territorial_disputes <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  disputed_fill <span class="op">=</span> <span class="st">"#005BAC"</span>,</span>
+<span>  disputed_color <span class="op">=</span> <span class="st">"#001040"</span>,</span>
+<span>  disputed_dots <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Map with opt-in disputed-territory shapes"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Map with highlighted disputed-territory shapes"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#2C2A29"</span><span class="op">)</span></span>
+<span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, color <span class="op">=</span> <span class="st">"#001040"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="inset-options_files/figure-html/disputed-territories-1.png" class="r-plt" alt="" width="840"></p>
+<p><img src="inset-options_files/figure-html/disputed-territories-highlight-1.png" class="r-plt" alt="" width="840"></p>
 </div>
 <div class="section level2">
 <h2 id="what-the-boxes-mean">What The Boxes Mean<a class="anchor" aria-label="anchor" href="#what-the-boxes-mean"></a>
@@ -206,9 +205,9 @@ the remote Ogasawara pieces present in the bundled prefecture layer,
 such as Minamitorishima. Use <code>inset = FALSE</code> when literal
 geographic placement matters more than a compact display.</p>
 <p>When <code>territorial_disputes = TRUE</code> includes
-Okinotorishima, the Ogasawara box is expanded so the opt-in
-Okinotorishima reef shape remains visible. These disputed-territory
-shapes are not official boundary polygons.</p>
+Okinotorishima, the Ogasawara box is expanded so the Okinotorishima reef
+shape remains visible. These disputed-territory shapes are not official
+boundary polygons.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -9,15 +9,14 @@ still contains the rest of Okinawa Prefecture.
 
 ``` r
 
-library(ggplot2)
+library(tidyverse)
 library(jpmap)
 
-data("jp_us_military_bases")
-
-okinawa_bases <- jp_us_military_bases[
-  jp_us_military_bases$prefecture == "Okinawa" &
-    jp_us_military_bases$base != "Okinawa U.S. military facilities",
-]
+okinawa_bases <- jp_us_military_bases |>
+  filter(
+    prefecture == "Okinawa",
+    base != "Okinawa U.S. military facilities"
+  )
 
 okinawa_main_island <- c(
   "那覇市", "宜野湾市", "浦添市", "名護市", "糸満市", "沖縄市",
@@ -27,19 +26,23 @@ okinawa_main_island <- c(
   "南風原町", "八重瀬町"
 )
 okinawa_main_island_min_area <- 5e6
+keep_okinawa_main_island <- function(map) {
+  filtered <- map |>
+    filter(municipality_ja %in% okinawa_main_island)
 
-okinawa_file <- available_jpmap_data()
-okinawa_file <- okinawa_file$path[
-  okinawa_file$year == 2024 & okinawa_file$pref_code == "47"
-]
+  filtered |>
+    mutate(area_m2 = as.numeric(sf::st_area(filtered))) |>
+    filter(area_m2 >= okinawa_main_island_min_area) |>
+    select(-area_m2)
+}
 
-okinawa_wgs84 <- sf::st_read(okinawa_file, layer = "municipalities", quiet = TRUE)
-okinawa_wgs84 <- okinawa_wgs84[
-  okinawa_wgs84$municipality_ja %in% okinawa_main_island,
-]
-okinawa_wgs84 <- okinawa_wgs84[
-  as.numeric(sf::st_area(okinawa_wgs84)) >= okinawa_main_island_min_area,
-]
+okinawa_file <- available_jpmap_data() |>
+  filter(year == 2024, pref_code == "47") |>
+  pull(path) |>
+  first()
+
+okinawa_wgs84 <- sf::st_read(okinawa_file, layer = "municipalities", quiet = TRUE) |>
+  keep_okinawa_main_island()
 
 base_points <- sf::st_as_sf(
   okinawa_bases,
@@ -48,33 +51,19 @@ base_points <- sf::st_as_sf(
   remove = FALSE
 )
 
-base_municipalities <- sf::st_join(
+base_counts <- sf::st_join(
   base_points,
   okinawa_wgs84["municipality_code"],
   left = FALSE
-)
-base_municipalities <- sf::st_drop_geometry(base_municipalities)
+) |>
+  sf::st_drop_geometry() |>
+  count(municipality_code, name = "base_count")
 
-base_counts <- aggregate(
-  list(base_count = base_municipalities$base),
-  base_municipalities["municipality_code"],
-  length
-)
-
-okinawa_main_map <- jp_map("municipality", include = "Okinawa", inset = FALSE)
-okinawa_main_map <- okinawa_main_map[
-  okinawa_main_map$municipality_ja %in% okinawa_main_island,
-]
-okinawa_main_map <- okinawa_main_map[
-  as.numeric(sf::st_area(okinawa_main_map)) >= okinawa_main_island_min_area,
-]
-okinawa_main_map <- jp_map_with_data(
-  okinawa_main_map,
-  base_counts,
-  values = "base_count"
-)
+okinawa_main_map <- jp_map("municipality", include = "Okinawa", inset = FALSE) |>
+  keep_okinawa_main_island() |>
+  jp_map_join(base_counts, values = "base_count") |>
+  mutate(base_count = replace_na(base_count, 0L))
 #> Warning: 17 map region key(s) in `municipality_code` did not receive data
-okinawa_main_map$base_count[is.na(okinawa_main_map$base_count)] <- 0L
 ```
 
 ``` r
@@ -91,7 +80,7 @@ ggplot(okinawa_main_map) +
   ) +
   scale_fill_gradient(
     low = "grey92",
-    high = "#782F40",
+    high = "#001040",
     name = "Base count"
   ) +
   labs(
@@ -103,7 +92,7 @@ ggplot(okinawa_main_map) +
     axis.title = element_blank(),
     panel.grid.minor = element_blank(),
     legend.background = element_rect(fill = "white", color = NA),
-    plot.title = element_text(face = "bold", color = "#2C2A29"),
+    plot.title = element_text(face = "bold", color = "#001040"),
     plot.caption = element_text(color = "#2C2A29", hjust = 0, size = 8)
   )
 ```

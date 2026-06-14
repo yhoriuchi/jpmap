@@ -17,16 +17,19 @@ install.packages("leaflet")
 
 ``` r
 
+library(tidyverse)
 library(jpmap)
 
-data("jp_prefecture_gdp")
+gdp <- jp_prefecture_gdp |>
+  select(pref_code, prefecture, gdp_per_capita_jpy)
 
 jp_map_leaflet(
   "prefecture",
-  data = jp_prefecture_gdp,
+  data = gdp,
   values = "gdp_per_capita_jpy",
-  palette = "YlOrRd",
-  popup = "prefecture"
+  palette = "Blues",
+  popup = "prefecture",
+  simplify_tolerance = 0.03
 )
 ```
 
@@ -39,23 +42,24 @@ If your data has numeric prefecture codes such as `1`, `2`, and `47`,
 
 ## Disputed-Territory Layer
 
-The disputed-territory layer is opt-in for web maps too.
+The disputed-territory layer is included quietly for web maps too. You
+can exclude it with `territorial_disputes = FALSE`, or highlight it
+explicitly.
 
 ``` r
 
 jp_map_leaflet(
   "prefecture",
-  territorial_disputes = TRUE,
   fill = "grey92",
-  disputed_fill = "#F6C85F"
+  disputed_fill = "#005BAC",
+  disputed_color = "#001040",
+  disputed_dots = TRUE
 )
 ```
 
 Small disputed-territory polygons can be hard to click at a national
-zoom level, so
-[`jp_map_leaflet()`](https://yhoriuchi.github.io/jpmap/reference/jp_map_leaflet.md)
-adds circle markers by default. Set `disputed_dots = FALSE` when you
-only want polygon shapes.
+zoom level, so `disputed_dots = TRUE` can add circle markers when you
+choose to emphasize them.
 
 ## Municipal Map
 

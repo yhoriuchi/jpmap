@@ -9,7 +9,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", message = FALSE)
 ```
 
 Use `available_jpmap_data()` to see which boundary files `jpmap` can find.
