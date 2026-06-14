@@ -81,7 +81,10 @@ plot_jpmap(
 
   Inset behavior. Use `TRUE` to move both Okinawa and Ogasawara, `FALSE`
   for no movement, or a character vector containing `"okinawa"` and/or
-  `"ogasawara"` to move selected island groups.
+  `"ogasawara"` to move selected island groups. For filtered
+  municipality maps such as
+  `plot_jpmap("municipality", include = "Okinawa")`, the default plot
+  frame is local and non-inset unless `inset` is supplied explicitly.
 
 - okinawa:
 

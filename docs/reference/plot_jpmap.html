@@ -107,7 +107,10 @@
 <dt id="arg-inset">inset<a class="anchor" aria-label="anchor" href="#arg-inset"></a></dt>
 <dd><p>Inset behavior. Use <code>TRUE</code> to move both Okinawa and
 Ogasawara, <code>FALSE</code> for no movement, or a character vector containing
-<code>"okinawa"</code> and/or <code>"ogasawara"</code> to move selected island groups.</p></dd>
+<code>"okinawa"</code> and/or <code>"ogasawara"</code> to move selected island groups. For
+filtered municipality maps such as
+<code>plot_jpmap("municipality", include = "Okinawa")</code>, the default plot frame
+is local and non-inset unless <code>inset</code> is supplied explicitly.</p></dd>
 
 <dt id="arg-okinawa">okinawa<a class="anchor" aria-label="anchor" href="#arg-okinawa"></a></dt>
 <dd><p>Whether Okinawa should be moved when <code>inset</code> includes it.</p></dd>

@@ -76,7 +76,7 @@ test_that("bundled prefecture data are available by default", {
   expect_equal(nrow(jp_map("prefecture", territorial_disputes = FALSE)), 47)
 })
 
-test_that("disputed-territory shapes are included quietly by default", {
+test_that("disputed-territory shapes can be included and excluded", {
   default_map <- jp_map("prefecture")
   default_literal <- jp_map("prefecture", inset = FALSE)
   excluded_map <- jp_map("prefecture", territorial_disputes = FALSE)
@@ -129,6 +129,18 @@ test_that("bundled Okinawa municipalities are available by default", {
   expect_true(all(admin_map$pref_code == "47"))
   expect_true(all(admin_map$municipality_code != ""))
   expect_equal(disputed_map$dispute_region, "senkaku")
+})
+
+test_that("filtered municipality plots use a local default frame", {
+  plot <- plot_jpmap("municipality", include = "Okinawa")
+  explicit_inset <- plot_jpmap("municipality", include = "Okinawa", inset = TRUE)
+
+  expect_s3_class(plot, "ggplot")
+  expect_null(plot$coordinates$limits$x)
+  expect_null(plot$coordinates$limits$y)
+  expect_true(length(plot$layers) < length(explicit_inset$layers))
+  expect_false(is.null(explicit_inset$coordinates$limits$x))
+  expect_false(is.null(explicit_inset$coordinates$limits$y))
 })
 
 test_that("jp_map_join handles common Japan map keys safely", {

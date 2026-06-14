@@ -1,3 +1,69 @@
+#' Plot a Japan Map
+#'
+#' Plots Japan prefecture or municipal boundaries using `ggplot2`.
+#'
+#' @param regions Boundary level: prefectures or municipalities.
+#' @param include Regions to include by code, English name, or Japanese name.
+#' @param exclude Regions to exclude by code, English name, or Japanese name.
+#' @param data Optional data frame to join to the map.
+#' @param values Column name in `data` to use as the fill variable.
+#' @param labels Whether to draw region labels.
+#' @param label_color Label text color.
+#' @param data_year Boundary data year.
+#' @param inset Inset behavior. Use `TRUE` to move both Okinawa and Ogasawara,
+#'   `FALSE` for no movement, or a character vector containing `"okinawa"`
+#'   and/or `"ogasawara"` to move selected island groups. For filtered
+#'   municipality maps such as `plot_jpmap("municipality", include = "Okinawa")`,
+#'   the default plot frame is local and non-inset unless `inset` is supplied
+#'   explicitly.
+#' @param okinawa Whether Okinawa should be moved when `inset` includes it.
+#' @param ogasawara Whether Ogasawara should be moved when `inset` includes it.
+#' @param territorial_disputes Whether to include disputed-territory island/reef
+#'   shapes. Use `FALSE` to exclude them, or a character vector containing one
+#'   or more of `"northern_territories"`, `"okinotorishima"`, `"senkaku"`, and
+#'   `"takeshima"`.
+#' @param disputed_fill Optional fill color for disputed-territory shapes. When
+#'   `NULL`, the ordinary map fill is used.
+#' @param disputed_color Optional outline color for disputed-territory shapes.
+#'   When `NULL`, the ordinary map outline is used.
+#' @param disputed_linewidth Optional line width for disputed-territory shapes.
+#' @param disputed_dots Whether to draw dot markers on disputed-territory shapes.
+#' @param disputed_dot_fill Fill color for disputed-territory dot markers.
+#' @param disputed_dot_color Outline color for disputed-territory dot markers.
+#' @param disputed_dot_size Size for disputed-territory dot markers.
+#' @param disputed_dot_stroke Stroke width for disputed-territory dot markers.
+#' @param inset_boxes Whether to draw boxes around transported Okinawa and
+#'   Ogasawara insets.
+#' @param inset_box_color Outline color for inset boxes.
+#' @param inset_box_linewidth Line width for inset boxes.
+#' @param data_dir Optional directory containing `jpmap_boundaries_YYYY.gpkg`.
+#' @param xlim,ylim Optional longitude and latitude limits for the plot frame.
+#' @param x_breaks,y_breaks Optional longitude and latitude axis breaks.
+#' @param x_labels,y_labels Optional longitude and latitude axis labels.
+#' @param fill Boundary fill color when `values` is not supplied.
+#' @param color Boundary line color.
+#' @param linewidth Boundary line width.
+#' @param ... Additional arguments passed to [ggplot2::geom_sf()].
+#'
+#' @return A `ggplot2` plot.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' plot_jpmap("prefecture")
+#' plot_jpmap("prefecture", ogasawara = FALSE)
+#' plot_jpmap("prefecture", territorial_disputes = FALSE)
+#' plot_jpmap(
+#'   "prefecture",
+#'   ogasawara = FALSE,
+#'   xlim = c(122, 149),
+#'   ylim = c(28.5, 47),
+#'   x_breaks = seq(125, 145, 5),
+#'   y_breaks = seq(30, 45, 5)
+#' )
+#' plot_jpmap("prefecture", inset_boxes = FALSE)
+#' plot_jpmap("municipality", include = "Okinawa")
+#' }
 plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities", "municipality"),
                        include = c(),
                        exclude = c(),
@@ -32,6 +98,7 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
                        color = "grey35",
                        linewidth = 0.25,
                        ...) {
+  inset_was_supplied <- !missing(inset)
   check_inset_switch(inset_boxes, "inset_boxes")
   check_inset_switch(disputed_dots, "disputed_dots")
   check_axis_limits(xlim, "xlim")
@@ -39,12 +106,18 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
   disputed_regions <- normalize_territorial_disputes(territorial_disputes)
 
   layer <- canonical_region(regions)
+  plot_inset <- effective_plot_inset(
+    layer = layer,
+    include = include,
+    inset = inset,
+    inset_was_supplied = inset_was_supplied
+  )
   map <- jp_map(
     regions = layer,
     include = include,
     exclude = exclude,
     data_year = data_year,
-    inset = inset,
+    inset = plot_inset,
     okinawa = okinawa,
     ogasawara = ogasawara,
     territorial_disputes = disputed_regions,
@@ -55,7 +128,7 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
     map <- jp_map_with_data(map, data, values = values)
   }
 
-  inset_regions <- normalize_inset(inset, okinawa = okinawa, ogasawara = ogasawara)
+  inset_regions <- normalize_inset(plot_inset, okinawa = okinawa, ogasawara = ogasawara)
   plot <- ggplot2::ggplot()
 
   if (length(inset_regions) > 0 && isTRUE(inset_boxes)) {
@@ -179,6 +252,17 @@ plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities"
   }
 
   plot
+}
+
+effective_plot_inset <- function(layer, include, inset, inset_was_supplied) {
+  if (
+    identical(layer, "municipalities") &&
+      length(include) > 0 &&
+      !isTRUE(inset_was_supplied)
+  ) {
+    return(FALSE)
+  }
+  inset
 }
 
 disputed_plot_features <- function(map) {

@@ -50,7 +50,10 @@ plot_jpmap(
 \item{data_year}{Boundary data year.}
 \item{inset}{Inset behavior. Use \code{TRUE} to move both Okinawa and
 Ogasawara, \code{FALSE} for no movement, or a character vector containing
-\code{"okinawa"} and/or \code{"ogasawara"} to move selected island groups.}
+\code{"okinawa"} and/or \code{"ogasawara"} to move selected island groups. For
+filtered municipality maps such as
+\code{plot_jpmap("municipality", include = "Okinawa")}, the default plot frame
+is local and non-inset unless \code{inset} is supplied explicitly.}
 \item{okinawa}{Whether Okinawa should be moved when \code{inset} includes it.}
 \item{ogasawara}{Whether Ogasawara should be moved when \code{inset} includes it.}
 \item{territorial_disputes}{Whether to include disputed-territory island/reef

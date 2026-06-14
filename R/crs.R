@@ -1,3 +1,9 @@
+#' Coordinate Reference System for jpmap
+#'
+#' Returns the projected coordinate reference system used by jpmap.
+#'
+#' @return An [sf::st_crs()] object.
+#' @export
 jpmap_crs <- function() {
   sf::st_crs(jpmap_crs_proj4())
 }

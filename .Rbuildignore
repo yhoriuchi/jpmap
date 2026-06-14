@@ -2,6 +2,7 @@
 ^[.]Rproj[.]user$
 ^[.]DS_Store$
 ^[.]gitignore$
+^[.]github$
 ^[.]Rhistory$
 ^_pkgdown[.]yml$
 ^cran-comments[.]md$

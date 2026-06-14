@@ -1,3 +1,39 @@
+#' Manage jpmap Boundary Data
+#'
+#' Helpers for locating and building the GeoPackage boundary data used by
+#' jpmap. The installed package includes example prefecture boundaries and
+#' official MLIT N03 municipal boundaries for Okinawa Prefecture as of
+#' January 1, 2024. Use `jpmap_build_data()` to build nationwide detailed
+#' municipal boundaries, or `jpmap_build_data(prefecture = "Ehime")` to build
+#' one prefecture from the official MLIT N03 administrative area data.
+#'
+#' @param create Whether to create the default data directory.
+#' @param data_dir Optional directory to scan for boundary data.
+#' @param year Boundary data year.
+#' @param prefecture Optional prefecture code, English name, or Japanese name.
+#'   When supplied, only that prefecture's official MLIT N03 file is downloaded
+#'   and built.
+#' @param destdir Directory where the generated GeoPackage should be written.
+#' @param url Optional source URL. By default, an MLIT N03 URL is constructed.
+#' @param overwrite Whether to overwrite an existing GeoPackage.
+#' @param quiet Whether to suppress messages from download and spatial
+#'   reads/writes.
+#' @param simplify_tolerance Optional tolerance passed to [sf::st_simplify()].
+#'
+#' @return `jpmap_data_dir()` returns a path, `available_jpmap_data()` returns a
+#'   data frame with `year`, `pref_code`, `prefecture`, and `path`, and
+#'   `jpmap_build_data()` invisibly returns the generated file.
+#' @source MLIT National Land Numerical Information N03 administrative area
+#'   data: <https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2024.html>.
+#'
+#' @examples
+#' \dontrun{
+#' jpmap_build_data(year = 2024)
+#' jpmap_build_data(year = 2024, prefecture = "Ehime")
+#' available_jpmap_data()
+#' }
+#' @export
+#' @rdname jpmap_data
 jpmap_data_dir <- function(create = TRUE) {
   path <- tools::R_user_dir("jpmap", "data")
   if (isTRUE(create)) {
@@ -6,6 +42,8 @@ jpmap_data_dir <- function(create = TRUE) {
   path
 }
 
+#' @export
+#' @rdname jpmap_data
 available_jpmap_data <- function(data_dir = NULL) {
   dirs <- jpmap_data_dirs(data_dir)
   files <- unlist(
@@ -49,6 +87,40 @@ available_jpmap_data <- function(data_dir = NULL) {
   )
 }
 
+#' Retrieve Japan Map Data
+#'
+#' Reads Japan administrative boundary data and returns an `sf` object.
+#'
+#' @param regions Boundary level: prefectures or municipalities.
+#' @param include Regions to include by code, English name, or Japanese name.
+#' @param exclude Regions to exclude by code, English name, or Japanese name.
+#' @param data_year Boundary data year. The newest appropriate available file
+#'   is used by default. For example, national prefecture maps prefer a national
+#'   file, while one-prefecture municipal requests can use a matching prefecture
+#'   file.
+#' @param inset Inset behavior. Use `TRUE` to move both Okinawa and Ogasawara,
+#'   `FALSE` for no movement, or a character vector containing `"okinawa"`
+#'   and/or `"ogasawara"` to move selected island groups.
+#' @param okinawa Whether Okinawa should be moved when `inset` includes it.
+#' @param ogasawara Whether Ogasawara should be moved when `inset` includes it.
+#' @param territorial_disputes Whether to include disputed-territory
+#'   island/reef shapes. Use `FALSE` to exclude them, or a character vector
+#'   containing one or more of `"northern_territories"`, `"okinotorishima"`,
+#'   `"senkaku"`, and `"takeshima"`.
+#' @param data_dir Optional directory containing `jpmap_boundaries_YYYY.gpkg`.
+#'
+#' @return An `sf` data frame.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' jp_map("prefectures")
+#' jp_map("prefectures", okinawa = FALSE)
+#' jp_map("prefectures", territorial_disputes = FALSE)
+#' jp_map("municipalities", include = "Okinawa")
+#' jp_map("prefecture")
+#' jp_map("municipality", include = "Okinawa")
+#' }
 jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "municipality"),
                    include = c(),
                    exclude = c(),
@@ -82,6 +154,37 @@ jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "m
   jpmap_transform(map, inset = inset, okinawa = okinawa, ogasawara = ogasawara)
 }
 
+#' Retrieve Disputed-Territory Island And Reef Shapes
+#'
+#' Returns cartographic island/reef shapes for disputed territories or disputed
+#' maritime/EEZ-status areas discussed in Japan territorial-dispute references.
+#' These geometries are intentionally separate from the MLIT N03 administrative
+#' boundary data and are not authoritative legal boundary polygons.
+#'
+#' @param territorial_disputes Which disputed-territory shapes to include. Use
+#'   `TRUE` for all built-in shapes, `FALSE` for none, or a character vector
+#'   containing one or more of `"northern_territories"`, `"okinotorishima"`,
+#'   `"senkaku"`, and `"takeshima"`. Common aliases such as `"kuril"`,
+#'   `"liancourt"`, `"dokdo"`, and `"diaoyu"` are also accepted.
+#' @param regions Boundary level whose columns should be mirrored: prefectures
+#'   or municipalities.
+#' @param inset Inset behavior. Use `TRUE` to move Okinawa and Ogasawara,
+#'   `FALSE` for literal projected locations, or a character vector containing
+#'   `"okinawa"` and/or `"ogasawara"`.
+#' @param okinawa Whether Okinawa should be moved when `inset` includes it.
+#' @param ogasawara Whether Ogasawara should be moved when `inset` includes it.
+#'
+#' @return An `sf` data frame.
+#' @source Territory list based on
+#'   <https://en.wikipedia.org/wiki/Territorial_disputes_of_Japan>. Shapes are
+#'   derived from Natural Earth 1:10m land polygons and OpenStreetMap geometry.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' jp_disputed_territories()
+#' jp_disputed_territories(c("senkaku", "takeshima"))
+#' }
 jp_disputed_territories <- function(territorial_disputes = TRUE,
                                     regions = c("prefectures", "prefecture", "municipalities", "municipality"),
                                     inset = TRUE,
@@ -97,10 +200,26 @@ jp_disputed_territories <- function(territorial_disputes = TRUE,
   jpmap_transform(territories, inset = inset, okinawa = okinawa, ogasawara = ogasawara)
 }
 
+#' Join Data to a jpmap Map
+#'
+#' Joins user data to a Japan map object. This is a compact wrapper around
+#' [jp_map_join()] kept for plotting workflows that call it internally.
+#'
+#' @param map An `sf` object returned by [jp_map()].
+#' @param data A data frame containing a matching administrative code or name
+#'   column.
+#' @param values Optional value column to check after joining.
+#' @param by Optional join column. If omitted, jpmap guesses from common
+#'   columns.
+#'
+#' @return An `sf` object.
+#' @export
 jp_map_with_data <- function(map, data, values = NULL, by = NULL) {
   jp_map_join(map, data, by = by, values = values)
 }
 
+#' @export
+#' @rdname jpmap_data
 jpmap_build_data <- function(year = 2024,
                              prefecture = NULL,
                              destdir = jpmap_data_dir(),

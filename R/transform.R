@@ -1,3 +1,38 @@
+#' Transform Data to the jpmap Projection
+#'
+#' Transforms geographic data to the jpmap projected coordinate system. When
+#' `inset = TRUE`, Okinawa and Ogasawara are moved to visible inset locations.
+#' Use `okinawa = FALSE`, `ogasawara = FALSE`, `inset = "okinawa"`, or
+#' `inset = "ogasawara"` to transport only one island group.
+#'
+#' @param data An `sf` object, `sfc` geometry vector, or data frame.
+#' @param input_names Longitude and latitude column names for data frames.
+#' @param output_names Output coordinate column names for data frames.
+#' @param inset Inset behavior. Use `TRUE` to move both Okinawa and Ogasawara,
+#'   `FALSE` for no movement, or a character vector containing `"okinawa"`
+#'   and/or `"ogasawara"` to move selected island groups.
+#' @param okinawa Whether Okinawa should be moved when `inset` includes it.
+#' @param ogasawara Whether Ogasawara should be moved when `inset` includes it.
+#'
+#' @return An object of the same general type as `data`.
+#' @export
+#'
+#' @examples
+#' if (requireNamespace("tibble", quietly = TRUE)) {
+#'   places <- tibble::tribble(
+#'     ~place, ~lon, ~lat,
+#'     "Tokyo", 139.767, 35.681,
+#'     "Naha", 127.681, 26.212,
+#'     "Ogasawara", 142.191, 27.094
+#'   )
+#'
+#'   places |>
+#'     jpmap_transform(output_names = c("x", "y"))
+#'   places |>
+#'     jpmap_transform(output_names = c("x", "y"), inset = "okinawa")
+#'   places |>
+#'     jpmap_transform(output_names = c("x", "y"), ogasawara = FALSE)
+#' }
 jpmap_transform <- function(data,
                             input_names = c("lon", "lat"),
                             output_names = input_names,
