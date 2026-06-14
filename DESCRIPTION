@@ -1,6 +1,6 @@
 Package: jpmap
 Title: Japan Maps with Insets for Okinawa and Ogasawara
-Version: 0.1.0
+Version: 0.1.1
 Authors@R:
     person("Yusaku", "Horiuchi", role = c("aut", "cre"),
            email = "yusaku.horiuchi@gmail.com")

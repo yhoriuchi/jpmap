@@ -1,4 +1,4 @@
-# jpmap 0.1.0
+# jpmap 0.1.1
 
 Initial CRAN release.
 

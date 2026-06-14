@@ -14,6 +14,8 @@ been removed from jpmap. Boundary data now live outside the functionality
 package: users can install the companion jpmapdata package when available or
 build local GeoPackage files with jpmap_build_data().
 
+The package version has been bumped to 0.1.1 for this resubmission.
+
 The source tarball is now about 153 KB.
 
 The local check also reports that the installed HTML Tidy is not recent enough
