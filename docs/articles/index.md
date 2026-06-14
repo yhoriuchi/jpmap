@@ -13,8 +13,8 @@ tools.
 - [Boundary Data
   Policy](https://yhoriuchi.github.io/jpmap/articles/boundary-data-policy.md):
 
-  What boundary data jpmap includes, where it comes from, and how
-  disputed-territory shapes are handled.
+  Where jpmap boundary data comes from and how disputed-territory shapes
+  are handled.
 
 ### Getting Started
 
@@ -29,13 +29,13 @@ coordinates.
 - [Download Boundary
   Data](https://yhoriuchi.github.io/jpmap/articles/download-boundary-data.md):
 
-  Understand the bundled Okinawa municipal data and build larger MLIT
-  N03 boundary files locally.
+  Install companion boundary data or build MLIT N03 GeoPackage files
+  locally.
 
 - [Import Boundary
   Data](https://yhoriuchi.github.io/jpmap/articles/import-boundary-data.md):
 
-  Load bundled or locally built boundary GeoPackages with jp_map(),
+  Load companion or locally built boundary GeoPackages with jp_map(),
   plot_jpmap(), and sf.
 
 - [Transform
@@ -63,14 +63,13 @@ Simple plotting workflows using the bundled GDP and U.S. base datasets.
 - [Plot Municipal Choropleth
   Maps](https://yhoriuchi.github.io/jpmap/articles/municipal-choropleths.md):
 
-  Use bundled Okinawa municipal boundaries and map municipality
-  population.
+  Use Okinawa municipal boundaries and map municipality population.
 
 - [Plot Municipal Point
   Maps](https://yhoriuchi.github.io/jpmap/articles/municipal-point-maps.md):
 
-  Plot selected U.S. base points on the bundled Okinawa municipal map
-  using one point variable.
+  Plot selected U.S. base points on an Okinawa municipal map using one
+  point variable.
 
 - [Interactive Web Maps with
   leaflet](https://yhoriuchi.github.io/jpmap/articles/web-maps-leaflet.md):

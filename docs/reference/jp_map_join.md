@@ -62,7 +62,8 @@ An `sf` object with non-geometry columns from `data` joined to `map`.
 ## Examples
 
 ``` r
-if (requireNamespace("dplyr", quietly = TRUE)) {
+if (requireNamespace("dplyr", quietly = TRUE) &&
+    nrow(available_jpmap_data()) > 0) {
   data("jp_prefecture_gdp")
 
   gdp <- jp_prefecture_gdp |>

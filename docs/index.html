@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="index.html">jpmap</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.0</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,11 +73,14 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"yhoriuchi/jpmap"</span><span class="op">)</span></span></code></pre></div>
+<p>Boundary GeoPackages are large and live outside the functionality package. Install the companion data package when you want ready-to-use boundary files, or build the files locally from MLIT source data.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"yhoriuchi/jpmapdata"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="core-workflow">Core Workflow<a class="anchor" aria-label="anchor" href="#core-workflow"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yhoriuchi.github.io/jpmap/">jpmap</a></span><span class="op">)</span></span>
 <span></span>
@@ -117,7 +120,7 @@
 <h2 id="transform-point-data">Transform Point Data<a class="anchor" aria-label="anchor" href="#transform-point-data"></a>
 </h2>
 <p>Use <code><a href="reference/jpmap_transform.html">jpmap_transform()</a></code> to put user-supplied longitude and latitude data into the same projected coordinate system used by <code><a href="reference/plot_jpmap.html">plot_jpmap()</a></code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yhoriuchi.github.io/jpmap/">jpmap</a></span><span class="op">)</span></span>
 <span></span>
@@ -134,16 +137,12 @@
 <div class="section level2">
 <h2 id="boundary-data">Boundary Data<a class="anchor" aria-label="anchor" href="#boundary-data"></a>
 </h2>
-<p>The installed package includes:</p>
-<ul>
-<li>all-prefecture example boundaries for Japan, based on Natural Earth Admin-1 data;</li>
-<li>official MLIT N03 municipal boundaries for Okinawa Prefecture as of January 1, 2024.</li>
-</ul>
-<p>Use the bundled Okinawa municipal data immediately:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"municipality"</span>, include <span class="op">=</span> <span class="st">"Okinawa"</span><span class="op">)</span></span></code></pre></div>
-<p>Nationwide municipal polygons are much larger and should be built locally from Japan’s official MLIT National Land Numerical Information N03 administrative area data:</p>
+<p><code>jpmap</code> looks for boundary GeoPackages in the companion <code>jpmapdata</code> package and in the local data directory returned by <code><a href="reference/jpmap_data.html">jpmap_data_dir()</a></code>.</p>
+<p>After boundary data are available, draw Okinawa municipalities with:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"municipality"</span>, include <span class="op">=</span> <span class="st">"Okinawa"</span><span class="op">)</span></span></code></pre></div>
+<p>You can also build boundary files locally from Japan’s official MLIT National Land Numerical Information N03 administrative area data:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/jpmap_data.html">jpmap_build_data</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2024</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/jpmap_data.html">jpmap_build_data</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2024</span>, prefecture <span class="op">=</span> <span class="st">"Ehime"</span><span class="op">)</span></span></code></pre></div>
 <p>The generated file is written to <code><a href="reference/jpmap_data.html">jpmap_data_dir()</a></code> by default and contains two layers:</p>

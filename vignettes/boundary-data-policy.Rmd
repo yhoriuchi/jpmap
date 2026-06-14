@@ -30,7 +30,9 @@ You can see the available GeoPackage files with:
 ```{r}
 library(jpmap)
 
-available_jpmap_data()[c("year", "pref_code", "prefecture", "source")]
+available <- available_jpmap_data()[c("year", "pref_code", "prefecture", "source")]
+row.names(available) <- NULL
+available
 ```
 
 The website intentionally does not print the user-specific data directory.
@@ -99,5 +101,7 @@ For example:
 
 ```{r, eval = FALSE}
 sessionInfo()
-available_jpmap_data()[c("year", "pref_code", "prefecture", "source")]
+available <- available_jpmap_data()[c("year", "pref_code", "prefecture", "source")]
+row.names(available) <- NULL
+available
 ```

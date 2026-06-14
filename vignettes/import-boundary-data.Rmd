@@ -19,7 +19,9 @@ library(jpmap)
 available <- available_jpmap_data()
 jpmap_has_boundary_data <- nrow(available) > 0
 jpmap_has_okinawa_data <- any(available$year == 2024 & available$pref_code == "47")
-available[c("year", "pref_code", "prefecture", "source")]
+available_summary <- available[c("year", "pref_code", "prefecture", "source")]
+row.names(available_summary) <- NULL
+available_summary
 ```
 
 The package checks two locations:

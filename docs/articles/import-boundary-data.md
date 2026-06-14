@@ -8,15 +8,19 @@ to see which boundary files `jpmap` can find.
 
 library(jpmap)
 available <- available_jpmap_data()
-available[c("year", "pref_code", "prefecture")]
-#>   year pref_code prefecture
-#> 1 2021      <NA>       <NA>
-#> 2 2024        47    Okinawa
+jpmap_has_boundary_data <- nrow(available) > 0
+jpmap_has_okinawa_data <- any(available$year == 2024 & available$pref_code == "47")
+available_summary <- available[c("year", "pref_code", "prefecture", "source")]
+row.names(available_summary) <- NULL
+available_summary
+#>   year pref_code prefecture    source
+#> 1 2021      <NA>       <NA> jpmapdata
+#> 2 2024        47    Okinawa jpmapdata
 ```
 
 The package checks two locations:
 
-- bundled example files installed with `jpmap`;
+- GeoPackage files installed by the companion `jpmapdata` package;
 - files saved in
   [`jpmap_data_dir()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md),
   unless you pass a custom `data_dir`.
@@ -25,7 +29,7 @@ The package checks two locations:
 
 [`jp_map()`](https://yhoriuchi.github.io/jpmap/reference/jp_map.md)
 returns an `sf` object. Without extra options, prefecture maps use the
-bundled all-Japan prefecture file.
+first available all-Japan prefecture file.
 
 ``` r
 
@@ -72,10 +76,10 @@ prefectures
 #> 10                  <NA>   <NA>       <NA> <NA> MULTIPOLYGON (((140563.2 -5...
 ```
 
-## Load Bundled Okinawa Municipal Data
+## Load Okinawa Municipal Data
 
-The package includes official MLIT N03 municipal boundaries for Okinawa
-Prefecture as of January 1, 2024.
+The companion data package can provide official MLIT N03 municipal
+boundaries for Okinawa Prefecture as of January 1, 2024.
 
 ``` r
 
@@ -155,8 +159,9 @@ okinawa_municipalities
 #> 10 POLYGON ((-1158043 462743.9...
 ```
 
-This works without `data_year` or `data_dir` because `jpmap` can see the
-bundled Okinawa file.
+This works without `data_year` or `data_dir` when `jpmap` can see the
+Okinawa file through `jpmapdata` or
+[`jpmap_data_dir()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md).
 
 ## Load Locally Built Municipal Data
 

@@ -17,8 +17,8 @@
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Import Boundary Data">
-<meta name="description" content="Load bundled or locally built boundary GeoPackages with jp_map(), plot_jpmap(), and sf.">
-<meta property="og:description" content="Load bundled or locally built boundary GeoPackages with jp_map(), plot_jpmap(), and sf.">
+<meta name="description" content="Load companion or locally built boundary GeoPackages with jp_map(), plot_jpmap(), and sf.">
+<meta property="og:description" content="Load companion or locally built boundary GeoPackages with jp_map(), plot_jpmap(), and sf.">
 <meta property="og:image" content="https://yhoriuchi.github.io/jpmap/logo.png">
 </head>
 <body>
@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jpmap</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.0</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,13 +71,18 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yhoriuchi.github.io/jpmap/">jpmap</a></span><span class="op">)</span></span>
 <span><span class="va">available</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jpmap_data.html">available_jpmap_data</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">available</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"pref_code"</span>, <span class="st">"prefecture"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">#&gt;   year pref_code prefecture</span></span>
-<span><span class="co">#&gt; 1 2021      &lt;NA&gt;       &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2 2024        47    Okinawa</span></span></code></pre></div>
+<span><span class="va">jpmap_has_boundary_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">available</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span></span>
+<span><span class="va">jpmap_has_okinawa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">available</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2024</span> <span class="op">&amp;</span> <span class="va">available</span><span class="op">$</span><span class="va">pref_code</span> <span class="op">==</span> <span class="st">"47"</span><span class="op">)</span></span>
+<span><span class="va">available_summary</span> <span class="op">&lt;-</span> <span class="va">available</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"pref_code"</span>, <span class="st">"prefecture"</span>, <span class="st">"source"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">available_summary</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span><span class="va">available_summary</span></span>
+<span><span class="co">#&gt;   year pref_code prefecture    source</span></span>
+<span><span class="co">#&gt; 1 2021      &lt;NA&gt;       &lt;NA&gt; jpmapdata</span></span>
+<span><span class="co">#&gt; 2 2024        47    Okinawa jpmapdata</span></span></code></pre></div>
 <p>The package checks two locations:</p>
 <ul>
-<li>bundled example files installed with <code>jpmap</code>;</li>
+<li>GeoPackage files installed by the companion <code>jpmapdata</code>
+package;</li>
 <li>files saved in <code><a href="../reference/jpmap_data.html">jpmap_data_dir()</a></code>, unless you pass a
 custom <code>data_dir</code>.</li>
 </ul>
@@ -85,8 +90,8 @@ custom <code>data_dir</code>.</li>
 <h2 id="load-prefecture-data">Load Prefecture Data<a class="anchor" aria-label="anchor" href="#load-prefecture-data"></a>
 </h2>
 <p><code><a href="../reference/jp_map.html">jp_map()</a></code> returns an <code>sf</code> object. Without
-extra options, prefecture maps use the bundled all-Japan prefecture
-file.</p>
+extra options, prefecture maps use the first available all-Japan
+prefecture file.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prefectures</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jp_map.html">jp_map</a></span><span class="op">(</span><span class="st">"prefecture"</span><span class="op">)</span></span>
 <span><span class="va">prefectures</span></span>
@@ -131,10 +136,10 @@ file.</p>
 <span><span class="co">#&gt; 10                  &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt; &lt;NA&gt; MULTIPOLYGON (((140563.2 -5...</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="load-bundled-okinawa-municipal-data">Load Bundled Okinawa Municipal Data<a class="anchor" aria-label="anchor" href="#load-bundled-okinawa-municipal-data"></a>
+<h2 id="load-okinawa-municipal-data">Load Okinawa Municipal Data<a class="anchor" aria-label="anchor" href="#load-okinawa-municipal-data"></a>
 </h2>
-<p>The package includes official MLIT N03 municipal boundaries for
-Okinawa Prefecture as of January 1, 2024.</p>
+<p>The companion data package can provide official MLIT N03 municipal
+boundaries for Okinawa Prefecture as of January 1, 2024.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">okinawa_municipalities</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jp_map.html">jp_map</a></span><span class="op">(</span><span class="st">"municipality"</span>, include <span class="op">=</span> <span class="st">"Okinawa"</span><span class="op">)</span></span>
 <span><span class="va">okinawa_municipalities</span></span>
@@ -211,7 +216,8 @@ Okinawa Prefecture as of January 1, 2024.</p>
 <span><span class="co">#&gt; 9  POLYGON ((-673274 661798.1,...</span></span>
 <span><span class="co">#&gt; 10 POLYGON ((-1158043 462743.9...</span></span></code></pre></div>
 <p>This works without <code>data_year</code> or <code>data_dir</code>
-because <code>jpmap</code> can see the bundled Okinawa file.</p>
+when <code>jpmap</code> can see the Okinawa file through
+<code>jpmapdata</code> or <code><a href="../reference/jpmap_data.html">jpmap_data_dir()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="load-locally-built-municipal-data">Load Locally Built Municipal Data<a class="anchor" aria-label="anchor" href="#load-locally-built-municipal-data"></a>

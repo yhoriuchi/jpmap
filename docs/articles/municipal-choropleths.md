@@ -1,10 +1,10 @@
 # Plot Municipal Choropleth Maps
 
-The package includes official MLIT N03 municipal boundaries for Okinawa
-Prefecture as of January 1, 2024. This example maps one simple fill
-variable: 2020 census population by municipality. The figure focuses on
-Okinawa Island so the municipal boundaries are legible; the bundled
-boundary file still contains the rest of Okinawa Prefecture.
+This example uses official MLIT N03 municipal boundaries for Okinawa
+Prefecture as of January 1, 2024. It maps one simple fill variable: 2020
+census population by municipality. The figure focuses on Okinawa Island
+so the municipal boundaries are legible; the source boundary file can
+still contain the rest of Okinawa Prefecture.
 
 Population values are 2020 Census values from Statistics Bureau Japan as
 tabulated by

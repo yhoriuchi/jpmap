@@ -157,11 +157,11 @@ longitude/latitude labels drawn inside a box describe the island group’s
 true coordinates before transport. The boxes themselves are still
 display frames, not legal boundary extents.
 
-For Okinawa municipal maps, the bundled 2024 MLIT N03 Okinawa layer is
+For Okinawa municipal maps, an available 2024 MLIT N03 Okinawa layer is
 transported as Okinawa. For Ogasawara, the default box also covers the
-remote Ogasawara pieces present in the bundled prefecture layer, such as
-Minamitorishima. Use `inset = FALSE` when literal geographic placement
-matters more than a compact display.
+remote Ogasawara pieces present in the available prefecture layer, such
+as Minamitorishima. Use `inset = FALSE` when literal geographic
+placement matters more than a compact display.
 
 When `territorial_disputes = TRUE` includes Okinotorishima, the
 Ogasawara box is expanded so the Okinotorishima reef shape remains

@@ -62,7 +62,9 @@ choose to emphasize them.
 
 ## Municipal Map
 
-The bundled Okinawa municipal data can be used immediately.
+Okinawa municipal data can be used when the corresponding boundary file
+is available through `jpmapdata` or
+[`jpmap_data_dir()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md).
 
 ``` r
 

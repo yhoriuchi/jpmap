@@ -1,31 +1,31 @@
 # Boundary Data Policy
 
-`jpmap` separates convenience from data provenance. The package includes
-small boundary files so new users can draw maps immediately, and it also
-provides helpers for building larger local boundary files from official
-public sources.
+`jpmap` separates functionality from large boundary files. The package
+provides the plotting, joining, transformation, and download helpers.
+Boundary GeoPackages can come from the companion `jpmapdata` package or
+from local files you build from official public sources.
 
-## Bundled Boundary Data
+## Boundary Data Locations
 
-The installed package includes:
+`jpmap` checks:
 
-- all-Japan prefecture example boundaries used by default for prefecture
-  maps;
-- official MLIT N03 municipal boundaries for Okinawa Prefecture as of
-  January 1, 2024;
-- disputed-territory shapes that can be excluded with
-  `territorial_disputes = FALSE`.
+- GeoPackage files installed by the companion `jpmapdata` package;
+- GeoPackage files saved in
+  [`jpmap_data_dir()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md);
+- a custom `data_dir` when you pass one.
 
-You can see the available bundled and local GeoPackage files with:
+You can see the available GeoPackage files with:
 
 ``` r
 
 library(jpmap)
 
-available_jpmap_data()[c("year", "pref_code", "prefecture")]
-#>   year pref_code prefecture
-#> 1 2021      <NA>       <NA>
-#> 2 2024        47    Okinawa
+available <- available_jpmap_data()[c("year", "pref_code", "prefecture", "source")]
+row.names(available) <- NULL
+available
+#>   year pref_code prefecture    source
+#> 1 2021      <NA>       <NA> jpmapdata
+#> 2 2024        47    Okinawa jpmapdata
 ```
 
 The website intentionally does not print the user-specific data
@@ -65,15 +65,13 @@ converts the source archive to a GeoPackage with two layers,
 ## Disputed-Territory Shapes
 
 Disputed-territory shapes are politically sensitive because inclusion
-and exclusion are both meaningful map choices. Exclude them explicitly
-when that is the right display choice:
+and exclusion are both meaningful map choices. Users can exclude them
+explicitly when that is the right display choice:
 
 ``` r
 
 plot_jpmap("prefecture", territorial_disputes = FALSE)
 ```
-
-![](boundary-data-policy_files/figure-html/unnamed-chunk-5-1.png)
 
 You can also include selected areas:
 
@@ -94,7 +92,8 @@ For a reproducible project, record:
 
 - the `jpmap` package version;
 - the boundary data year;
-- whether boundaries came from bundled files or locally built files;
+- whether boundaries came from `jpmapdata`, local files, or a custom
+  data directory;
 - whether `territorial_disputes` was `FALSE`, `TRUE`, or a selected
   character vector;
 - any simplification tolerance used when building local data.
@@ -104,5 +103,7 @@ For example:
 ``` r
 
 sessionInfo()
-available_jpmap_data()[c("year", "pref_code", "prefecture")]
+available <- available_jpmap_data()[c("year", "pref_code", "prefecture", "source")]
+row.names(available) <- NULL
+available
 ```

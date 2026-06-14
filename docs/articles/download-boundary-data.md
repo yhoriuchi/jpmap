@@ -5,11 +5,10 @@
 - `prefectures`
 - `municipalities`
 
-The installed package includes an all-Japan prefecture example layer and
-an official Okinawa municipal layer from MLIT N03 administrative area
-data. The Okinawa municipal boundaries bundled with the package are the
-2024 MLIT N03 Okinawa file, whose administrative boundaries are current
-as of January 1, 2024.
+Ready-to-use boundary files can be supplied by the companion `jpmapdata`
+package. You can also build your own GeoPackage files from MLIT N03
+administrative area data. The 2024 MLIT N03 files describe
+administrative boundaries as of January 1, 2024.
 
 ## Where Files Are Saved
 
@@ -51,7 +50,7 @@ The generated file is named with the prefecture code:
 jpmap_boundaries_2024_38.gpkg
 ```
 
-For Okinawa, the package already includes the 2024 file:
+For Okinawa, the companion data package can provide the 2024 file:
 
 ``` r
 

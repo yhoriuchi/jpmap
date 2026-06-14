@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jpmap</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.0</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,11 +90,10 @@ box.</p>
 <div class="section level2">
 <h2 id="does-jpmap-include-boundary-data">Does jpmap include boundary data?<a class="anchor" aria-label="anchor" href="#does-jpmap-include-boundary-data"></a>
 </h2>
-<p>The package includes all-prefecture example boundaries and official
-MLIT N03 municipal boundaries for Okinawa Prefecture as of January 1,
-2024. Large nationwide municipal files are kept outside the package. Use
-<code><a href="../reference/jpmap_data.html">jpmap_build_data()</a></code> to build a local GeoPackage from MLIT
-N03 administrative area data. Use
+<p>Large boundary GeoPackages live outside the functionality package.
+Install the companion <code>jpmapdata</code> package when you want
+ready-to-use boundary files, or use <code><a href="../reference/jpmap_data.html">jpmap_build_data()</a></code> to
+build a local GeoPackage from MLIT N03 administrative area data. Use
 <code>jpmap_build_data(prefecture = "Ehime")</code> when you only need
 one prefecture.</p>
 </div>

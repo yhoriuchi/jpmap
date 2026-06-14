@@ -1,6 +1,6 @@
 # Changelog
 
-## jpmap 0.1.0
+## jpmap 0.1.1
 
 Initial CRAN release.
 
@@ -12,8 +12,8 @@ Initial CRAN release.
   [`jpmap_transform()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_transform.md),
   and
   [`jpmap_crs()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_crs.md).
-- Added support for prefecture and municipal boundary layers, including
-  bundled MLIT N03 2024 municipal boundaries for Okinawa Prefecture.
+- Added support for prefecture and municipal boundary layers through a
+  companion data package or locally built MLIT N03 GeoPackage files.
 - Added inset transformations and controls for Okinawa and Ogasawara,
   including true-coordinate graticules inside inset boxes and axis-limit
   controls.

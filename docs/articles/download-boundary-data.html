@@ -17,8 +17,8 @@
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Download Boundary Data">
-<meta name="description" content="Understand the bundled Okinawa municipal data and build larger MLIT N03 boundary files locally.">
-<meta property="og:description" content="Understand the bundled Okinawa municipal data and build larger MLIT N03 boundary files locally.">
+<meta name="description" content="Install companion boundary data or build MLIT N03 GeoPackage files locally.">
+<meta property="og:description" content="Install companion boundary data or build MLIT N03 GeoPackage files locally.">
 <meta property="og:image" content="https://yhoriuchi.github.io/jpmap/logo.png">
 </head>
 <body>
@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jpmap</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.0</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,11 +71,10 @@
 <li><code>prefectures</code></li>
 <li><code>municipalities</code></li>
 </ul>
-<p>The installed package includes an all-Japan prefecture example layer
-and an official Okinawa municipal layer from MLIT N03 administrative
-area data. The Okinawa municipal boundaries bundled with the package are
-the 2024 MLIT N03 Okinawa file, whose administrative boundaries are
-current as of January 1, 2024.</p>
+<p>Ready-to-use boundary files can be supplied by the companion
+<code>jpmapdata</code> package. You can also build your own GeoPackage
+files from MLIT N03 administrative area data. The 2024 MLIT N03 files
+describe administrative boundaries as of January 1, 2024.</p>
 <div class="section level2">
 <h2 id="where-files-are-saved">Where Files Are Saved<a class="anchor" aria-label="anchor" href="#where-files-are-saved"></a>
 </h2>
@@ -102,7 +101,8 @@ GeoPackage, and saves it in <code><a href="../reference/jpmap_data.html">jpmap_d
 <p>The generated file is named with the prefecture code:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jpmap_boundaries_2024_38.gpkg</span></span></code></pre></div>
-<p>For Okinawa, the package already includes the 2024 file:</p>
+<p>For Okinawa, the companion data package can provide the 2024
+file:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jpmap_boundaries_2024_47.gpkg</span></span></code></pre></div>
 </div>

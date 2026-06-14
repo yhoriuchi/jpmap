@@ -63,23 +63,9 @@ ordinary R data:
 library(jpmap)
 
 plot_jpmap("prefecture")
-```
-
-![](related-packages_files/figure-html/unnamed-chunk-3-1.png)
-
-``` r
-
 plot_jpmap("municipality", include = "Okinawa")
-```
-
-![](related-packages_files/figure-html/unnamed-chunk-3-2.png)
-
-``` r
-
 plot_jpmap("prefecture", territorial_disputes = FALSE)
 ```
-
-![](related-packages_files/figure-html/unnamed-chunk-3-3.png)
 
 Use companion packages when they solve a more specific part of the
 workflow: `jpcity` for code conversion, `kokudosuuchi` for lower-level
