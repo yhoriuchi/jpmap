@@ -26,10 +26,10 @@
 #' @param fit_bounds Whether to zoom the widget to the map bounds.
 #' @param simplify_tolerance Optional tolerance passed to [sf::st_simplify()]
 #'   before drawing polygons. This is useful for smaller website widgets.
-#' @param disputed_fill Optional fill color for disputed-territory shapes. The
-#'   default, `NULL`, draws them quietly with the ordinary map fill.
+#' @param disputed_fill Optional fill color for disputed-territory shapes. When
+#'   `NULL`, the ordinary map fill is used.
 #' @param disputed_color Optional outline color for disputed-territory shapes.
-#'   The default, `NULL`, draws them quietly with the ordinary map outline.
+#'   When `NULL`, the ordinary map outline is used.
 #' @param disputed_dots Whether to draw circle markers on disputed-territory
 #'   shapes.
 #' @param disputed_dot_radius Radius for disputed-territory circle markers.

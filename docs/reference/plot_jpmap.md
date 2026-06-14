@@ -93,20 +93,20 @@ plot_jpmap(
 
 - territorial_disputes:
 
-  Whether to include disputed-territory island/reef shapes. The default
-  is `TRUE`. Use `FALSE` to exclude them, or a character vector
-  containing one or more of `"northern_territories"`,
-  `"okinotorishima"`, `"senkaku"`, and `"takeshima"`.
+  Whether to include disputed-territory island/reef shapes. Use `FALSE`
+  to exclude them, or a character vector containing one or more of
+  `"northern_territories"`, `"okinotorishima"`, `"senkaku"`, and
+  `"takeshima"`.
 
 - disputed_fill:
 
-  Optional fill color for disputed-territory shapes. The default,
-  `NULL`, draws them quietly with the ordinary map fill.
+  Optional fill color for disputed-territory shapes. When `NULL`, the
+  ordinary map fill is used.
 
 - disputed_color:
 
-  Optional outline color for disputed-territory shapes. The default,
-  `NULL`, draws them quietly with the ordinary map outline.
+  Optional outline color for disputed-territory shapes. When `NULL`, the
+  ordinary map outline is used.
 
 - disputed_linewidth:
 

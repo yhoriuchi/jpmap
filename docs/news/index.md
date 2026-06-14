@@ -17,8 +17,8 @@ Initial CRAN release.
 - Added inset transformations and controls for Okinawa and Ogasawara,
   including true-coordinate graticules inside inset boxes and axis-limit
   controls.
-- Added disputed-territory island/reef shapes, included quietly by
-  default and removable with `territorial_disputes = FALSE`.
+- Added disputed-territory island/reef shapes with controls such as
+  `territorial_disputes = FALSE`.
 - Added
   [`jp_map_leaflet()`](https://yhoriuchi.github.io/jpmap/reference/jp_map_leaflet.md)
   for interactive web maps.

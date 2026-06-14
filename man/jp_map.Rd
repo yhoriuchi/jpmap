@@ -27,10 +27,9 @@ Ogasawara, \code{FALSE} for no movement, or a character vector containing
 \item{okinawa}{Whether Okinawa should be moved when \code{inset} includes it.}
 \item{ogasawara}{Whether Ogasawara should be moved when \code{inset} includes it.}
 \item{territorial_disputes}{Whether to include disputed-territory island/reef
-shapes. The default is \code{TRUE}. Use \code{FALSE} to exclude them, or a
-character vector containing one or more of
-\code{"northern_territories"}, \code{"okinotorishima"}, \code{"senkaku"}, and
-\code{"takeshima"}.}
+shapes. Use \code{FALSE} to exclude them, or a character vector containing one
+or more of \code{"northern_territories"}, \code{"okinotorishima"},
+\code{"senkaku"}, and \code{"takeshima"}.}
 \item{data_dir}{Optional directory containing \code{jpmap_boundaries_YYYY.gpkg}.}
 }
 \description{

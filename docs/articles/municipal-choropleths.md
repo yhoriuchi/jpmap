@@ -1,22 +1,19 @@
 # Plot Municipal Choropleth Maps
 
 The package includes official MLIT N03 municipal boundaries for Okinawa
-Prefecture as of January 1, 2024. This example counts selected U.S. base
-point locations by municipality and maps one fill variable:
-`base_count`. The figure focuses on Okinawa Island so the municipal
-boundaries and base locations are legible; the bundled boundary file
-still contains the rest of Okinawa Prefecture.
+Prefecture as of January 1, 2024. This example maps one simple fill
+variable: 2020 census population by municipality. The figure focuses on
+Okinawa Island so the municipal boundaries are legible; the bundled
+boundary file still contains the rest of Okinawa Prefecture.
+
+Population values are 2020 Census values from Statistics Bureau Japan as
+tabulated by
+[CityPopulation.de](https://www.citypopulation.de/en/japan/admin/47__okinawa/).
 
 ``` r
 
 library(tidyverse)
 library(jpmap)
-
-okinawa_bases <- jp_us_military_bases |>
-  filter(
-    prefecture == "Okinawa",
-    base != "Okinawa U.S. military facilities"
-  )
 
 okinawa_main_island <- c(
   "那覇市", "宜野湾市", "浦添市", "名護市", "糸満市", "沖縄市",
@@ -25,6 +22,37 @@ okinawa_main_island <- c(
   "嘉手納町", "北谷町", "北中城村", "中城村", "西原町", "与那原町",
   "南風原町", "八重瀬町"
 )
+
+okinawa_population_2020 <- tribble(
+  ~municipality_ja, ~population_2020,
+  "那覇市", 317625L,
+  "宜野湾市", 100125L,
+  "浦添市", 115690L,
+  "名護市", 63554L,
+  "糸満市", 61007L,
+  "沖縄市", 142752L,
+  "豊見城市", 64612L,
+  "うるま市", 125303L,
+  "南城市", 44043L,
+  "国頭村", 4517L,
+  "大宜味村", 3092L,
+  "東村", 1598L,
+  "今帰仁村", 8894L,
+  "本部町", 12530L,
+  "恩納村", 10869L,
+  "宜野座村", 5833L,
+  "金武町", 10806L,
+  "読谷村", 41240L,
+  "嘉手納町", 13521L,
+  "北谷町", 28201L,
+  "北中城村", 17969L,
+  "中城村", 22157L,
+  "西原町", 34984L,
+  "与那原町", 19695L,
+  "南風原町", 40440L,
+  "八重瀬町", 30941L
+)
+
 okinawa_main_island_min_area <- 5e6
 keep_okinawa_main_island <- function(map) {
   filtered <- map |>
@@ -36,41 +64,16 @@ keep_okinawa_main_island <- function(map) {
     select(-area_m2)
 }
 
-okinawa_file <- available_jpmap_data() |>
-  filter(year == 2024, pref_code == "47") |>
-  pull(path) |>
-  first()
-
-okinawa_wgs84 <- sf::st_read(okinawa_file, layer = "municipalities", quiet = TRUE) |>
-  keep_okinawa_main_island()
-
-base_points <- sf::st_as_sf(
-  okinawa_bases,
-  coords = c("lon", "lat"),
-  crs = 4326,
-  remove = FALSE
-)
-
-base_counts <- sf::st_join(
-  base_points,
-  okinawa_wgs84["municipality_code"],
-  left = FALSE
-) |>
-  sf::st_drop_geometry() |>
-  count(municipality_code, name = "base_count")
-
 okinawa_main_map <- jp_map("municipality", include = "Okinawa", inset = FALSE) |>
   keep_okinawa_main_island() |>
-  jp_map_join(base_counts, values = "base_count") |>
-  mutate(base_count = replace_na(base_count, 0L))
-#> Warning: 17 map region key(s) in `municipality_code` did not receive data
+  jp_map_join(okinawa_population_2020, by = "municipality_ja")
 ```
 
 ``` r
 
 ggplot(okinawa_main_map) +
   geom_sf(
-    aes(fill = base_count),
+    aes(fill = population_2020),
     color = "grey35",
     linewidth = 0.12
   ) +
@@ -79,13 +82,18 @@ ggplot(okinawa_main_map) +
     datum = sf::st_crs(4326)
   ) +
   scale_fill_gradient(
-    low = "grey92",
+    low = "#EAF2FF",
     high = "#001040",
-    name = "Base count"
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE),
+    name = "Population"
   ) +
   labs(
-    title = "Selected U.S. base points by Okinawa Island municipality",
-    caption = "Boundary: MLIT N03 administrative area data, January 1, 2024."
+    title = "Okinawa Island municipality population",
+    caption = paste(
+      "Boundary: MLIT N03, January 1, 2024.",
+      "Population: 2020 Census, Statistics Bureau Japan via CityPopulation.de.",
+      sep = "\n"
+    )
   ) +
   theme_gray() +
   theme(
@@ -97,8 +105,8 @@ ggplot(okinawa_main_map) +
   )
 ```
 
-![](municipal-choropleths_files/figure-html/municipal-base-counts-1.png)
+![](municipal-choropleths_files/figure-html/municipal-population-1.png)
 
 For other prefectures, first build the prefecture’s municipal boundaries
-with `jpmap_build_data(year = 2024, prefecture = "...")`, then use the
-same join pattern.
+with `jpmap_build_data(year = 2024, prefecture = "...")`, then join a
+table with one row per municipality.

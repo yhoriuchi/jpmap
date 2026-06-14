@@ -77,8 +77,8 @@ specialists.</p>
 workflow;</li>
 <li>visible Okinawa and Ogasawara inset maps for static plots;</li>
 <li>prefecture and municipality boundaries through the same API;</li>
-<li>explicit disputed-territory handling: included quietly by default,
-removable by the user, and highlightable when needed.</li>
+<li>explicit disputed-territory handling, including exclusion controls
+and highlight styling when needed.</li>
 </ul>
 <div class="section level2">
 <h2 id="package-landscape">Package Landscape<a class="anchor" aria-label="anchor" href="#package-landscape"></a>
@@ -172,8 +172,7 @@ provide a documented user-facing option equivalent to:</p>
 Territories municipalities, but that is not the same as an explicit
 disputed-territory layer with documented inclusion/exclusion controls,
 separate styling options, and documented source notes.</p>
-<p><code>jpmap</code> includes disputed-territory shapes by default and
-draws them quietly with the rest of the map. Users can remove them with
+<p>Users can remove disputed-territory shapes with
 <code>territorial_disputes = FALSE</code>, include only selected areas,
 or highlight them with <code>disputed_fill</code> and
 <code>disputed_dots</code>.</p>

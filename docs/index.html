@@ -54,7 +54,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div align="center">
 <p><img src="reference/figures/logo.png" width="150" height="150" alt="jpmap logo"></p>
-<p><a href="https://github.com/yhoriuchi/jpmap/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/yhoriuchi/jpmap/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://CRAN.R-project.org/package=jpmap" class="external-link"><img src="https://www.r-pkg.org/badges/version/jpmap" alt="CRAN Status"></a> <a href="https://cran.r-project.org/package=jpmap" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/jpmap" alt="Downloads"></a></p>
+<p><a href="https://github.com/yhoriuchi/jpmap/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/yhoriuchi/jpmap/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></p>
 <div class="section level3">
 <h3 id="jpmap-japan-maps-with-visible-island-insets">jpmap: Japan maps with visible island insets<a class="anchor" aria-label="anchor" href="#jpmap-japan-maps-with-visible-island-insets"></a>
 </h3>
@@ -64,7 +64,7 @@
 <p><code>jpmap</code> is an R package for drawing maps of Japan with an API modeled after <a href="https://usmap.dev/" class="external-link"><code>usmap</code></a>.</p>
 <p>The package is designed to be the everyday Japan-map workflow for R users: request a map, join ordinary tabular data, and publish a static or interactive figure without writing one-off GIS scripts.</p>
 <p>Inset behavior is selectable: use <code>inset = TRUE</code> for both Okinawa and Ogasawara, <code>inset = FALSE</code> for a literal projected map, or values such as <code>inset = "okinawa"</code> to transport only selected island groups. You can also use <code>okinawa = FALSE</code> or <code>ogasawara = FALSE</code>. <code><a href="reference/plot_jpmap.html">plot_jpmap()</a></code> draws inset boxes by default; set <code>inset_boxes = FALSE</code> to remove them.</p>
-<p>Areas discussed in Japan territorial-dispute references are included by default and drawn quietly with the rest of the map. Use <code>territorial_disputes = FALSE</code> to exclude them, or pass a subset such as <code>"senkaku"</code> or <code>"takeshima"</code>.</p>
+<p>Use <code>territorial_disputes = FALSE</code> to exclude areas discussed in Japan territorial-dispute references, or pass a subset such as <code>"senkaku"</code> or <code>"takeshima"</code>.</p>
 <p>For website maps, <code><a href="reference/jp_map_leaflet.html">jp_map_leaflet()</a></code> returns a Leaflet htmlwidget using literal longitude/latitude geography.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>

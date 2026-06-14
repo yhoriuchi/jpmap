@@ -63,8 +63,8 @@ Simple plotting workflows using the bundled GDP and U.S. base datasets.
 - [Plot Municipal Choropleth
   Maps](https://yhoriuchi.github.io/jpmap/articles/municipal-choropleths.md):
 
-  Use bundled Okinawa municipal boundaries and count U.S. base points by
-  municipality.
+  Use bundled Okinawa municipal boundaries and map municipality
+  population.
 
 - [Plot Municipal Point
   Maps](https://yhoriuchi.github.io/jpmap/articles/municipal-point-maps.md):

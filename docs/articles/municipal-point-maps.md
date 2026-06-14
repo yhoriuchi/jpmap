@@ -59,15 +59,7 @@ ggplot(okinawa_main_map) +
     size = 2.6,
     alpha = 0.9
   ) +
-  scale_color_manual(
-    values = c(
-      "Air Force" = "#005BAC",
-      "Army" = "#2C2A29",
-      "Marine Corps" = "#7899D4",
-      "Navy" = "#001040"
-    ),
-    name = "Branch"
-  ) +
+  ggthemes::scale_color_colorblind(name = "Branch") +
   labs(
     title = "Selected U.S. base points on Okinawa Island",
     caption = "Boundary: MLIT N03 administrative area data, January 1, 2024."

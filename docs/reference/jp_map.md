@@ -55,10 +55,10 @@ jp_map(
 
 - territorial_disputes:
 
-  Whether to include disputed-territory island/reef shapes. The default
-  is `TRUE`. Use `FALSE` to exclude them, or a character vector
-  containing one or more of `"northern_territories"`,
-  `"okinotorishima"`, `"senkaku"`, and `"takeshima"`.
+  Whether to include disputed-territory island/reef shapes. Use `FALSE`
+  to exclude them, or a character vector containing one or more of
+  `"northern_territories"`, `"okinotorishima"`, `"senkaku"`, and
+  `"takeshima"`.
 
 - data_dir:
 

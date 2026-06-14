@@ -8,8 +8,8 @@ Initial CRAN release.
   MLIT N03 2024 municipal boundaries for Okinawa Prefecture.
 - Added inset transformations and controls for Okinawa and Ogasawara, including
   true-coordinate graticules inside inset boxes and axis-limit controls.
-- Added disputed-territory island/reef shapes, included quietly by default and
-  removable with `territorial_disputes = FALSE`.
+- Added disputed-territory island/reef shapes with controls such as
+  `territorial_disputes = FALSE`.
 - Added `jp_map_leaflet()` for interactive web maps.
 - Added sample GDP-per-capita and U.S. military base datasets, plus focused
   vignettes using tidyverse-style examples with the native R pipe.

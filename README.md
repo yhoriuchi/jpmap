@@ -3,8 +3,6 @@
 <img src="man/figures/logo.png" width="150" height="150" alt="jpmap logo" />
 
 [![R-CMD-check](https://github.com/yhoriuchi/jpmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yhoriuchi/jpmap/actions/workflows/R-CMD-check.yaml)
-[![CRAN Status](https://www.r-pkg.org/badges/version/jpmap)](https://CRAN.R-project.org/package=jpmap)
-[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/jpmap)](https://cran.r-project.org/package=jpmap)
 
 ### jpmap: Japan maps with visible island insets
 
@@ -25,9 +23,9 @@ Ogasawara, `inset = FALSE` for a literal projected map, or values such as
 `okinawa = FALSE` or `ogasawara = FALSE`. `plot_jpmap()` draws inset boxes by
 default; set `inset_boxes = FALSE` to remove them.
 
-Areas discussed in Japan territorial-dispute references are included by default
-and drawn quietly with the rest of the map. Use `territorial_disputes = FALSE`
-to exclude them, or pass a subset such as `"senkaku"` or `"takeshima"`.
+Use `territorial_disputes = FALSE` to exclude areas discussed in Japan
+territorial-dispute references, or pass a subset such as `"senkaku"` or
+`"takeshima"`.
 
 For website maps, `jp_map_leaflet()` returns a Leaflet htmlwidget using literal
 longitude/latitude geography.

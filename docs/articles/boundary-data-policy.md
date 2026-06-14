@@ -13,8 +13,8 @@ The installed package includes:
   maps;
 - official MLIT N03 municipal boundaries for Okinawa Prefecture as of
   January 1, 2024;
-- disputed-territory shapes that are included by default and can be
-  excluded with `territorial_disputes = FALSE`.
+- disputed-territory shapes that can be excluded with
+  `territorial_disputes = FALSE`.
 
 You can see the available bundled and local GeoPackage files with:
 
@@ -64,24 +64,16 @@ converts the source archive to a GeoPackage with two layers,
 
 ## Disputed-Territory Shapes
 
-Disputed-territory shapes are included by default and drawn quietly with
-the rest of the map:
-
-``` r
-
-plot_jpmap("prefecture")
-```
-
-![](boundary-data-policy_files/figure-html/unnamed-chunk-5-1.png)
-
-Exclude them explicitly when that is the right display choice:
+Disputed-territory shapes are politically sensitive because inclusion
+and exclusion are both meaningful map choices. Exclude them explicitly
+when that is the right display choice:
 
 ``` r
 
 plot_jpmap("prefecture", territorial_disputes = FALSE)
 ```
 
-![](boundary-data-policy_files/figure-html/unnamed-chunk-6-1.png)
+![](boundary-data-policy_files/figure-html/unnamed-chunk-5-1.png)
 
 You can also include selected areas:
 

@@ -54,14 +54,13 @@ Ogasawara, \code{FALSE} for no movement, or a character vector containing
 \item{okinawa}{Whether Okinawa should be moved when \code{inset} includes it.}
 \item{ogasawara}{Whether Ogasawara should be moved when \code{inset} includes it.}
 \item{territorial_disputes}{Whether to include disputed-territory island/reef
-shapes. The default is \code{TRUE}. Use \code{FALSE} to exclude them, or a
-character vector containing one or more of
-\code{"northern_territories"}, \code{"okinotorishima"}, \code{"senkaku"}, and
-\code{"takeshima"}.}
-\item{disputed_fill}{Optional fill color for disputed-territory shapes. The
-default, \code{NULL}, draws them quietly with the ordinary map fill.}
-\item{disputed_color}{Optional outline color for disputed-territory shapes. The
-default, \code{NULL}, draws them quietly with the ordinary map outline.}
+shapes. Use \code{FALSE} to exclude them, or a character vector containing one
+or more of \code{"northern_territories"}, \code{"okinotorishima"},
+\code{"senkaku"}, and \code{"takeshima"}.}
+\item{disputed_fill}{Optional fill color for disputed-territory shapes. When
+\code{NULL}, the ordinary map fill is used.}
+\item{disputed_color}{Optional outline color for disputed-territory shapes. When
+\code{NULL}, the ordinary map outline is used.}
 \item{disputed_linewidth}{Optional line width for disputed-territory shapes.}
 \item{disputed_dots}{Whether to draw dot markers on disputed-territory shapes.}
 \item{disputed_dot_fill}{Fill color for disputed-territory dot markers.}

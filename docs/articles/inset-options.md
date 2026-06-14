@@ -123,10 +123,9 @@ plot_jpmap(
 
 ## Control Disputed-Territory Shapes
 
-Areas discussed in Japan territorial-dispute references are included by
-default and drawn quietly with the rest of the map. Set
-`territorial_disputes = FALSE` to exclude them. You can also pass a
-character vector to include only selected regions, such as
+Set `territorial_disputes = FALSE` to exclude areas discussed in Japan
+territorial-dispute references. You can also pass a character vector to
+include only selected regions, such as
 `territorial_disputes = "senkaku"` or
 `territorial_disputes = c("senkaku", "takeshima")`.
 

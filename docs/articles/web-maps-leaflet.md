@@ -42,9 +42,8 @@ If your data has numeric prefecture codes such as `1`, `2`, and `47`,
 
 ## Disputed-Territory Layer
 
-The disputed-territory layer is included quietly for web maps too. You
-can exclude it with `territorial_disputes = FALSE`, or highlight it
-explicitly.
+For web maps, use `territorial_disputes = FALSE` to exclude
+disputed-territory shapes, or highlight them explicitly.
 
 ``` r
 

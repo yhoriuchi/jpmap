@@ -42,8 +42,7 @@ jp_map_leaflet(
 \item{data_year}{Boundary data year. The newest appropriate available file is
 used by default.}
 \item{territorial_disputes}{Whether to include disputed-territory island/reef
-shapes. The default is \code{TRUE}. Use \code{FALSE} to exclude them, or a
-selected character vector.}
+shapes. Use \code{FALSE} to exclude them, or a selected character vector.}
 \item{data_dir}{Optional directory containing \code{jpmap_boundaries_YYYY.gpkg}.}
 \item{palette}{Palette name or color vector passed to Leaflet palette functions
 when \code{values} is supplied.}
@@ -62,10 +61,10 @@ column name, or a character vector with one value per map row.}
 \item{fit_bounds}{Whether to zoom the widget to the map bounds.}
 \item{simplify_tolerance}{Optional tolerance passed to \code{sf::st_simplify()}
 before drawing polygons. This is useful for smaller website widgets.}
-\item{disputed_fill}{Optional fill color for disputed-territory shapes. The
-default, \code{NULL}, draws them quietly with the ordinary map fill.}
-\item{disputed_color}{Optional outline color for disputed-territory shapes. The
-default, \code{NULL}, draws them quietly with the ordinary map outline.}
+\item{disputed_fill}{Optional fill color for disputed-territory shapes. When
+\code{NULL}, the ordinary map fill is used.}
+\item{disputed_color}{Optional outline color for disputed-territory shapes. When
+\code{NULL}, the ordinary map outline is used.}
 \item{disputed_dots}{Whether to draw circle markers on disputed-territory
 shapes.}
 \item{disputed_dot_radius}{Radius for disputed-territory circle markers.}
