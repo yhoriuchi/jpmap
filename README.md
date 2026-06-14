@@ -60,21 +60,21 @@ jp_map("prefecture") |>
 
 Start with these pages:
 
-- [Introduction](articles/getting-started.html)
-- [Related Packages](articles/related-packages.html)
-- [Boundary Data Policy](articles/boundary-data-policy.html)
-- [Download Boundary Data](articles/download-boundary-data.html)
-- [Import Boundary Data](articles/import-boundary-data.html)
-- [Transform Data](articles/transform-data.html)
-- [Okinawa and Ogasawara Insets](articles/inset-options.html)
-- [Interactive Web Maps with leaflet](articles/web-maps-leaflet.html)
+- [Introduction](https://yhoriuchi.github.io/jpmap/articles/getting-started.html)
+- [Related Packages](https://yhoriuchi.github.io/jpmap/articles/related-packages.html)
+- [Boundary Data Policy](https://yhoriuchi.github.io/jpmap/articles/boundary-data-policy.html)
+- [Download Boundary Data](https://yhoriuchi.github.io/jpmap/articles/download-boundary-data.html)
+- [Import Boundary Data](https://yhoriuchi.github.io/jpmap/articles/import-boundary-data.html)
+- [Transform Data](https://yhoriuchi.github.io/jpmap/articles/transform-data.html)
+- [Okinawa and Ogasawara Insets](https://yhoriuchi.github.io/jpmap/articles/inset-options.html)
+- [Interactive Web Maps with leaflet](https://yhoriuchi.github.io/jpmap/articles/web-maps-leaflet.html)
 
 Then use the plotting tutorials:
 
-- [Plot Prefectural Choropleth Maps](articles/prefectural-choropleths.html)
-- [Plot Prefectural Point Maps](articles/prefectural-point-maps.html)
-- [Plot Municipal Choropleth Maps](articles/municipal-choropleths.html)
-- [Plot Municipal Point Maps](articles/municipal-point-maps.html)
+- [Plot Prefectural Choropleth Maps](https://yhoriuchi.github.io/jpmap/articles/prefectural-choropleths.html)
+- [Plot Prefectural Point Maps](https://yhoriuchi.github.io/jpmap/articles/prefectural-point-maps.html)
+- [Plot Municipal Choropleth Maps](https://yhoriuchi.github.io/jpmap/articles/municipal-choropleths.html)
+- [Plot Municipal Point Maps](https://yhoriuchi.github.io/jpmap/articles/municipal-point-maps.html)
 
 ## Transform Point Data
 
