@@ -3,6 +3,8 @@
 ^[.]DS_Store$
 ^[.]gitignore$
 ^[.]Rhistory$
+^_pkgdown[.]yml$
+^cran-comments[.]md$
 ^data-raw$
 ^docs$
 ^pkgdown$

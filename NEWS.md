@@ -1,15 +1,16 @@
-# jpmap 0.0.0.9000
+# jpmap 0.1.0
 
-Initial development version.
+Initial CRAN release.
 
 - Added a `usmap`-style API for Japan maps: `jp_map()`, `plot_jpmap()`,
-  `jpmap_transform()`, and `jpmap_crs()`.
-- Added support for prefecture and municipal boundary layers.
-- Added inset transformations for Okinawa and Ogasawara, with support for
-  selecting which island groups to transport via `inset`.
-- Added pkgdown website configuration using Florida State University garnet and
-  gold colors.
-- Added sample GDP-per-capita and U.S. military base datasets plus a website
-  vignette showing both on a Japan map. The military-base example now separates
-  installation locations from regional, command-level, and base-specific public
-  personnel figures.
+  `jp_map_join()`, `plot_jpmap()`, `jpmap_transform()`, and `jpmap_crs()`.
+- Added support for prefecture and municipal boundary layers, including bundled
+  MLIT N03 2024 municipal boundaries for Okinawa Prefecture.
+- Added inset transformations and controls for Okinawa and Ogasawara, including
+  true-coordinate graticules inside inset boxes and axis-limit controls.
+- Added disputed-territory island/reef shapes, included quietly by default and
+  removable with `territorial_disputes = FALSE`.
+- Added `jp_map_leaflet()` for interactive web maps.
+- Added sample GDP-per-capita and U.S. military base datasets, plus focused
+  vignettes using tidyverse-style examples with the native R pipe.
+- Added a pkgdown website and Samurai Blue logo/theme.

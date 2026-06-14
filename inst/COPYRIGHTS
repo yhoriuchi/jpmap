@@ -1,0 +1,93 @@
+jpmap copyright and bundled data notices
+
+Package code, documentation, examples, and package-specific generated assets:
+Copyright (C) 2026 Yusaku Horiuchi.
+License: MIT + file LICENSE.
+
+Bundled boundary data
+---------------------
+
+inst/extdata/jpmap_boundaries_2024_47.gpkg
+
+This GeoPackage contains official MLIT N03 2024 administrative area data for
+Okinawa Prefecture, converted by jpmap to GeoPackage format and standardized for
+package examples. Source: Ministry of Land, Infrastructure, Transport and
+Tourism (MLIT), National Land Numerical Information, N03 Administrative Area
+Data, 2024.
+
+Source page:
+https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2024.html
+
+MLIT terms page:
+https://nlftp.mlit.go.jp/ksj/other/agreement.html
+
+The source page lists the 2024 N03 administrative area data as open data
+(CC BY 4.0). MLIT requests source attribution and, when content is edited or
+processed, a statement that the derived content was created from the source
+data.
+
+
+inst/extdata/jpmap_boundaries_2021.gpkg
+
+This GeoPackage contains a prefecture example layer derived from Natural Earth
+1:10m Admin 1 States/Provinces data and an Okinawa municipality example layer
+derived from Geoshape historical administrative boundary data.
+
+Natural Earth source:
+https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/
+
+Natural Earth terms:
+https://www.naturalearthdata.com/about/terms-of-use/
+
+Natural Earth states that its raster and vector map data are in the public
+domain.
+
+Geoshape source:
+https://geoshape.ex.nii.ac.jp/city/
+
+Geoshape states that its website content is provided under CC BY 4.0 and
+requests the credit:
+"Historical Administrative Boundary Dataset beta version" (CODH), doi:10.20676/00000447.
+Geoshape also notes that users should consult MLIT National Land Numerical
+Information terms for the N03 administrative area data used by Geoshape.
+
+
+inst/extdata/jpmap_disputed_territories.gpkg
+
+This GeoPackage contains cartographic island/reef shapes for areas discussed in
+Japan territorial-dispute references. The shapes are not authoritative legal
+boundary polygons.
+
+Northern Territories and Senkaku Islands shapes are derived from Natural Earth
+1:10m land polygons:
+https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-land/
+
+Okinotorishima and Takeshima / Liancourt Rocks shapes are derived from
+OpenStreetMap geometry obtained through the Overpass API.
+
+OpenStreetMap copyright and license page:
+https://www.openstreetmap.org/copyright
+
+Contains information from OpenStreetMap, which is made available under the Open
+Database License (ODbL). See:
+https://opendatacommons.org/licenses/odbl/1-0/
+
+
+Bundled sample tabular data
+---------------------------
+
+data/jp_prefecture_gdp.rda
+
+Contains 2021 prefecture GDP per capita values for examples. Values are based
+on OECD regional GDP per-capita figures as tabulated on Wikipedia.
+
+Source page:
+https://en.wikipedia.org/wiki/List_of_Japanese_prefectures_by_GDP_per_capita
+
+
+data/jp_us_military_bases.rda
+
+Contains selected U.S. military installation coordinates and approximate public
+personnel figures for examples. Row-level source URLs are stored in the
+source_url column. The data are intended for examples and are not official
+personnel accounting.
