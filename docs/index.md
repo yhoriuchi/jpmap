@@ -7,8 +7,9 @@
 `jpmap` is an R package for drawing maps of Japan with an API modeled
 after [`usmap`](https://usmap.dev/).
 
-The package is designed for maps where the main islands, Okinawa, and
-Ogasawara can be seen together in one plotting frame.
+The package is designed to be the everyday Japan-map workflow for R
+users: request a map, join ordinary tabular data, and publish a static
+or interactive figure without writing one-off GIS scripts.
 
 Inset behavior is selectable: use `inset = TRUE` for both Okinawa and
 Ogasawara, `inset = FALSE` for a literal projected map, or values such
@@ -21,6 +22,10 @@ Areas discussed in Japan territorial-dispute references are excluded by
 default. Use `territorial_disputes = TRUE` to add cartographic
 island/reef shapes, or pass a subset such as `"senkaku"` or
 `"takeshima"`.
+
+For website maps,
+[`jp_map_leaflet()`](https://yhoriuchi.github.io/jpmap/reference/jp_map_leaflet.md)
+returns a Leaflet htmlwidget using literal longitude/latitude geography.
 
 ## Installation
 
@@ -41,6 +46,9 @@ library(jpmap)
 plot_jpmap("prefecture")
 plot_jpmap("municipality", include = "Okinawa")
 plot_jpmap("prefecture", territorial_disputes = TRUE)
+
+data("jp_prefecture_gdp")
+jp_map_join(jp_map("prefecture"), jp_prefecture_gdp, by = "pref_code")
 ```
 
 ## Articles
@@ -48,6 +56,10 @@ plot_jpmap("prefecture", territorial_disputes = TRUE)
 Start with these pages:
 
 - [Introduction](https://yhoriuchi.github.io/jpmap/articles/getting-started.md)
+- [Related
+  Packages](https://yhoriuchi.github.io/jpmap/articles/related-packages.md)
+- [Boundary Data
+  Policy](https://yhoriuchi.github.io/jpmap/articles/boundary-data-policy.md)
 - [Download Boundary
   Data](https://yhoriuchi.github.io/jpmap/articles/download-boundary-data.md)
 - [Import Boundary
@@ -56,6 +68,8 @@ Start with these pages:
   Data](https://yhoriuchi.github.io/jpmap/articles/transform-data.md)
 - [Okinawa and Ogasawara
   Insets](https://yhoriuchi.github.io/jpmap/articles/inset-options.md)
+- [Interactive Web Maps with
+  leaflet](https://yhoriuchi.github.io/jpmap/articles/web-maps-leaflet.md)
 
 Then use the plotting tutorials:
 

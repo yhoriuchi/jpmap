@@ -1,6 +1,8 @@
 # Join Data to a jpmap Map
 
-Joins user data to a Japan map object.
+Joins user data to a Japan map object. This is a compact wrapper around
+[`jp_map_join()`](https://yhoriuchi.github.io/jpmap/reference/jp_map_join.md)
+kept for plotting workflows that call it internally.
 
 ## Usage
 

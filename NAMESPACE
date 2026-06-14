@@ -1,6 +1,8 @@
 export(available_jpmap_data)
 export(jp_disputed_territories)
 export(jp_map)
+export(jp_map_join)
+export(jp_map_leaflet)
 export(jp_map_with_data)
 export(jpmap_build_data)
 export(jpmap_crs)

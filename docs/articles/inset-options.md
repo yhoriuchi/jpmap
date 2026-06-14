@@ -116,7 +116,7 @@ plot_jpmap(
   labs(title = "Projected map without transported insets") +
   theme(
     plot.title = element_text(face = "bold", color = "#2C2A29")
-      )
+  )
 ```
 
 ![](inset-options_files/figure-html/literal-map-1.png)

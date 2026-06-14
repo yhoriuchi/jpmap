@@ -1,5 +1,21 @@
 # Articles
 
+### Why jpmap
+
+Package positioning, data policy, and how jpmap differs from related
+tools.
+
+- [Related
+  Packages](https://yhoriuchi.github.io/jpmap/articles/related-packages.md):
+
+  How jpmap differs from other R packages and scripts for Japan maps.
+
+- [Boundary Data
+  Policy](https://yhoriuchi.github.io/jpmap/articles/boundary-data-policy.md):
+
+  What boundary data jpmap includes, where it comes from, and how
+  disputed-territory shapes are handled.
+
 ### Getting Started
 
 Install jpmap, get boundary data, import maps, and transform
@@ -55,6 +71,12 @@ Simple plotting workflows using the bundled GDP and U.S. base datasets.
 
   Plot selected U.S. base points on the bundled Okinawa municipal map
   using one point variable.
+
+- [Interactive Web Maps with
+  leaflet](https://yhoriuchi.github.io/jpmap/articles/web-maps-leaflet.md):
+
+  Use jpmap boundary data in Leaflet, Quarto, pkgdown, and Shiny-style
+  web maps.
 
 ### Map Options
 

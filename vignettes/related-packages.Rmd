@@ -1,0 +1,77 @@
+---
+title: "Related Packages"
+description: "How jpmap differs from other R packages and scripts for Japan maps."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Related Packages}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+`jpmap` is intentionally named and designed as a Japan counterpart to
+[`usmap`](https://cran.r-project.org/package=usmap): users should be able to
+ask for a map, join ordinary tabular data, and plot a choropleth or point map
+without first becoming GIS specialists.
+
+The package focuses on four things together:
+
+- an easy `jp_map()` / `plot_jpmap()` workflow;
+- visible Okinawa and Ogasawara inset maps for static plots;
+- prefecture and municipality boundaries through the same API;
+- explicit, opt-in disputed-territory shapes and styling.
+
+## Package Landscape
+
+| Package or project | Main use | Difference from `jpmap` |
+|---|---|---|
+| [`NipponMap`](https://cran.r-project.org/package=NipponMap) | Simple prefecture maps and circle cartograms. | Prefecture-level only. Its manual notes that boundaries are simplified by hand and omit minor islands. |
+| [`jpndistrict`](https://github.com/uribo/jpndistrict) | Japanese administrative areas, offices, and reverse geocoding. | Historically important, but archived from CRAN. It does not provide a `plot_jpmap()`-style static map workflow. |
+| [`UchidaMizuki/jpmap`](https://github.com/UchidaMizuki/jpmap) | Prefecture `sf` data and `layout_japan()` for `ggplot2`. | Prefecture-level only and GitHub-only. |
+| [`kokudosuuchi`](https://cran.r-project.org/package=kokudosuuchi) | Download and read National Land Numerical Information data. | A data-access utility rather than an opinionated map plotting package. |
+| [`jpcity`](https://cran.r-project.org/package=jpcity) | Municipality code and name conversion. | A useful companion package, not a boundary or map plotting package. |
+| [`jpgrid`](https://cran.r-project.org/package=jpgrid) and [`jpmesh`](https://cran.r-project.org/package=jpmesh) | Japanese grid-square and mesh-code workflows. | Mesh/grid maps rather than prefecture and municipality choropleth maps. |
+| [`maps`](https://cran.r-project.org/package=maps) and [`mapdata`](https://cran.r-project.org/package=mapdata) | General legacy map databases. | Not Japan-administrative-boundary focused; `mapdata` notes that its world map is outdated. |
+| [`geodata`](https://cran.r-project.org/package=geodata) and [`rnaturalearth`](https://cran.r-project.org/package=rnaturalearth) | General global geographic data. | Useful for global context, but not a Japan-first plotting workflow. |
+
+There are also many small scripts and example repositories that show how to
+download a shapefile and draw a one-off Japan map. Those are useful examples,
+but `jpmap` aims to make the repeated workflow reusable.
+
+## Disputed Territories
+
+Japan map packages handle disputed areas inconsistently. In a source and
+documentation check on June 14, 2026, the packages above did not provide a
+documented user-facing option equivalent to:
+
+```{r, eval = FALSE}
+plot_jpmap("prefecture", territorial_disputes = TRUE)
+```
+
+`jpndistrict` source data includes rows for some Northern Territories
+municipalities, but that is not the same as an explicit disputed-territory
+layer with opt-in inclusion, separate styling, and documented source notes.
+
+`jpmap` excludes disputed-territory shapes by default and adds them only when
+the user asks for them. This keeps ordinary maps simple while allowing users to
+make the display decision consciously.
+
+## When To Use jpmap
+
+Use `jpmap` when your goal is to publish or analyze a Japan map with ordinary R
+data:
+
+```{r}
+library(jpmap)
+
+plot_jpmap("prefecture")
+plot_jpmap("municipality", include = "Okinawa")
+plot_jpmap("prefecture", territorial_disputes = TRUE)
+```
+
+Use companion packages when they solve a more specific part of the workflow:
+`jpcity` for code conversion, `kokudosuuchi` for lower-level access to MLIT
+datasets, and `jpgrid` or `jpmesh` for grid-square analysis.

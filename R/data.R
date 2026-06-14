@@ -92,38 +92,7 @@ jp_disputed_territories <- function(territorial_disputes = TRUE,
 }
 
 jp_map_with_data <- function(map, data, values = NULL, by = NULL) {
-  if (!inherits(map, "sf")) {
-    stop("`map` must be an sf object returned by `jp_map()`.", call. = FALSE)
-  }
-  if (!is.data.frame(data)) {
-    stop("`data` must be a data frame.", call. = FALSE)
-  }
-  if (nrow(data) == 0) {
-    return(map)
-  }
-
-  by <- by %||% guess_join_column(map, data)
-  if (is.null(by)) {
-    stop(
-      "Could not find a join column. Use one of: jis_code, pref_code, ",
-      "prefecture, prefecture_ja, municipality_code, municipality, ",
-      "or municipality_ja.",
-      call. = FALSE
-    )
-  }
-
-  idx <- match(as.character(map[[by]]), as.character(data[[by]]))
-  extra_cols <- setdiff(names(data), names(map))
-
-  for (col in extra_cols) {
-    map[[col]] <- data[[col]][idx]
-  }
-
-  if (!is.null(values) && !values %in% names(map)) {
-    stop("`values` column not found after joining data: ", values, call. = FALSE)
-  }
-
-  map
+  jp_map_join(map, data, by = by, values = values)
 }
 
 jpmap_build_data <- function(year = 2024,

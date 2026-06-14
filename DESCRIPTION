@@ -21,11 +21,12 @@ Imports:
     sf
 Suggests:
     knitr,
+    leaflet,
     pkgdown,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Config/Needs/website: pkgdown, knitr, rmarkdown, ggplot2, sf
+Config/Needs/website: pkgdown, knitr, rmarkdown, ggplot2, sf, leaflet
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

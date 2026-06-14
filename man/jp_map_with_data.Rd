@@ -11,7 +11,8 @@ jp_map_with_data(map, data, values = NULL, by = NULL)
 \item{by}{Optional join column. If omitted, jpmap guesses from common columns.}
 }
 \description{
-Joins user data to a Japan map object.
+Joins user data to a Japan map object. This is a compact wrapper around
+\code{jp_map_join()} kept for plotting workflows that call it internally.
 }
 \value{
 An \code{sf} object.

@@ -27,6 +27,12 @@ navbar:
       href: articles/faq.html
 
 articles:
+- title: Why jpmap
+  desc: Package positioning, data policy, and how jpmap differs from related tools.
+  contents:
+  - related-packages
+  - boundary-data-policy
+
 - title: Getting Started
   desc: Install jpmap, get boundary data, import maps, and transform coordinates.
   contents:
@@ -42,6 +48,7 @@ articles:
   - prefectural-point-maps
   - municipal-choropleths
   - municipal-point-maps
+  - web-maps-leaflet
 
 - title: Map Options
   desc: Control island insets and answer common map questions.
@@ -65,6 +72,7 @@ reference:
   contents:
   - jp_map
   - jp_map_with_data
+  - jp_map_join
   - jp_disputed_territories
   - jpmap_data
 
@@ -72,6 +80,7 @@ reference:
   desc: Draw maps with prefecture or municipal boundaries.
   contents:
   - plot_jpmap
+  - jp_map_leaflet
 
 - title: Coordinates
   desc: Transform points and geometries to the jpmap inset projection.

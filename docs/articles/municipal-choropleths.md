@@ -73,6 +73,7 @@ okinawa_main_map <- jp_map_with_data(
   base_counts,
   values = "base_count"
 )
+#> Warning: 17 map region key(s) in `municipality_code` did not receive data
 okinawa_main_map$base_count[is.na(okinawa_main_map$base_count)] <- 0L
 ```
 

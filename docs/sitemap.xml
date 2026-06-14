@@ -1,6 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://yhoriuchi.github.io/jpmap/404.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/LICENSE-text.html</loc></url>
+<url><loc>https://yhoriuchi.github.io/jpmap/articles/boundary-data-policy.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/articles/download-boundary-data.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/articles/faq.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/articles/getting-started.html</loc></url>
@@ -11,13 +12,17 @@
 <url><loc>https://yhoriuchi.github.io/jpmap/articles/municipal-point-maps.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/articles/prefectural-choropleths.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/articles/prefectural-point-maps.html</loc></url>
+<url><loc>https://yhoriuchi.github.io/jpmap/articles/related-packages.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/articles/transform-data.html</loc></url>
+<url><loc>https://yhoriuchi.github.io/jpmap/articles/web-maps-leaflet.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/authors.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/index.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/news/index.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/reference/index.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/reference/jp_disputed_territories.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/reference/jp_map.html</loc></url>
+<url><loc>https://yhoriuchi.github.io/jpmap/reference/jp_map_join.html</loc></url>
+<url><loc>https://yhoriuchi.github.io/jpmap/reference/jp_map_leaflet.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/reference/jp_map_with_data.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/reference/jp_prefecture_gdp.html</loc></url>
 <url><loc>https://yhoriuchi.github.io/jpmap/reference/jp_us_military_bases.html</loc></url>

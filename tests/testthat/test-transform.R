@@ -125,6 +125,45 @@ test_that("bundled Okinawa municipalities are available by default", {
   expect_true(all(map$municipality_code != ""))
 })
 
+test_that("jp_map_join handles common Japan map keys safely", {
+  map <- jp_map("prefecture")
+  numeric_codes <- data.frame(
+    pref_code = seq_len(47),
+    value = seq_len(47)
+  )
+  named_codes <- data.frame(
+    code = seq_len(47),
+    named_value = seq_len(47) * 10
+  )
+
+  joined <- jp_map_join(map, numeric_codes, by = "pref_code")
+  expect_equal(joined$value[joined$pref_code == "01"], 1)
+  expect_equal(joined$value[joined$pref_code == "47"], 47)
+
+  named_join <- jp_map_join(map, named_codes, by = c("pref_code" = "code"))
+  expect_equal(named_join$named_value[named_join$pref_code == "01"], 10)
+  expect_false("code" %in% names(named_join))
+
+  duplicated_codes <- rbind(numeric_codes[1, ], numeric_codes[1, ])
+  expect_error(
+    jp_map_join(map, duplicated_codes, by = "pref_code"),
+    "duplicate join keys",
+    fixed = TRUE
+  )
+  expect_warning(
+    jp_map_join(map, data.frame(pref_code = 99, value = 1), by = "pref_code"),
+    "did not match the map"
+  )
+})
+
+test_that("jp_map_leaflet reports missing optional dependency", {
+  if (requireNamespace("leaflet", quietly = TRUE)) {
+    expect_s3_class(jp_map_leaflet("prefecture"), "leaflet")
+  } else {
+    expect_error(jp_map_leaflet("prefecture"), "requires the leaflet package")
+  }
+})
+
 test_that("official N03 source URLs can target national or prefecture data", {
   expect_equal(
     n03_source_url(2024),
