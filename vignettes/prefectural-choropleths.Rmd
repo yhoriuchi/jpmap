@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
   fig.bg = "white",
   dev.args = list(bg = "white")
 )
+jpmap_has_boundary_data <- nrow(jpmap::available_jpmap_data()) > 0
 ```
 
 This example uses `jp_prefecture_gdp`, a bundled prefecture-level GDP dataset.
@@ -32,7 +33,7 @@ gdp <- jp_prefecture_gdp |>
   select(pref_code, prefecture, gdp_per_capita_jpy)
 ```
 
-```{r prefectural-gdp}
+```{r prefectural-gdp, eval = jpmap_has_boundary_data}
 plot_jpmap(
   "prefecture",
   data = gdp,

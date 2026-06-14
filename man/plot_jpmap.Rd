@@ -90,19 +90,19 @@ Plots Japan prefecture or municipal boundaries using \code{ggplot2}.
 A \code{ggplot2} plot.
 }
 \examples{
-\dontrun{
-plot_jpmap("prefecture")
-plot_jpmap("prefecture", ogasawara = FALSE)
-plot_jpmap("prefecture", territorial_disputes = FALSE)
-plot_jpmap(
-  "prefecture",
-  ogasawara = FALSE,
-  xlim = c(122, 149),
-  ylim = c(28.5, 47),
-  x_breaks = seq(125, 145, 5),
-  y_breaks = seq(30, 45, 5)
-)
-plot_jpmap("prefecture", inset_boxes = FALSE)
-plot_jpmap("municipality", include = "Okinawa")
+if (nrow(available_jpmap_data()) > 0) {
+  plot_jpmap("prefecture")
+  plot_jpmap("prefecture", ogasawara = FALSE)
+  plot_jpmap("prefecture", territorial_disputes = FALSE)
+  plot_jpmap(
+    "prefecture",
+    ogasawara = FALSE,
+    xlim = c(122, 149),
+    ylim = c(28.5, 47),
+    x_breaks = seq(125, 145, 5),
+    y_breaks = seq(30, 45, 5)
+  )
+  plot_jpmap("prefecture", inset_boxes = FALSE)
+  plot_jpmap("municipality", include = "Okinawa")
 }
 }

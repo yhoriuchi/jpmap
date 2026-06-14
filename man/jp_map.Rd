@@ -39,12 +39,12 @@ Reads Japan administrative boundary data and returns an \code{sf} object.
 An \code{sf} data frame.
 }
 \examples{
-\dontrun{
-jp_map("prefectures")
-jp_map("prefectures", okinawa = FALSE)
-jp_map("prefectures", territorial_disputes = FALSE)
-jp_map("municipalities", include = "Okinawa")
-jp_map("prefecture")
-jp_map("municipality", include = "Okinawa")
+if (nrow(available_jpmap_data()) > 0) {
+  jp_map("prefectures")
+  jp_map("prefectures", okinawa = FALSE)
+  jp_map("prefectures", territorial_disputes = FALSE)
+  jp_map("municipalities", include = "Okinawa")
+  jp_map("prefecture")
+  jp_map("municipality", include = "Okinawa")
 }
 }

@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
   fig.bg = "white",
   dev.args = list(bg = "white")
 )
+jpmap_has_boundary_data <- nrow(jpmap::available_jpmap_data()) > 0
 ```
 
 This example uses `jp_us_military_bases`. The map uses one point variable:
@@ -34,7 +35,7 @@ bases_xy <- jp_us_military_bases |>
   jpmap_transform(output_names = c("x", "y"))
 ```
 
-```{r prefectural-base-points}
+```{r prefectural-base-points, eval = jpmap_has_boundary_data}
 plot_jpmap(
   "prefecture",
   fill = "grey92",

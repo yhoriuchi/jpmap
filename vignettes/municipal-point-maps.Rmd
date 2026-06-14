@@ -1,6 +1,6 @@
 ---
 title: "Plot Municipal Point Maps"
-description: "Plot selected U.S. base points on the bundled Okinawa municipal map using one point variable."
+description: "Plot selected U.S. base points on an Okinawa municipal map using one point variable."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Plot Municipal Point Maps}
@@ -19,13 +19,15 @@ knitr::opts_chunk$set(
   fig.bg = "white",
   dev.args = list(bg = "white")
 )
+jpmap_available_data <- jpmap::available_jpmap_data()
+jpmap_has_okinawa_data <- any(jpmap_available_data$year == 2024 & jpmap_available_data$pref_code == "47")
 ```
 
 This example plots selected U.S. base coordinates on Okinawa municipal
 boundaries. The map uses one point variable: `branch`. The figure focuses on
 Okinawa Island so the small municipal polygons and base points are legible.
 
-```{r}
+```{r, eval = jpmap_has_okinawa_data}
 library(tidyverse)
 library(jpmap)
 
@@ -60,7 +62,7 @@ okinawa_bases_xy <- okinawa_bases |>
   jpmap_transform(output_names = c("x", "y"), inset = FALSE)
 ```
 
-```{r municipal-base-points}
+```{r municipal-base-points, eval = jpmap_has_okinawa_data}
 ggplot(okinawa_main_map) +
   geom_sf(
     fill = "grey92",

@@ -1,6 +1,6 @@
 ---
 title: "Plot Municipal Choropleth Maps"
-description: "Use bundled Okinawa municipal boundaries and map municipality population."
+description: "Use Okinawa municipal boundaries and map municipality population."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Plot Municipal Choropleth Maps}
@@ -19,18 +19,20 @@ knitr::opts_chunk$set(
   fig.bg = "white",
   dev.args = list(bg = "white")
 )
+jpmap_available_data <- jpmap::available_jpmap_data()
+jpmap_has_okinawa_data <- any(jpmap_available_data$year == 2024 & jpmap_available_data$pref_code == "47")
 ```
 
-The package includes official MLIT N03 municipal boundaries for Okinawa
-Prefecture as of January 1, 2024. This example maps one simple fill variable:
-2020 census population by municipality. The figure focuses on Okinawa Island so
-the municipal boundaries are legible; the bundled boundary file still contains
-the rest of Okinawa Prefecture.
+This example uses official MLIT N03 municipal boundaries for Okinawa Prefecture
+as of January 1, 2024. It maps one simple fill variable: 2020 census population
+by municipality. The figure focuses on Okinawa Island so the municipal
+boundaries are legible; the source boundary file can still contain the rest of
+Okinawa Prefecture.
 
 Population values are 2020 Census values from Statistics Bureau Japan as
 tabulated by [CityPopulation.de](https://www.citypopulation.de/en/japan/admin/47__okinawa/).
 
-```{r}
+```{r, eval = jpmap_has_okinawa_data}
 library(tidyverse)
 library(jpmap)
 
@@ -88,7 +90,7 @@ okinawa_main_map <- jp_map("municipality", include = "Okinawa", inset = FALSE) |
   jp_map_join(okinawa_population_2020, by = "municipality_ja")
 ```
 
-```{r municipal-population}
+```{r municipal-population, eval = jpmap_has_okinawa_data}
 ggplot(okinawa_main_map) +
   geom_sf(
     aes(fill = population_2020),

@@ -1,11 +1,8 @@
 #' Manage jpmap Boundary Data
 #'
 #' Helpers for locating and building the GeoPackage boundary data used by
-#' jpmap. The installed package includes example prefecture boundaries and
-#' official MLIT N03 municipal boundaries for Okinawa Prefecture as of
-#' January 1, 2024. Use `jpmap_build_data()` to build nationwide detailed
-#' municipal boundaries, or `jpmap_build_data(prefecture = "Ehime")` to build
-#' one prefecture from the official MLIT N03 administrative area data.
+#' jpmap. Boundary GeoPackage files can come from the separate `jpmapdata`
+#' package or from files built locally with `jpmap_build_data()`.
 #'
 #' @param create Whether to create the default data directory.
 #' @param data_dir Optional directory to scan for boundary data.
@@ -21,8 +18,8 @@
 #' @param simplify_tolerance Optional tolerance passed to [sf::st_simplify()].
 #'
 #' @return `jpmap_data_dir()` returns a path, `available_jpmap_data()` returns a
-#'   data frame with `year`, `pref_code`, `prefecture`, and `path`, and
-#'   `jpmap_build_data()` invisibly returns the generated file.
+#'   data frame with `year`, `pref_code`, `prefecture`, `source`, and `path`,
+#'   and `jpmap_build_data()` invisibly returns the generated file.
 #' @source MLIT National Land Numerical Information N03 administrative area
 #'   data: <https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2024.html>.
 #'
@@ -66,6 +63,7 @@ available_jpmap_data <- function(data_dir = NULL) {
       year = integer(),
       pref_code = character(),
       prefecture = character(),
+      source = character(),
       path = character()
     ))
   }
@@ -83,6 +81,7 @@ available_jpmap_data <- function(data_dir = NULL) {
     year = years,
     pref_code = pref_code,
     prefecture = prefecture_name_from_code(pref_code),
+    source = jpmap_data_source(files),
     path = normalizePath(files, mustWork = FALSE)
   )
 }
@@ -113,13 +112,13 @@ available_jpmap_data <- function(data_dir = NULL) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' jp_map("prefectures")
-#' jp_map("prefectures", okinawa = FALSE)
-#' jp_map("prefectures", territorial_disputes = FALSE)
-#' jp_map("municipalities", include = "Okinawa")
-#' jp_map("prefecture")
-#' jp_map("municipality", include = "Okinawa")
+#' if (nrow(available_jpmap_data()) > 0) {
+#'   jp_map("prefectures")
+#'   jp_map("prefectures", okinawa = FALSE)
+#'   jp_map("prefectures", territorial_disputes = FALSE)
+#'   jp_map("municipalities", include = "Okinawa")
+#'   jp_map("prefecture")
+#'   jp_map("municipality", include = "Okinawa")
 #' }
 jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "municipality"),
                    include = c(),
@@ -309,8 +308,34 @@ jpmap_data_dirs <- function(data_dir = NULL) {
     return(unique(data_dir))
   }
 
-  package_dir <- system.file("extdata", package = "jpmap", mustWork = FALSE)
-  unique(c(package_dir, jpmap_data_dir(create = FALSE)))
+  unique(c(jpmapdata_dirs(), jpmap_data_dir(create = FALSE)))
+}
+
+jpmapdata_dirs <- function() {
+  installed <- system.file("extdata", package = "jpmapdata", mustWork = FALSE)
+  dev <- character()
+  if (identical(tolower(Sys.getenv("JPMAP_DEV_DATA")), "true")) {
+    dev <- file.path(
+      dirname(normalizePath(getwd(), mustWork = FALSE)),
+      "jpmapdata",
+      "inst",
+      "extdata"
+    )
+  }
+  dirs <- c(installed, dev)
+  dirs[nzchar(dirs) & dir.exists(dirs)]
+}
+
+jpmap_data_source <- function(files) {
+  normalized <- normalizePath(files, mustWork = FALSE)
+  data_pkg_dirs <- normalizePath(jpmapdata_dirs(), mustWork = FALSE)
+  user_dir <- normalizePath(jpmap_data_dir(create = FALSE), mustWork = FALSE)
+
+  ifelse(
+    vapply(normalized, function(path) any(startsWith(path, data_pkg_dirs)), logical(1)),
+    "jpmapdata",
+    ifelse(startsWith(normalized, user_dir), "user", "custom")
+  )
 }
 
 choose_jpmap_data <- function(data_year = NULL,
@@ -382,9 +407,10 @@ requested_prefecture_code <- function(regions = NULL, include = c()) {
 stop_missing_jpmap_data <- function(data_dir = NULL) {
   dirs <- jpmap_data_dirs(data_dir)
   stop(
-    "No jpmap boundary data was found. Build it with ",
-    "`jpmap_build_data()` or place a `jpmap_boundaries_YYYY.gpkg` ",
-    "or `jpmap_boundaries_YYYY_PP.gpkg` file in one of these directories: ",
+    "No jpmap boundary data was found. Install the separate `jpmapdata` ",
+    "package, build local data with `jpmap_build_data()`, or place a ",
+    "`jpmap_boundaries_YYYY.gpkg` or `jpmap_boundaries_YYYY_PP.gpkg` file ",
+    "in one of these directories: ",
     paste(dirs[nzchar(dirs)], collapse = ", "),
     call. = FALSE
   )
@@ -641,7 +667,7 @@ disputed_territory_source <- function() {
     }
   }
   if (!nzchar(path) || !file.exists(path)) {
-    stop("Could not find bundled disputed-territory geometry data.", call. = FALSE)
+    stop("Could not find jpmap disputed-territory geometry data.", call. = FALSE)
   }
   sf::st_read(path, layer = "territorial_disputes", quiet = TRUE)
 }

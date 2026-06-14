@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
   fig.bg = "white",
   dev.args = list(bg = "white")
 )
+jpmap_has_boundary_data <- nrow(jpmap::available_jpmap_data()) > 0
 ```
 
 By default, `jpmap` transports Okinawa and Ogasawara into visible inset
@@ -29,7 +30,7 @@ library(tidyverse)
 library(jpmap)
 ```
 
-```{r default-insets}
+```{r default-insets, eval = jpmap_has_boundary_data}
 plot_jpmap("prefecture") +
   labs(title = "Default map with Okinawa and Ogasawara insets") +
   theme(
@@ -41,7 +42,7 @@ plot_jpmap("prefecture") +
 
 Use `ogasawara = FALSE` when you only want Okinawa moved.
 
-```{r okinawa-only}
+```{r okinawa-only, eval = jpmap_has_boundary_data}
 plot_jpmap(
   "prefecture",
   ogasawara = FALSE
@@ -54,7 +55,7 @@ plot_jpmap(
 
 Use `okinawa = FALSE` when you only want Ogasawara moved.
 
-```{r ogasawara-only}
+```{r ogasawara-only, eval = jpmap_has_boundary_data}
 plot_jpmap(
   "prefecture",
   okinawa = FALSE
@@ -71,7 +72,7 @@ Use `xlim` and `ylim` to set longitude/latitude limits. You can also set axis
 breaks and labels. This example keeps the main islands and Okinawa while
 dropping the Ogasawara inset.
 
-```{r axis-controls}
+```{r axis-controls, eval = jpmap_has_boundary_data}
 plot_jpmap(
   "prefecture",
   ogasawara = FALSE,
@@ -96,7 +97,7 @@ graticules inside each box and draws local longitude/latitude lines for the
 transported island group. Those labels are the islands' original coordinates,
 not the destination coordinates of the inset box.
 
-```{r no-boxes}
+```{r no-boxes, eval = jpmap_has_boundary_data}
 plot_jpmap(
   "prefecture",
   inset_boxes = FALSE
@@ -112,7 +113,7 @@ plot_jpmap(
 Set `inset = FALSE` to keep every geometry in its projected geographic
 location.
 
-```{r literal-map}
+```{r literal-map, eval = jpmap_has_boundary_data}
 plot_jpmap(
   "prefecture",
   inset = FALSE
@@ -133,7 +134,7 @@ only selected regions, such as `territorial_disputes = "senkaku"` or
 Use `disputed_fill`, `disputed_color`, and `disputed_dots = TRUE` when you want
 to emphasize these small islands and reefs.
 
-```{r disputed-territories-highlight}
+```{r disputed-territories-highlight, eval = jpmap_has_boundary_data}
 plot_jpmap(
   "prefecture",
   disputed_fill = "#005BAC",
@@ -154,9 +155,9 @@ transports into the default map frame. The longitude/latitude labels drawn
 inside a box describe the island group's true coordinates before transport.
 The boxes themselves are still display frames, not legal boundary extents.
 
-For Okinawa municipal maps, the bundled 2024 MLIT N03 Okinawa layer is
+For Okinawa municipal maps, an available 2024 MLIT N03 Okinawa layer is
 transported as Okinawa. For Ogasawara, the default box also covers the remote
-Ogasawara pieces present in the bundled prefecture layer, such as
+Ogasawara pieces present in the available prefecture layer, such as
 Minamitorishima. Use `inset = FALSE` when literal geographic placement matters
 more than a compact display.
 

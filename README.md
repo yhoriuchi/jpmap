@@ -39,6 +39,14 @@ install.packages("remotes")
 remotes::install_github("yhoriuchi/jpmap")
 ```
 
+Boundary GeoPackages are large and live outside the functionality package.
+Install the companion data package when you want ready-to-use boundary files,
+or build the files locally from MLIT source data.
+
+```r
+remotes::install_github("yhoriuchi/jpmapdata")
+```
+
 ## Core Workflow
 
 ```r
@@ -98,22 +106,17 @@ points |>
 
 ## Boundary Data
 
-The installed package includes:
+`jpmap` looks for boundary GeoPackages in the companion `jpmapdata` package and
+in the local data directory returned by `jpmap_data_dir()`.
 
-- all-prefecture example boundaries for Japan, based on Natural Earth Admin-1
-  data;
-- official MLIT N03 municipal boundaries for Okinawa Prefecture as of
-  January 1, 2024.
-
-Use the bundled Okinawa municipal data immediately:
+After boundary data are available, draw Okinawa municipalities with:
 
 ```r
 plot_jpmap("municipality", include = "Okinawa")
 ```
 
-Nationwide municipal polygons are much larger and should be built locally from
-Japan's official MLIT National Land Numerical Information N03 administrative
-area data:
+You can also build boundary files locally from Japan's official MLIT National
+Land Numerical Information N03 administrative area data:
 
 ```r
 jpmap_build_data(year = 2024)

@@ -1,3 +1,10 @@
+skip_if_no_jpmap_boundaries <- function() {
+  testthat::skip_if(
+    nrow(available_jpmap_data()) == 0,
+    "jpmap boundary data unavailable"
+  )
+}
+
 test_that("jpmap_crs returns an sf CRS", {
   expect_s3_class(jpmap_crs(), "crs")
   expect_false(is.na(jpmap_crs()))
@@ -65,10 +72,13 @@ test_that("missing map data gives a helpful error", {
   )
 })
 
-test_that("bundled prefecture data are available by default", {
+test_that("boundary data are available from jpmapdata or local files", {
+  skip_if_no_jpmap_boundaries()
+
   available <- available_jpmap_data()
   expect_true(any(available$year == 2021))
   expect_true(any(available$year == 2024 & available$pref_code == "47"))
+  expect_true(all(nzchar(available$source)))
 
   map <- jp_map("prefecture")
   expect_s3_class(map, "sf")
@@ -77,6 +87,8 @@ test_that("bundled prefecture data are available by default", {
 })
 
 test_that("disputed-territory shapes can be included and excluded", {
+  skip_if_no_jpmap_boundaries()
+
   default_map <- jp_map("prefecture")
   default_literal <- jp_map("prefecture", inset = FALSE)
   excluded_map <- jp_map("prefecture", territorial_disputes = FALSE)
@@ -118,7 +130,9 @@ test_that("disputed-territory shapes can be included and excluded", {
   )
 })
 
-test_that("bundled Okinawa municipalities are available by default", {
+test_that("Okinawa municipalities are available when boundary data are installed", {
+  skip_if_no_jpmap_boundaries()
+
   map <- jp_map("municipality", include = "Okinawa", inset = FALSE)
   admin_map <- map[!(map$is_disputed_territory %in% TRUE), , drop = FALSE]
   disputed_map <- map[map$is_disputed_territory %in% TRUE, , drop = FALSE]
@@ -132,6 +146,8 @@ test_that("bundled Okinawa municipalities are available by default", {
 })
 
 test_that("filtered municipality plots use a local default frame", {
+  skip_if_no_jpmap_boundaries()
+
   plot <- plot_jpmap("municipality", include = "Okinawa")
   explicit_inset <- plot_jpmap("municipality", include = "Okinawa", inset = TRUE)
 
@@ -144,6 +160,8 @@ test_that("filtered municipality plots use a local default frame", {
 })
 
 test_that("jp_map_join handles common Japan map keys safely", {
+  skip_if_no_jpmap_boundaries()
+
   map <- jp_map("prefecture")
   numeric_codes <- data.frame(
     pref_code = seq_len(47),
@@ -175,6 +193,8 @@ test_that("jp_map_join handles common Japan map keys safely", {
 })
 
 test_that("jp_map_leaflet reports missing optional dependency", {
+  skip_if_no_jpmap_boundaries()
+
   if (requireNamespace("leaflet", quietly = TRUE)) {
     expect_s3_class(jp_map_leaflet("prefecture"), "leaflet")
   } else {
@@ -198,6 +218,8 @@ test_that("official N03 source URLs can target national or prefecture data", {
 })
 
 test_that("inset boxes are available for plot maps", {
+  skip_if_no_jpmap_boundaries()
+
   boxes <- jpmap_inset_boxes(c("okinawa", "ogasawara"))
   graticules <- jpmap_inset_graticules(c("okinawa", "ogasawara"))
   plot <- plot_jpmap("prefectures", data_year = 2021, inset_boxes = FALSE)

@@ -6,17 +6,18 @@
 
 0 errors | 0 warnings | 2 notes
 
-This is a new submission. The source tarball is larger than 10 MB because the
-package bundles official MLIT N03 2024 municipal boundary data for Okinawa
-Prefecture. The bundled file is needed so new users can run the package's
-municipality examples immediately without first downloading and converting a
-large external boundary archive.
+This is a resubmission.
+
+In response to CRAN feedback, relative README links to pkgdown articles have
+been replaced with absolute URLs, and the large boundary GeoPackage files have
+been removed from jpmap. Boundary data now live outside the functionality
+package: users can install the companion jpmapdata package when available or
+build local GeoPackage files with jpmap_build_data().
+
+The source tarball is now about 153 KB.
 
 The local check also reports that the installed HTML Tidy is not recent enough
 to run HTML validation. This is a local toolchain note.
-
-CRAN incoming checks may flag "GeoPackage", "MLIT", and "Ogasawara" as
-possibly misspelled words. These are intended technical/proper terms.
 
 ## Downstream dependencies
 

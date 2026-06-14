@@ -17,6 +17,10 @@ knitr::opts_chunk$set(
   fig.width = 7,
   fig.height = 5
 )
+jpmap_available_data <- jpmap::available_jpmap_data()
+jpmap_has_boundary_data <- nrow(jpmap_available_data) > 0
+jpmap_has_okinawa_data <- any(jpmap_available_data$year == 2024 & jpmap_available_data$pref_code == "47")
+jpmap_has_leaflet <- requireNamespace("leaflet", quietly = TRUE)
 ```
 
 `plot_jpmap()` is the right tool for static maps with Okinawa and Ogasawara
@@ -31,7 +35,7 @@ install.packages("leaflet")
 
 ## Prefecture Choropleth
 
-```{r leaflet-prefecture, eval = TRUE}
+```{r leaflet-prefecture, eval = jpmap_has_boundary_data && jpmap_has_leaflet}
 library(tidyverse)
 library(jpmap)
 
@@ -73,9 +77,10 @@ emphasize them.
 
 ## Municipal Map
 
-The bundled Okinawa municipal data can be used immediately.
+Okinawa municipal data can be used when the corresponding boundary file is
+available through `jpmapdata` or `jpmap_data_dir()`.
 
-```{r}
+```{r, eval = jpmap_has_okinawa_data && jpmap_has_leaflet}
 jp_map_leaflet(
   "municipality",
   include = "Okinawa",

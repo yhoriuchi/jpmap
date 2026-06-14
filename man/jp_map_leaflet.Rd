@@ -81,7 +81,8 @@ static Okinawa and Ogasawara inset layout.
 }
 \examples{
 if (requireNamespace("leaflet", quietly = TRUE) &&
-    requireNamespace("dplyr", quietly = TRUE)) {
+    requireNamespace("dplyr", quietly = TRUE) &&
+    nrow(available_jpmap_data()) > 0) {
   data("jp_prefecture_gdp")
 
   gdp <- jp_prefecture_gdp |>

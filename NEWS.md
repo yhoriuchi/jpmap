@@ -4,8 +4,8 @@ Initial CRAN release.
 
 - Added a `usmap`-style API for Japan maps: `jp_map()`, `plot_jpmap()`,
   `jp_map_join()`, `plot_jpmap()`, `jpmap_transform()`, and `jpmap_crs()`.
-- Added support for prefecture and municipal boundary layers, including bundled
-  MLIT N03 2024 municipal boundaries for Okinawa Prefecture.
+- Added support for prefecture and municipal boundary layers through a companion
+  data package or locally built MLIT N03 GeoPackage files.
 - Added inset transformations and controls for Okinawa and Ogasawara, including
   true-coordinate graticules inside inset boxes and axis-limit controls.
 - Added disputed-territory island/reef shapes with controls such as

@@ -1,6 +1,6 @@
 ---
 title: "Import Boundary Data"
-description: "Load bundled or locally built boundary GeoPackages with jp_map(), plot_jpmap(), and sf."
+description: "Load companion or locally built boundary GeoPackages with jp_map(), plot_jpmap(), and sf."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Import Boundary Data}
@@ -17,36 +17,38 @@ Use `available_jpmap_data()` to see which boundary files `jpmap` can find.
 ```{r}
 library(jpmap)
 available <- available_jpmap_data()
-available[c("year", "pref_code", "prefecture")]
+jpmap_has_boundary_data <- nrow(available) > 0
+jpmap_has_okinawa_data <- any(available$year == 2024 & available$pref_code == "47")
+available[c("year", "pref_code", "prefecture", "source")]
 ```
 
 The package checks two locations:
 
-- bundled example files installed with `jpmap`;
+- GeoPackage files installed by the companion `jpmapdata` package;
 - files saved in `jpmap_data_dir()`, unless you pass a custom `data_dir`.
 
 ## Load Prefecture Data
 
 `jp_map()` returns an `sf` object. Without extra options, prefecture maps use
-the bundled all-Japan prefecture file.
+the first available all-Japan prefecture file.
 
-```{r}
+```{r, eval = jpmap_has_boundary_data}
 prefectures <- jp_map("prefecture")
 prefectures
 ```
 
-## Load Bundled Okinawa Municipal Data
+## Load Okinawa Municipal Data
 
-The package includes official MLIT N03 municipal boundaries for Okinawa
-Prefecture as of January 1, 2024.
+The companion data package can provide official MLIT N03 municipal boundaries
+for Okinawa Prefecture as of January 1, 2024.
 
-```{r}
+```{r, eval = jpmap_has_okinawa_data}
 okinawa_municipalities <- jp_map("municipality", include = "Okinawa")
 okinawa_municipalities
 ```
 
-This works without `data_year` or `data_dir` because `jpmap` can see the
-bundled Okinawa file.
+This works without `data_year` or `data_dir` when `jpmap` can see the Okinawa
+file through `jpmapdata` or `jpmap_data_dir()`.
 
 ## Load Locally Built Municipal Data
 
@@ -74,7 +76,7 @@ ehime_municipalities <- jp_map(
 The GeoPackage layers are ordinary spatial data layers, so you can inspect them
 with `sf`.
 
-```{r}
+```{r, eval = jpmap_has_okinawa_data}
 okinawa_file <- available$path[available$year == 2024 & available$pref_code == "47"]
 
 sf::st_layers(okinawa_file)

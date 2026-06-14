@@ -30,9 +30,8 @@ coordinates rather than the destination coordinates of the box.
 
 ## Does jpmap include boundary data?
 
-The package includes all-prefecture example boundaries and official MLIT N03
-municipal boundaries for Okinawa Prefecture as of January 1, 2024. Large
-nationwide municipal files are kept outside the package. Use
+Large boundary GeoPackages live outside the functionality package. Install the
+companion `jpmapdata` package when you want ready-to-use boundary files, or use
 `jpmap_build_data()` to build a local GeoPackage from MLIT N03 administrative
 area data. Use `jpmap_build_data(prefecture = "Ehime")` when you only need one
 prefecture.

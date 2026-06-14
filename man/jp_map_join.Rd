@@ -39,7 +39,8 @@ including \code{pref_code}, \code{jis_code}, and \code{municipality_code}, and
 keeps leading zeroes from getting in the user's way.
 }
 \examples{
-if (requireNamespace("dplyr", quietly = TRUE)) {
+if (requireNamespace("dplyr", quietly = TRUE) &&
+    nrow(available_jpmap_data()) > 0) {
   data("jp_prefecture_gdp")
 
   gdp <- jp_prefecture_gdp |>
