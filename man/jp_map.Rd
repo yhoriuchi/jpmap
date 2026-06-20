@@ -39,6 +39,7 @@ Reads Japan administrative boundary data and returns an \code{sf} object.
 An \code{sf} data frame.
 }
 \examples{
+\donttest{
 if (nrow(available_jpmap_data()) > 0) {
   jp_map("prefectures")
   jp_map("prefectures", okinawa = FALSE)
@@ -46,5 +47,6 @@ if (nrow(available_jpmap_data()) > 0) {
   jp_map("municipalities", include = "Okinawa")
   jp_map("prefecture")
   jp_map("municipality", include = "Okinawa")
+}
 }
 }

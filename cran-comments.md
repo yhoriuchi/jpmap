@@ -14,6 +14,12 @@ been removed from jpmap. Boundary data now live outside the functionality
 package: users can install the companion jpmapdata package when available or
 build local GeoPackage files with jpmap_build_data().
 
+Manual examples have also been reworked so quick local examples run normally,
+while map-building examples that can take more than 5 seconds when boundary
+data are installed use `\donttest{}`. The example that builds boundary data
+from an external MLIT download also uses `\donttest{}` and writes to
+`tempdir()`.
+
 The package version has been bumped to 0.1.1 for this resubmission.
 
 The source tarball is now about 153 KB.

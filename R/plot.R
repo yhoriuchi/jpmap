@@ -49,6 +49,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' if (nrow(available_jpmap_data()) > 0) {
 #'   plot_jpmap("prefecture")
 #'   plot_jpmap("prefecture", ogasawara = FALSE)
@@ -63,6 +64,7 @@
 #'   )
 #'   plot_jpmap("prefecture", inset_boxes = FALSE)
 #'   plot_jpmap("municipality", include = "Okinawa")
+#' }
 #' }
 plot_jpmap <- function(regions = c("prefectures", "prefecture", "municipalities", "municipality"),
                        include = c(),

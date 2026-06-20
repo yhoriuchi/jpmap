@@ -41,8 +41,6 @@ Shapes are derived from Natural Earth 1:10m land polygons and OpenStreetMap
 geometry.
 }
 \examples{
-\dontrun{
 jp_disputed_territories()
 jp_disputed_territories(c("senkaku", "takeshima"))
-}
 }

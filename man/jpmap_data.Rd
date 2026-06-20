@@ -43,10 +43,17 @@ data frame with \code{year}, \code{pref_code}, \code{prefecture},
 the generated file.
 }
 \examples{
-\dontrun{
-jpmap_build_data(year = 2024)
-jpmap_build_data(year = 2024, prefecture = "Ehime")
+jpmap_data_dir(create = FALSE)
 available_jpmap_data()
+
+\donttest{
+jpmap_build_data(
+  year = 2024,
+  prefecture = "Ehime",
+  destdir = tempdir(),
+  overwrite = TRUE,
+  quiet = TRUE
+)
 }
 }
 \source{

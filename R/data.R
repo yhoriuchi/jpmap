@@ -24,10 +24,17 @@
 #'   data: <https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2024.html>.
 #'
 #' @examples
-#' \dontrun{
-#' jpmap_build_data(year = 2024)
-#' jpmap_build_data(year = 2024, prefecture = "Ehime")
+#' jpmap_data_dir(create = FALSE)
 #' available_jpmap_data()
+#'
+#' \donttest{
+#' jpmap_build_data(
+#'   year = 2024,
+#'   prefecture = "Ehime",
+#'   destdir = tempdir(),
+#'   overwrite = TRUE,
+#'   quiet = TRUE
+#' )
 #' }
 #' @export
 #' @rdname jpmap_data
@@ -112,6 +119,7 @@ available_jpmap_data <- function(data_dir = NULL) {
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' if (nrow(available_jpmap_data()) > 0) {
 #'   jp_map("prefectures")
 #'   jp_map("prefectures", okinawa = FALSE)
@@ -119,6 +127,7 @@ available_jpmap_data <- function(data_dir = NULL) {
 #'   jp_map("municipalities", include = "Okinawa")
 #'   jp_map("prefecture")
 #'   jp_map("municipality", include = "Okinawa")
+#' }
 #' }
 jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "municipality"),
                    include = c(),
@@ -180,10 +189,8 @@ jp_map <- function(regions = c("prefectures", "prefecture", "municipalities", "m
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' jp_disputed_territories()
 #' jp_disputed_territories(c("senkaku", "takeshima"))
-#' }
 jp_disputed_territories <- function(territorial_disputes = TRUE,
                                     regions = c("prefectures", "prefecture", "municipalities", "municipality"),
                                     inset = TRUE,
