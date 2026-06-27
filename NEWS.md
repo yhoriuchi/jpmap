@@ -1,3 +1,10 @@
+# jpmap 0.1.3
+
+Minor CRAN resubmission update.
+
+- Single quoted the software/file-format name `'GeoPackage'` in `DESCRIPTION`
+  in response to CRAN feedback.
+
 # jpmap 0.1.2
 
 Minor CRAN resubmission update.

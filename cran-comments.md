@@ -8,7 +8,10 @@
 
 This is a resubmission.
 
-In response to CRAN feedback, relative README links to pkgdown articles have
+In response to the latest CRAN feedback, the software/file-format name
+`'GeoPackage'` is now single quoted in the `DESCRIPTION` file.
+
+In response to earlier CRAN feedback, relative README links to pkgdown articles have
 been replaced with absolute URLs, and the large boundary GeoPackage files have
 been removed from jpmap. Boundary data now live outside the functionality
 package: users can install the companion jpmapdata package when available or
@@ -25,7 +28,7 @@ Vignette map chunks now run only for pkgdown builds or when
 the companion data package installed does not embed large map or leaflet
 outputs.
 
-The package version has been bumped to 0.1.2 for this resubmission.
+The package version has been bumped to 0.1.3 for this resubmission.
 
 The source tarball is now about 154 KB.
 
