@@ -19,7 +19,13 @@ knitr::opts_chunk$set(
   fig.bg = "white",
   dev.args = list(bg = "white")
 )
-jpmap_available_data <- jpmap::available_jpmap_data()
+jpmap_build_full_vignettes <- identical(tolower(Sys.getenv("JPMAP_FULL_VIGNETTES")), "true") ||
+  identical(tolower(Sys.getenv("IN_PKGDOWN")), "true")
+jpmap_available_data <- if (jpmap_build_full_vignettes) {
+  jpmap::available_jpmap_data()
+} else {
+  jpmap::available_jpmap_data(data_dir = tempfile())
+}
 jpmap_has_okinawa_data <- any(jpmap_available_data$year == 2024 & jpmap_available_data$pref_code == "47")
 ```
 

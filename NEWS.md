@@ -1,3 +1,12 @@
+# jpmap 0.1.2
+
+Minor CRAN resubmission update.
+
+- Guarded map-heavy vignette chunks so CRAN builds do not embed large outputs
+  when optional companion boundary data are installed locally.
+- Confirmed the source tarball README uses absolute pkgdown article URLs and
+  reduced the rebuilt resubmission tarball to about 154 KB.
+
 # jpmap 0.1.1
 
 Minor CRAN resubmission update.

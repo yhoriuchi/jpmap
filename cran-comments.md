@@ -20,9 +20,14 @@ data are installed use `\donttest{}`. The example that builds boundary data
 from an external MLIT download also uses `\donttest{}` and writes to
 `tempdir()`.
 
-The package version has been bumped to 0.1.1 for this resubmission.
+Vignette map chunks now run only for pkgdown builds or when
+`JPMAP_FULL_VIGNETTES=true`, so a CRAN source package built on a machine with
+the companion data package installed does not embed large map or leaflet
+outputs.
 
-The source tarball is now about 153 KB.
+The package version has been bumped to 0.1.2 for this resubmission.
+
+The source tarball is now about 154 KB.
 
 The local check also reports that the installed HTML Tidy is not recent enough
 to run HTML validation. This is a local toolchain note.

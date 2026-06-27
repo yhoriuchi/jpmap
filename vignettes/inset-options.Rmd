@@ -19,7 +19,10 @@ knitr::opts_chunk$set(
   fig.bg = "white",
   dev.args = list(bg = "white")
 )
-jpmap_has_boundary_data <- nrow(jpmap::available_jpmap_data()) > 0
+jpmap_build_full_vignettes <- identical(tolower(Sys.getenv("JPMAP_FULL_VIGNETTES")), "true") ||
+  identical(tolower(Sys.getenv("IN_PKGDOWN")), "true")
+jpmap_has_boundary_data <- jpmap_build_full_vignettes &&
+  nrow(jpmap::available_jpmap_data()) > 0
 ```
 
 By default, `jpmap` transports Okinawa and Ogasawara into visible inset

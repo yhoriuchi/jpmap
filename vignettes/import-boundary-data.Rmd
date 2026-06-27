@@ -10,13 +10,19 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", message = FALSE)
+jpmap_build_full_vignettes <- identical(tolower(Sys.getenv("JPMAP_FULL_VIGNETTES")), "true") ||
+  identical(tolower(Sys.getenv("IN_PKGDOWN")), "true")
 ```
 
 Use `available_jpmap_data()` to see which boundary files `jpmap` can find.
 
 ```{r}
 library(jpmap)
-available <- available_jpmap_data()
+available <- if (jpmap_build_full_vignettes) {
+  available_jpmap_data()
+} else {
+  available_jpmap_data(data_dir = tempfile())
+}
 jpmap_has_boundary_data <- nrow(available) > 0
 jpmap_has_okinawa_data <- any(available$year == 2024 & available$pref_code == "47")
 available_summary <- available[c("year", "pref_code", "prefecture", "source")]
