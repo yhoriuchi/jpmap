@@ -74,5 +74,4 @@ if (requireNamespace("dplyr", quietly = TRUE) &&
 
   "gdp_per_capita_jpy" %in% names(joined)
 }
-#> [1] TRUE
 ```

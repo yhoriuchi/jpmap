@@ -4,7 +4,16 @@
 map data, and transform your own coordinates into the same coordinate
 system.
 
-Install the development version from GitHub:
+Install the CRAN version:
+
+``` r
+
+install.packages("jpmap")
+library(jpmap)
+```
+
+Install the development version from GitHub when you want the latest
+changes:
 
 ``` r
 

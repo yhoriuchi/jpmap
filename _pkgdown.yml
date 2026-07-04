@@ -10,9 +10,6 @@ template:
     navbar-dark-color: "#FFFFFF"
     navbar-dark-hover-color: "#BBD7FF"
 
-development:
-  mode: unreleased
-
 home:
   title: jpmap
   description: Draw Japan maps with visible Okinawa and Ogasawara insets.
@@ -20,11 +17,24 @@ home:
 navbar:
   structure:
     left: [home, articles, reference, news, faq_page]
-    right: [github]
+    right: [cran, github, releases, issues]
   components:
     faq_page:
       text: "FAQ"
       href: articles/faq.html
+    cran:
+      text: "CRAN"
+      href: https://CRAN.R-project.org/package=jpmap
+    github:
+      icon: fab fa-github
+      href: https://github.com/yhoriuchi/jpmap
+      aria-label: GitHub
+    releases:
+      text: "Releases"
+      href: https://github.com/yhoriuchi/jpmap/releases
+    issues:
+      text: "Issues"
+      href: https://github.com/yhoriuchi/jpmap/issues
 
 articles:
 - title: Why jpmap

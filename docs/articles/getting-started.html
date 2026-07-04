@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jpmap</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,10 @@
 <li class="nav-item"><a class="nav-link" href="../articles/faq.html">FAQ</a></li>
       </ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/yhoriuchi/jpmap/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://CRAN.R-project.org/package=jpmap">CRAN</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/yhoriuchi/jpmap" aria-label="GitHub"><span class="fa fab fa-github"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/yhoriuchi/jpmap/releases">Releases</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/yhoriuchi/jpmap/issues">Issues</a></li>
       </ul>
 </div>
 
@@ -69,29 +72,34 @@
 <p><code>jpmap</code> follows the same basic workflow as
 <code>usmap</code>: plot a map, get the map data, and transform your own
 coordinates into the same coordinate system.</p>
-<p>Install the development version from GitHub:</p>
+<p>Install the CRAN version:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"jpmap"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yhoriuchi.github.io/jpmap/">jpmap</a></span><span class="op">)</span></span></code></pre></div>
+<p>Install the development version from GitHub when you want the latest
+changes:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"yhoriuchi/jpmap"</span><span class="op">)</span></span></code></pre></div>
 <p>Boundary GeoPackages are large. Install the companion
 <code>jpmapdata</code> package when you want ready-to-use boundaries, or
 build local files with <code><a href="../reference/jpmap_data.html">jpmap_build_data()</a></code>.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yhoriuchi.github.io/jpmap/">jpmap</a></span><span class="op">)</span></span></code></pre></div>
 <p>The main plotting function is <code><a href="../reference/plot_jpmap.html">plot_jpmap()</a></code>. These two
 calls draw empty maps without adding data, labels, colors, or other
 options.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"prefecture"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_jpmap.html">plot_jpmap</a></span><span class="op">(</span><span class="st">"municipality"</span>, include <span class="op">=</span> <span class="st">"Okinawa"</span><span class="op">)</span></span></code></pre></div>
 <p>The data function is <code><a href="../reference/jp_map.html">jp_map()</a></code>, which returns an
 <code>sf</code> object.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prefectures</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jp_map.html">jp_map</a></span><span class="op">(</span><span class="st">"prefecture"</span><span class="op">)</span></span>
 <span><span class="va">okinawa_municipalities</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jp_map.html">jp_map</a></span><span class="op">(</span><span class="st">"municipality"</span>, include <span class="op">=</span> <span class="st">"Okinawa"</span><span class="op">)</span></span></code></pre></div>
 <p>The transform function is <code><a href="../reference/jpmap_transform.html">jpmap_transform()</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">places</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">place</span>, <span class="op">~</span><span class="va">lon</span>, <span class="op">~</span><span class="va">lat</span>,</span>
 <span>  <span class="st">"Tokyo"</span>, <span class="fl">139.767</span>, <span class="fl">35.681</span>,</span>

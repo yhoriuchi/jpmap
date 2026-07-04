@@ -61,8 +61,6 @@ geometry.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 jp_disputed_territories()
 jp_disputed_territories(c("senkaku", "takeshima"))
-} # }
 ```

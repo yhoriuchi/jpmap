@@ -1,6 +1,9 @@
 ![jpmap logo](reference/figures/logo.png)
 
 [![R-CMD-check](https://github.com/yhoriuchi/jpmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yhoriuchi/jpmap/actions/workflows/R-CMD-check.yaml)
+[![CRAN
+Status](https://www.r-pkg.org/badges/version/jpmap)](https://CRAN.R-project.org/package=jpmap)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/jpmap)](https://cran.r-project.org/package=jpmap)
 
 ### jpmap: Japan maps with visible island insets
 
@@ -30,7 +33,16 @@ returns a Leaflet htmlwidget using literal longitude/latitude geography.
 
 ## Installation
 
-Install the development version from GitHub:
+Install the CRAN version:
+
+``` r
+
+install.packages("jpmap")
+library(jpmap)
+```
+
+Install the development version from GitHub when you want the latest
+changes:
 
 ``` r
 

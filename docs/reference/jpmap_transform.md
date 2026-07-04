@@ -69,10 +69,4 @@ if (requireNamespace("tibble", quietly = TRUE)) {
   places |>
     jpmap_transform(output_names = c("x", "y"), ogasawara = FALSE)
 }
-#> # A tibble: 3 × 5
-#>   place       lon   lat        x         y
-#>   <chr>     <dbl> <dbl>    <dbl>     <dbl>
-#> 1 Tokyo      140.  35.7  205212.  -199414.
-#> 2 Naha       128.  26.2 -683245.   657517.
-#> 3 Ogasawara  142.  27.1  466807. -1141584.
 ```

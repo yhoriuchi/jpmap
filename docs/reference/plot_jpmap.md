@@ -187,6 +187,7 @@ A `ggplot2` plot.
 ## Examples
 
 ``` r
+# \donttest{
 if (nrow(available_jpmap_data()) > 0) {
   plot_jpmap("prefecture")
   plot_jpmap("prefecture", ogasawara = FALSE)
@@ -202,4 +203,5 @@ if (nrow(available_jpmap_data()) > 0) {
   plot_jpmap("prefecture", inset_boxes = FALSE)
   plot_jpmap("municipality", include = "Okinawa")
 }
+# }
 ```

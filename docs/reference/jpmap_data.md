@@ -77,9 +77,16 @@ MLIT National Land Numerical Information N03 administrative area data:
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-jpmap_build_data(year = 2024)
-jpmap_build_data(year = 2024, prefecture = "Ehime")
+jpmap_data_dir(create = FALSE)
 available_jpmap_data()
-} # }
+
+# \donttest{
+jpmap_build_data(
+  year = 2024,
+  prefecture = "Ehime",
+  destdir = tempdir(),
+  overwrite = TRUE,
+  quiet = TRUE
+)
+# }
 ```

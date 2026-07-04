@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jpmap</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,10 @@
 <li class="nav-item"><a class="nav-link" href="../articles/faq.html">FAQ</a></li>
       </ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/yhoriuchi/jpmap/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://CRAN.R-project.org/package=jpmap">CRAN</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/yhoriuchi/jpmap" aria-label="GitHub"><span class="fa fab fa-github"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/yhoriuchi/jpmap/releases">Releases</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/yhoriuchi/jpmap/issues">Issues</a></li>
       </ul>
 </div>
 
@@ -70,7 +73,11 @@
 <code>jpmap</code> can find.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yhoriuchi.github.io/jpmap/">jpmap</a></span><span class="op">)</span></span>
-<span><span class="va">available</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/jpmap_data.html">available_jpmap_data</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">available</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="va">jpmap_build_full_vignettes</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/jpmap_data.html">available_jpmap_data</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/jpmap_data.html">available_jpmap_data</a></span><span class="op">(</span>data_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
 <span><span class="va">jpmap_has_boundary_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">available</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span></span>
 <span><span class="va">jpmap_has_okinawa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">available</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2024</span> <span class="op">&amp;</span> <span class="va">available</span><span class="op">$</span><span class="va">pref_code</span> <span class="op">==</span> <span class="st">"47"</span><span class="op">)</span></span>
 <span><span class="va">available_summary</span> <span class="op">&lt;-</span> <span class="va">available</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"pref_code"</span>, <span class="st">"prefecture"</span>, <span class="st">"source"</span><span class="op">)</span><span class="op">]</span></span>
