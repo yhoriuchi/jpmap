@@ -82,7 +82,8 @@
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"yhoriuchi/jpmap"</span><span class="op">)</span></span></code></pre></div>
 <p>Boundary GeoPackages are large and live outside the functionality package. Install the companion data package when you want ready-to-use boundary files, or build the files locally from MLIT source data.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"yhoriuchi/jpmapdata"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"jpmapdata"</span><span class="op">)</span></span></code></pre></div>
+<p>You do not need to call <code>library(jpmapdata)</code>: <code>jpmap</code> finds the installed boundary files automatically.</p>
 </div>
 <div class="section level2">
 <h2 id="core-workflow">Core Workflow<a class="anchor" aria-label="anchor" href="#core-workflow"></a>

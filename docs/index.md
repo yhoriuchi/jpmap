@@ -56,8 +56,11 @@ boundary files, or build the files locally from MLIT source data.
 
 ``` r
 
-remotes::install_github("yhoriuchi/jpmapdata")
+install.packages("jpmapdata")
 ```
+
+You do not need to call `library(jpmapdata)`: `jpmap` finds the
+installed boundary files automatically.
 
 ## Core Workflow
 

@@ -21,9 +21,11 @@ install.packages("remotes")
 remotes::install_github("yhoriuchi/jpmap")
 ```
 
-Boundary GeoPackages are large. Install the companion `jpmapdata`
-package when you want ready-to-use boundaries, or build local files with
+Boundary GeoPackages are large. Run `install.packages("jpmapdata")`
+when you want ready-to-use boundaries, or build local files with
 [`jpmap_build_data()`](https://yhoriuchi.github.io/jpmap/reference/jpmap_data.md).
+The data package only needs to be installed; you can keep attaching
+`jpmap` alone.
 
 ``` r
 
