@@ -1,0 +1,13 @@
+citHeader("Please cite the jpmap package whenever you use it.")
+
+bibentry(
+  bibtype = "Manual",
+  key     = "jpmap",
+  title   = "jpmap: Japan Maps with Insets for Okinawa and Ogasawara",
+  author  = person("Yusaku", "Horiuchi"),
+  year         = "2026",
+  note         = "R package version 0.1.3",
+  organization = "Comprehensive R Archive Network (CRAN)",
+  doi          = "10.32614/CRAN.package.jpmap",
+  url          = "https://CRAN.R-project.org/package=jpmap"
+)
